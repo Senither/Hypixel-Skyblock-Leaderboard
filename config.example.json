@@ -1,0 +1,12 @@
+{
+    "port": 3000,
+    "api_url": "http://localhost:1256/",
+    "api_token": "SecretToken",
+    "database": {
+        "type": "mysql",
+        "database": "hypixel_skyblock_leaderboard",
+        "host": "localhost",
+        "user": "username",
+        "password": "password"
+    }
+}

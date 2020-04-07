@@ -1,9 +1,9 @@
-const express = require('express');
-const app = express();
-const port = 3000;
+'use strict';
+process.title = 'Hypixel Skyblock Leaderboard Generator';
 
-app.get('/', (req, res) => {
-    res.json({ status: 200, message: 'Hello, World!' });
-});
+const app = require('./src/application');
 
-app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`));
+app.bootstrap().then(() => {
+    app.register();
+    app.connect();
+}).catch(err => console.error(err));
