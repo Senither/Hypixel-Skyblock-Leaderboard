@@ -1,0 +1,13 @@
+{
+  "name": "hypixel-skyblock-leaderboard-app",
+  "version": "1.0.0",
+  "description": "A stateless node app that generates Hypixel Skyblock leaderboards for the top guilds",
+  "main": "server.js",
+  "repository": "https://github.com/Senither/Hypixel-Skyblock-Leaderboard.git",
+  "author": "Alexis Tan <alexis@senither.com>",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
