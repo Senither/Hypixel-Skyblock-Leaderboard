@@ -1,4 +1,6 @@
 
+const Config = require('../config.json');
+
 class Application {
     bootstrap() {
         console.log('Connecting to database and running migrations');
@@ -13,12 +15,16 @@ class Application {
         console.log('Creating job manager and registering tasks');
         this.jobs = require('./jobs/manager');
         this.jobs.register(this, 'updateTask');
-
-        // Registering events, jobs & services
     }
 
     connect() {
-        // Creating web server and listening for requests
+        console.log('Creating web servlet and registering routes');
+        const express = require('express');
+        this.servlet = express();
+        this.servlet.get('/', require('./routes/getGuilds'));
+
+        console.log(`Starting listening for requests on port ${Config.port}`);
+        this.servlet.listen(Config.port);
     }
 }
 
