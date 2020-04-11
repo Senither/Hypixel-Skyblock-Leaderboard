@@ -15,6 +15,14 @@ class Application {
         console.log('Creating job manager and registering tasks');
         this.jobs = require('./jobs/manager');
         this.jobs.register(this, 'updateTask');
+
+        console.log('Setting up axios for outgoing HTTP requests');
+        const axios = require('axios');
+        this.http = axios.create({
+            baseURL: Config.api_url,
+            headers: {'Authorization': `Bearer ${Config.api_token}`},
+            timeout: 10000
+        });
     }
 
     connect() {
