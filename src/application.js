@@ -2,7 +2,7 @@
 const Config = require('../config.json');
 
 class Application {
-    bootstrap() {
+    async bootstrap() {
         console.log('Connecting to database and running migrations');
 
         const Database = require('./database/database');
@@ -11,7 +11,7 @@ class Application {
         return this.database.runMigrations();
     }
 
-    register() {
+    async register() {
         console.log('Creating job manager and registering tasks');
         this.jobs = require('./jobs/manager');
         this.jobs.register(this, 'updateTask');
@@ -23,9 +23,24 @@ class Application {
             headers: {'Authorization': `Bearer ${Config.api_token}`},
             timeout: 10000
         });
+
+        console.log('Registering any new guild IDs with the database');
+        await this.database.getClient().table('guilds').whereNotIn('uuid', Config.guilds).del();
+
+        for (let guildId of Config.guilds) {
+            let guild = await this.database.getClient().table('guilds').where('uuid', guildId).first();
+            if (guild == undefined) {
+                console.log(`No guild with an UUID of ${guildId} where found, creating entry`);
+                this.database.insert('guilds', {
+                    uuid: guildId
+                });
+            }
+        }
+
+        return Promise.resolve();
     }
 
-    connect() {
+    async connect() {
         console.log('Creating web servlet and registering routes');
         const express = require('express');
         this.servlet = express();

@@ -8,5 +8,8 @@
         "host": "localhost",
         "user": "username",
         "password": "password"
-    }
+    },
+    "guilds": [
+        "5e01049b8ea8c92086b10a5b"
+    ]
 }
