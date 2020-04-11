@@ -33,10 +33,14 @@ class UpdateTask extends Task {
     }
 
     async setLastUpdatedGuild(app) {
+        let time = new Date;
+        time.setDate(time.getDate() - 1);
+
         this.members = null;
         this.profiles = null;
         this.guild = await app.database.getClient()
             .table('guilds')
+            .where('last_updated_at', '<', time)
             .orderBy('last_updated_at')
             .first();
 
