@@ -10,6 +10,10 @@ class Application {
     }
 
     register() {
+        console.log('Creating job manager and registering tasks');
+        this.jobs = require('./jobs/manager');
+        this.jobs.register(this, 'updateTask');
+
         // Registering events, jobs & services
     }
 
