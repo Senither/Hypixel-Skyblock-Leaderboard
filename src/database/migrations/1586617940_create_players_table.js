@@ -11,7 +11,7 @@ exports.up = function (knex, Promise) {
         table.string('uuid').unique();
         table.string('username').unique();
         table.decimal('average_skill').defaultTo(0);
-        table.decimal('average_slayer').defaultTo(0);
+        table.bigInteger ('total_slayer').defaultTo(0);
         table.timestamps();
         table.datetime('last_updated_at').defaultTo('2001-01-01 01:01:01');
 

@@ -12,7 +12,7 @@ exports.up = function (knex, Promise) {
         table.string('name').collate('utf8mb4_unicode_ci');
         table.text('data');
         table.decimal('average_skill').defaultTo(0);
-        table.decimal('average_slayer').defaultTo(0);
+        table.decimal('average_slayer', 12).defaultTo(0);
         table.timestamps();
         table.datetime('last_updated_at').defaultTo('2001-01-01 01:01:01');
 
