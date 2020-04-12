@@ -45,6 +45,10 @@ class Application {
         const express = require('express');
         this.servlet = express();
         this.servlet.get('/', require('./routes/getGuilds'));
+        this.servlet.use((request, response, next) => {
+            response.status(404);
+            response.json({ status: 404, error: 'Route was not found' });
+        });
 
         console.log(`Starting listening for requests on port ${Config.port}`);
         this.servlet.listen(Config.port);
