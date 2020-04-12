@@ -48,6 +48,10 @@ class UpdateTask extends Task {
             return;
         }
 
+        app.database.update('players', {
+            guild_id: null
+        }, query => query.where('guild_id', this.guild.id));
+
         app.http.get(`guild/${this.guild.uuid}`).then(response => {
             let guild = response.data.data;
 
