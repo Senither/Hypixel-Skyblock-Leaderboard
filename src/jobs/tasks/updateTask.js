@@ -65,6 +65,7 @@ class UpdateTask extends Task {
 
             app.database.update('guilds', {
                 name: guild.name,
+                members: guild.members.length,
                 data: JSON.stringify(guild.members)
             }, query => query.where('uuid', guild.id));
         });
@@ -91,6 +92,7 @@ class UpdateTask extends Task {
         app.database.update('guilds', {
             average_skill: summedSkills / skillsPlayers,
             average_slayer: summedSlayer / slayerPlayers,
+            members: this.profiles.length,
             last_updated_at: new Date
         }, query => query.where('id', this.guild.id));
 
