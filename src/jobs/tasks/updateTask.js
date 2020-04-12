@@ -33,6 +33,8 @@ class UpdateTask extends Task {
     }
 
     async setLastUpdatedGuild(app) {
+        console.log('Looking up guilds to update stats for...');
+
         let time = new Date;
         time.setDate(time.getDate() - 1);
 
@@ -45,8 +47,11 @@ class UpdateTask extends Task {
             .first();
 
         if (this.guild == null && this.guild == undefined) {
+            console.log(' - No guilds that are ready to be updated were found!');
             return;
         }
+
+        console.log(`Beginning guild scan for ${this.guild.uuid} (${this.guild.name})`);
 
         app.database.update('players', {
             guild_id: null
@@ -66,6 +71,8 @@ class UpdateTask extends Task {
     }
 
     async updateAveragesForGuild(app) {
+        console.log('The guild scan has finished, calculating averages and updating DB records');
+
         let summedSlayer = 0, slayerPlayers = 0;
         let summedSkills = 0, skillsPlayers = 0;
 
@@ -93,6 +100,8 @@ class UpdateTask extends Task {
     }
 
     async updatePlayerForGuild(app, player) {
+        console.log(`Looing up stats for ${player.uuid} (${this.profiles.length} out of ${this.members.length + this.profiles.length + 1})`);
+
         let response = await app.http.get(`player/${player.uuid}`);
         if (response.status != 200) {
             return console.warn(`The player API didn't return a 200 status code for ${player.uuid}`);
