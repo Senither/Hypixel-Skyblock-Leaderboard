@@ -53,15 +53,21 @@ class UpdateTask extends Task {
 
         console.log(`Beginning guild scan for ${this.guild.uuid} (${this.guild.name})`);
 
-        app.database.update('players', {
-            guild_id: null
-        }, query => query.where('guild_id', this.guild.id));
-
         app.http.get(`guild/${this.guild.uuid}`).then(response => {
             let guild = response.data.data;
 
             this.members = guild.members;
             this.profiles = [];
+
+            let uuids = [];
+            guild.members.forEach(member => uuids.push(member.uuid));
+
+            app.database.update('players', {
+                guild_id: null
+            }, query => {
+                return query.whereNotIn('uuid', uuids)
+                            .andWhere('guild_id', this.guild.id);
+            });
 
             app.database.update('guilds', {
                 name: guild.name,
@@ -109,7 +115,7 @@ class UpdateTask extends Task {
     }
 
     async updatePlayerForGuild(app, player) {
-        console.log(`Looing up stats for ${player.uuid} (${this.profiles.length} out of ${this.members.length + this.profiles.length + 1})`);
+        console.log(`Looking up stats for ${player.uuid} (${this.profiles.length} out of ${this.members.length + this.profiles.length + 1})`);
 
         let response = await app.http.get(`player/${player.uuid}`);
         if (response.status != 200) {
