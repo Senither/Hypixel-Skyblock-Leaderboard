@@ -96,6 +96,13 @@ class UpdateTask extends Task {
             last_updated_at: new Date
         }, query => query.where('id', this.guild.id));
 
+        app.database.insert('metrics', {
+            guild_id: this.guild.id,
+            average_skill: summedSkills / skillsPlayers,
+            average_slayer: summedSlayer / slayerPlayers,
+            members: this.profiles.length
+        });
+
         this.guild = null;
         this.members = null;
         this.profiles = null;
