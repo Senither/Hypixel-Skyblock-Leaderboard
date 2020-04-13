@@ -46,6 +46,7 @@ class Application {
         this.servlet = express();
         this.servlet.get('/', require('./routes/getGuilds'));
         this.servlet.get('/stats', require('./routes/getStats'));
+        this.servlet.get('/metrics/:id', require('./routes/getMetrics'));
         this.servlet.use((request, response, next) => {
             response.status(404);
             response.json({ status: 404, error: 'Route was not found' });
