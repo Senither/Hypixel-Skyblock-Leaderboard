@@ -14,16 +14,30 @@ class UpdateTask extends Task {
         return 10 * 1000;
     }
 
-    run(app) {
+    async run(app) {
         if (! this.hasData()) {
-            return this.setLastUpdatedGuild(app);
+            return await this.setLastUpdatedGuild(app).catch(error => {
+                console.warn('Failed to fetch guild data to begin the guild scan, error: ', error.message);
+            });
         }
 
         if (this.members.length == 0) {
             return this.updateAveragesForGuild(app);
         }
 
-        return this.updatePlayerForGuild(app, this.members.pop());
+        let member = this.members.pop();
+
+        this.updatePlayerForGuild(app, member).catch(error => {
+            console.error('An error occurred while trying to update player data for: ' + member.uuid, error.message);
+
+            if (! member.hasOwnProperty('updateAttempts')) {
+                member.updateAttempts = 0;
+            }
+
+            if (member.updateAttempts++ < 5) {
+                this.members.push(member);
+            }
+        });
     }
 
     hasData() {
@@ -53,28 +67,27 @@ class UpdateTask extends Task {
 
         console.log(`Beginning guild scan for ${this.guild.uuid} (${this.guild.name})`);
 
-        app.http.get(`guild/${this.guild.uuid}`).then(response => {
-            let guild = response.data.data;
+        let response = await app.http.get(`guild/${this.guild.uuid}`);
+        let guild = response.data.data;
 
-            this.members = guild.members;
-            this.profiles = [];
+        this.members = guild.members;
+        this.profiles = [];
 
-            let uuids = [];
-            guild.members.forEach(member => uuids.push(member.uuid));
+        let uuids = [];
+        guild.members.forEach(member => uuids.push(member.uuid));
 
-            app.database.update('players', {
-                guild_id: null
-            }, query => {
-                return query.whereNotIn('uuid', uuids)
-                            .andWhere('guild_id', this.guild.id);
-            });
-
-            app.database.update('guilds', {
-                name: guild.name,
-                members: guild.members.length,
-                data: JSON.stringify(guild.members)
-            }, query => query.where('uuid', guild.id));
+        app.database.update('players', {
+            guild_id: null
+        }, query => {
+            return query.whereNotIn('uuid', uuids)
+                        .andWhere('guild_id', this.guild.id);
         });
+
+        app.database.update('guilds', {
+            name: guild.name,
+            members: guild.members.length,
+            data: JSON.stringify(guild.members)
+        }, query => query.where('uuid', guild.id));
     }
 
     async updateAveragesForGuild(app) {
