@@ -131,6 +131,15 @@ class UpdateTask extends Task {
             username: result.username,
             average_skill: result.stats.skills.average_skills_progress,
             total_slayer: result.stats.slayer.total_experience,
+            mining: result.stats.skills.skills.mining.level,
+            foraging: result.stats.skills.skills.foraging.level,
+            enchanting: result.stats.skills.skills.enchanting.level,
+            farming: result.stats.skills.skills.farming.level,
+            combat: result.stats.skills.skills.combat.level,
+            fishing: result.stats.skills.skills.fishing.level,
+            alchemy: result.stats.skills.skills.alchemy.level,
+            carpentry: result.stats.skills.skills.carpentry.level,
+            runecrafting: result.stats.skills.skills.runecrafting.level,
             last_updated_at: new Date
         };
 

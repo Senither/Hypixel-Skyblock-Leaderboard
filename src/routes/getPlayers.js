@@ -17,7 +17,15 @@ module.exports = async (request, response) => {
     guild = guild.pop();
 
     let players = await app.database.getClient()
-        .select('uuid', 'username', 'average_skill', 'total_slayer', 'last_updated_at')
+        .select(
+            'uuid', 'username',
+            'average_skill', 'total_slayer',
+            'mining', 'foraging',
+            'enchanting', 'farming',
+            'combat', 'fishing',
+            'alchemy', 'carpentry',
+            'runecrafting', 'last_updated_at'
+        )
         .from('players')
         .where('guild_id', guild.id)
         .orderBy('username');
