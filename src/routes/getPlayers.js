@@ -17,21 +17,18 @@ module.exports = async (request, response) => {
     guild = guild.pop();
 
     let players = await app.database.getClient()
-        .select(
-            'uuid', 'username',
-            'average_skill', 'total_slayer',
-            'mining', 'foraging',
-            'enchanting', 'farming',
-            'combat', 'fishing',
-            'alchemy', 'carpentry',
-            'runecrafting', 'last_updated_at'
-        )
         .from('players')
         .where('guild_id', guild.id)
         .orderBy('username');
 
     response.json({
         status: 200,
-        data: players
+        data: players.map(player => {
+            delete player.guild_id;
+            delete player.created_at;
+            delete player.updated_at;
+
+            return player;
+        })
     });
 };

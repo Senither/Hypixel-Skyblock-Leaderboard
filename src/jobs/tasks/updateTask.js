@@ -138,36 +138,47 @@ class UpdateTask extends Task {
         let result = response.data.data;
         let record = await app.database.getClient().table('players').where('uuid', result.uuid).first();
 
-        let updateableContent = {
-            guild_id: this.guild.id,
-            uuid: result.uuid,
-            username: result.username,
-            average_skill: result.stats.skills.average_skills_progress,
-            total_slayer: result.stats.slayer.total_experience,
-            mining: result.stats.skills.skills.mining.level,
-            foraging: result.stats.skills.skills.foraging.level,
-            enchanting: result.stats.skills.skills.enchanting.level,
-            farming: result.stats.skills.skills.farming.level,
-            combat: result.stats.skills.skills.combat.level,
-            fishing: result.stats.skills.skills.fishing.level,
-            alchemy: result.stats.skills.skills.alchemy.level,
-            carpentry: result.stats.skills.skills.carpentry.level,
-            runecrafting: result.stats.skills.skills.runecrafting.level,
-            last_updated_at: new Date
-        };
-
         this.profiles.push({
             slayer: result.stats.slayer.total_experience,
             skill: result.stats.skills.average_skills_progress
         });
 
         if (record == null || record == undefined) {
-            app.database.insert('players', updateableContent);
+            app.database.insert('players', this.createUpdateableContentFromResult(result));
         } else {
-            app.database.update('players', updateableContent, query => {
+            app.database.update('players', this.createUpdateableContentFromResult(result), query => {
                 return query.where('uuid', result.uuid);
             });
         }
+    }
+
+    createUpdateableContentFromResult(result) {
+        return {
+            guild_id: this.guild.id,
+            uuid: result.uuid,
+            username: result.username,
+            average_skill: result.stats.skills.average_skills_progress,
+            total_slayer: result.stats.slayer.total_experience,
+            mining: result.stats.skills.skills.mining.level,
+            mining_xp: result.stats.skills.skills.mining.experience,
+            foraging: result.stats.skills.skills.foraging.level,
+            foraging_xp: result.stats.skills.skills.foraging.experience,
+            enchanting: result.stats.skills.skills.enchanting.level,
+            enchanting_xp: result.stats.skills.skills.enchanting.experience,
+            farming: result.stats.skills.skills.farming.level,
+            farming_xp: result.stats.skills.skills.farming.experience,
+            combat: result.stats.skills.skills.combat.level,
+            combat_xp: result.stats.skills.skills.combat.experience,
+            fishing: result.stats.skills.skills.fishing.level,
+            fishing_xp: result.stats.skills.skills.fishing.experience,
+            alchemy: result.stats.skills.skills.alchemy.level,
+            alchemy_xp: result.stats.skills.skills.alchemy.experience,
+            carpentry: result.stats.skills.skills.carpentry.level,
+            carpentry_xp: result.stats.skills.skills.carpentry.experience,
+            runecrafting: result.stats.skills.skills.runecrafting.level,
+            runecrafting_xp: result.stats.skills.skills.runecrafting.experience,
+            last_updated_at: new Date
+        };
     }
 }
 
