@@ -37,6 +37,14 @@ class Application {
             }
         }
 
+        console.log('Deleting unused player and metric records from the database');
+        await this.database.getClient().raw(
+            'DELETE `players` FROM `players` LEFT JOIN `guilds` ON `players`.`guild_id` = `guilds`.`id` WHERE `id` IS NULL'
+        );
+        await this.database.getClient().raw(
+            'DELETE `metrics` FROM `metrics` LEFT JOIN `guilds` ON `metrics`.`guild_id` = `guilds`.`id` WHERE `guilds`.`id` IS NULL'
+        );
+
         return Promise.resolve();
     }
 
