@@ -65,10 +65,25 @@ class UpdateTask extends Task {
             return;
         }
 
-        console.log(`Beginning guild scan for ${this.guild.uuid} (${this.guild.name})`);
+        console.log(`Loading guild data from the API for ${this.guild.uuid} (${this.guild.name})`);
 
-        let response = await app.http.get(`guild/${this.guild.uuid}`);
-        let guild = response.data.data;
+        let guild = null;
+        try {
+            let response = await app.http.get(`guild/${this.guild.uuid}`);
+            guild = response.data.data;
+        } catch (e) {
+            if (e.response.status == 404) {
+                console.warn(`Failed to find ${this.guild.uuid} (${this.guild.name}), API responded with a 404!`);
+                console.warn('Skipping guild for now!');
+
+                app.database.update('guilds', {
+                    last_updated_at: new Date
+                }, query => query.where('id', this.guild.id));
+            }
+            return;
+        }
+
+        console.log(`Beginning guild scan for ${this.guild.uuid} (${this.guild.name})`);
 
         this.members = guild.members;
         this.profiles = [];
