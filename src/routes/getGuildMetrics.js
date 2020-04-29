@@ -17,7 +17,7 @@ module.exports = async (request, response) => {
     guild = guild.pop();
 
     let metrics = await app.database.getClient()
-        .select('average_skill', 'average_slayer', 'members', 'created_at')
+        .select('average_skill', 'average_skill_progress', 'average_slayer', 'members', 'created_at')
         .from('metrics')
         .where('guild_id', guild.id)
         .orderBy('created_at', 'desc');
