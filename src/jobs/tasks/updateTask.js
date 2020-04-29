@@ -109,7 +109,7 @@ class UpdateTask extends Task {
         console.log('The guild scan has finished, calculating averages and updating DB records');
 
         let summedSlayer = 0, slayerPlayers = 0;
-        let summedSkills = 0, skillsPlayers = 0;
+        let summedSkills = 0, summedSkillsProgress = 0, skillsPlayers = 0;
 
         for (let entry of this.profiles) {
             if (entry.slayer > 1000) {
@@ -119,12 +119,14 @@ class UpdateTask extends Task {
 
             if (entry.skill > 5) {
                 summedSkills += entry.skill;
+                summedSkillsProgress += entry.skill_progress;
                 skillsPlayers++;
             }
         }
 
         app.database.update('guilds', {
             average_skill: summedSkills / skillsPlayers,
+            average_skill_progress: summedSkillsProgress / skillsPlayers,
             average_slayer: summedSlayer / slayerPlayers,
             members: this.profiles.length,
             last_updated_at: new Date
@@ -133,6 +135,7 @@ class UpdateTask extends Task {
         app.database.insert('metrics', {
             guild_id: this.guild.id,
             average_skill: summedSkills / skillsPlayers,
+            average_skill_progress: summedSkillsProgress / skillsPlayers,
             average_slayer: summedSlayer / slayerPlayers,
             members: this.profiles.length
         });
@@ -155,7 +158,8 @@ class UpdateTask extends Task {
 
         this.profiles.push({
             slayer: result.stats.slayer.total_experience,
-            skill: result.stats.skills.average_skills_progress
+            skill_progress: result.stats.skills.average_skills_progress,
+            skill: result.stats.skills.average_skills
         });
 
         if (record == null || record == undefined) {
@@ -172,7 +176,8 @@ class UpdateTask extends Task {
             guild_id: this.guild.id,
             uuid: result.uuid,
             username: result.username,
-            average_skill: result.stats.skills.average_skills_progress,
+            average_skill_progress: result.stats.skills.average_skills_progress,
+            average_skill: result.stats.skills.average_skill,
             total_slayer: result.stats.slayer.total_experience,
             revenant_xp: result.stats.slayer.bosses.revenant.experience,
             tarantula_xp: result.stats.slayer.bosses.tarantula.experience,
