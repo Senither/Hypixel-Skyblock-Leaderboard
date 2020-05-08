@@ -196,6 +196,8 @@ class UpdateTask extends Task {
             fishing_xp: result.stats.skills.skills.fishing.experience,
             alchemy: result.stats.skills.skills.alchemy.level,
             alchemy_xp: result.stats.skills.skills.alchemy.experience,
+            taming: result.stats.skills.skills.taming.level,
+            taming_xp: result.stats.skills.skills.taming.experience,
             carpentry: result.stats.skills.skills.carpentry.level,
             carpentry_xp: result.stats.skills.skills.carpentry.experience,
             runecrafting: result.stats.skills.skills.runecrafting.level,
