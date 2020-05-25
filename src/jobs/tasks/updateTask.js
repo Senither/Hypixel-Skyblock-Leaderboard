@@ -177,7 +177,7 @@ class UpdateTask extends Task {
             uuid: result.uuid,
             username: result.username,
             average_skill_progress: result.stats.skills.average_skills_progress,
-            average_skill: result.stats.skills.average_skill,
+            average_skill: result.stats.skills.average_skills,
             total_slayer: result.stats.slayer.total_experience,
             revenant_xp: result.stats.slayer.bosses.revenant.experience,
             tarantula_xp: result.stats.slayer.bosses.tarantula.experience,
