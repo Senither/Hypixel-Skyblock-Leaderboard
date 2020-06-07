@@ -29,7 +29,14 @@ class UpdateTask extends Task {
 
         this.updatePlayerForGuild(app, member).catch(error => {
             if (error.response.status == 410) {
-                return console.warn(`${member.uuid} does not appear to have any valid SkyBlock profiles, skipping!`);
+                if (! member.hasOwnProperty('updateAttempts')) {
+                    member.updateAttempts = 1;
+                    this.members.push(member);
+
+                    return console.warn(`${member.uuid} does not have any valid SkyBlock profiles, retrying once!`);
+                }
+
+                return console.warn(`${member.uuid} does not have any valid SkyBlock profiles, skipping!`);
             }
 
             console.error('An error occurred while trying to update player data for: ' + member.uuid, error.message);
