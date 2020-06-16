@@ -7,7 +7,8 @@ module.exports = async (request, response) => {
         .from('players')
         .leftJoin('guilds', function () {
             return this.on('players.guild_id', '=', 'guilds.id');
-        });
+        })
+        .havingRaw('guilds.name IS NOT ?', [null]);
 
     response.json({
         status: 200,
