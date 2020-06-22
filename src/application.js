@@ -52,11 +52,18 @@ class Application {
         console.log('Creating web servlet and registering routes');
         const express = require('express');
         this.servlet = express();
+        this.servlet.use((request, response, next) => {
+            response.header('Access-Control-Allow-Origin', '*');
+            response.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+            next();
+        });
+
         this.servlet.get('/', require('./routes/getGuilds'));
         this.servlet.get('/stats', require('./routes/getStats'));
         this.servlet.get('/players', require('./routes/getPlayers'));
         this.servlet.get('/metrics/:id', require('./routes/getGuildMetrics'));
         this.servlet.get('/players/:id', require('./routes/getGuildPlayers'));
+
         this.servlet.use((request, response, next) => {
             response.status(404);
             response.json({ status: 404, error: 'Route was not found' });
