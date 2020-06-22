@@ -100,7 +100,10 @@
                 this.reverseSort = reverse;
             },
             clickGuild(guild) {
-                console.log(guild);
+                this.$router.push({
+                    name: 'guilds.show',
+                    params: { id: guild.id }
+                });
             }
         },
         computed: {
