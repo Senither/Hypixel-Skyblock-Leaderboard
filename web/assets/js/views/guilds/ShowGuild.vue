@@ -33,7 +33,9 @@
                     </div>
 
                     <h2 class="subtitle">
-                        <a href="#"><i class="fas fa-arrow-alt-circle-left"></i> Return to guild list</a>
+                        <router-link :to="{ name: 'guilds' }">
+                            <i class="fas fa-arrow-alt-circle-left"></i> Return to guild list
+                        </router-link>
                     </h2>
                 </div>
             </div>
