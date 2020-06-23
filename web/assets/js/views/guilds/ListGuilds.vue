@@ -46,13 +46,13 @@
                                 <td>
                                     <span class="tag is-warning">{{ guild.members }}</span>
                                 </td>
-                                <td>
+                                <td :data-tooltip="`${guild.name} is rank #${guild.skills_rank} for average skills`">
                                     <div class="tags has-addons">
                                         <span class="tag is-info">{{ formatNumber(guild.average_skill_progress) }}</span>
                                         <span class="tag is-primary">{{ formatNumber(guild.average_skill) }}</span>
                                     </div>
                                 </td>
-                                <td>
+                                <td :data-tooltip="`${guild.name} is rank #${guild.slayers_rank} for average slayers`">
                                     <span class="tag is-danger">{{ formatNumber(guild.average_slayer) }}</span>
                                 </td>
                                 <td>{{ guild.last_updated_at_humanized }}</td>

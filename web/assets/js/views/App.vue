@@ -43,7 +43,23 @@
 
                 return axios.get('/');
             }).then(response => {
-                Store.put('guilds', response.data.data);
+                this.message = 'Calculating ranks...';
+
+                let guilds = response.data.data.sort((v1, v2) => {
+                    return v2.average_skill_progress > v1.average_skill_progress ? 1 : -1;
+                }).map((guild, index) => {
+                    guild.skills_rank = index + 1;
+
+                    return guild;
+                }).sort((v1, v2) => {
+                    return v2.average_slayer > v1.average_slayer ? 1 : -1;
+                }).map((guild, index) => {
+                    guild.slayers_rank = index + 1;
+
+                    return guild;
+                });
+
+                Store.put('guilds', guilds);
 
                 this.isLoading = false;
             });
