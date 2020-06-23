@@ -24,6 +24,8 @@
         "vue-template-compiler": "^2.6.6"
     },
     "dependencies": {
-        "@creativebulma/bulma-tooltip": "^1.0.1"
+        "@creativebulma/bulma-tooltip": "^1.0.1",
+        "apexcharts": "^3.19.2",
+        "vue-apexcharts": "^1.5.3"
     }
 }

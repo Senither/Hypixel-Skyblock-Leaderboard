@@ -15,7 +15,7 @@
             <footer class="footer" v-if="! isLoading">
                 <div class="content has-text-centered">
                     <p>
-                        Created by <a href="https://senither.com/">Alexis Tan</a>, powered by <a href="https://bulma.io/">Bulma</a> and <a href="https://vuejs.org/">VueJS</a>, theme by <a href="https://jenil.github.io/bulmaswatch/">Bulmaswatch</a>.
+                        Created by <a href="https://senither.com/">Alexis Tan</a>, powered by <a href="https://bulma.io/">Bulma</a>, <a href="https://vuejs.org/">VueJS</a>, and <a href="https://apexcharts.com/">ApexCharts</a>, theme by <a href="https://jenil.github.io/bulmaswatch/">Bulmaswatch</a>.
                         <br>Get the <a href="https://github.com/Senither/Hypixel-Skyblock-Leaderboard">source code</a> on <a href="https://github.com/Senither/Hypixel-Skyblock-Leaderboard">GitHub</a>.
                     </p>
                 </div>
