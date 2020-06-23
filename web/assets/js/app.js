@@ -14,7 +14,7 @@ Vue.mixin({
         formatNumber(number, decimals = 0) {
             number = number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
             if (decimals > 0) {
-                let remaining = number.split('.')[1] ?? 0;
+                let remaining = number.split('.')[1] ?? '0';
                 for (let i = remaining.length; i < decimals; i++) {
                     remaining += '0';
                 }

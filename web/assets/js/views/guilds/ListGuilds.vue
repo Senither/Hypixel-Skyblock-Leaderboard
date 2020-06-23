@@ -48,8 +48,8 @@
                                 </td>
                                 <td :data-tooltip="`${guild.name} is rank #${guild.skills_rank} for average skills`">
                                     <div class="tags has-addons">
-                                        <span class="tag is-info">{{ formatNumber(guild.average_skill_progress) }}</span>
-                                        <span class="tag is-primary">{{ formatNumber(guild.average_skill) }}</span>
+                                        <span class="tag is-info">{{ formatNumber(guild.average_skill_progress, 2) }}</span>
+                                        <span class="tag is-primary">{{ formatNumber(guild.average_skill, 2) }}</span>
                                     </div>
                                 </td>
                                 <td :data-tooltip="`${guild.name} is rank #${guild.slayers_rank} for average slayers`">
