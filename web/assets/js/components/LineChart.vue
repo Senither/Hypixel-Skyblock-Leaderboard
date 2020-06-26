@@ -19,17 +19,36 @@
             name: String,
             type: String,
             keys: Array,
-            values: Array,
+            values: [Array, Object],
         },
         mounted() {
             this.options.title.text = this.name;
             this.options.yaxis.title.text = this.type;
 
-            this.options.yaxis.min = Math.min.apply(Math, this.values) * 0.99;
-            this.options.yaxis.max = Math.max.apply(Math, this.values) * 1.01;
-
             this.options.xaxis.categories = this.keys.reverse();
-            this.series[0].data = this.values.reverse();
+
+            if (Array.isArray(this.values)) {
+                this.options.yaxis.min = Math.min.apply(Math, this.values) * 0.99;
+                this.options.yaxis.max = Math.max.apply(Math, this.values) * 1.01;
+
+                this.series[0].data = this.values.reverse();
+            } else {
+                this.series = [];
+                let totalValues = [];
+
+                for (let name of Object.keys(this.values)) {
+                    totalValues = totalValues.concat(this.values[name]);
+
+                    this.series.push({
+                        name: name,
+                        data: this.values[name].reverse()
+                    });
+                }
+
+                this.options.yaxis.min = Math.min.apply(Math, totalValues) * 0.99;
+                this.options.yaxis.max = Math.max.apply(Math, totalValues) * 1.01;
+            }
+
 
             this.isLoading = false;
         },
@@ -53,7 +72,7 @@
                             enabled: false,
                         }
                     },
-                    colors: ['#209CEE'],
+                    colors: ['#209CEE', '#EE2020', '#20EE38', '#E7EE20', '#8B20EE'],
                     dataLabels: {
                         enabled: false,
                         colors: ['#000']
