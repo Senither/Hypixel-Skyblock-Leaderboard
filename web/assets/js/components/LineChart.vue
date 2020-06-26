@@ -110,6 +110,15 @@
                         },
                     },
                     yaxis: {
+                        labels: {
+                            formatter: value => {
+                                let parts = value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',').split('.');
+                                if (parts[0].length > 3 || parts.length == 1) {
+                                    return parts[0];
+                                }
+                                return parts[0] + '.' + parts[1].substr(0, 2);
+                            },
+                        },
                         title: {
                             text: 'Loading'
                         },
