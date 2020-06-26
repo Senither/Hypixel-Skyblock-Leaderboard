@@ -33,17 +33,19 @@
 
                 this.series[0].data = this.values.reverse();
             } else {
-                this.series = [];
                 let totalValues = [];
+                let localSeries = [];
 
                 for (let name of Object.keys(this.values)) {
                     totalValues = totalValues.concat(this.values[name]);
 
-                    this.series.push({
+                    localSeries.push({
                         name: name,
                         data: this.values[name].reverse()
                     });
                 }
+
+                this.series = localSeries;
 
                 this.options.yaxis.min = Math.min.apply(Math, totalValues.filter(v => v != null)) * 0.99;
                 this.options.yaxis.max = Math.max.apply(Math, totalValues.filter(v => v != null)) * 1.01;
@@ -73,7 +75,7 @@
                         },
                         animations: {
                             dynamicAnimation: {
-                                enabled: false,
+                                enabled: true,
                             }
                         }
                     },

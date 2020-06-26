@@ -100,7 +100,12 @@
                 });
             },
             async loadMetrics() {
-                this.isLoading = true;
+                this.metrics = Object.keys(this.metrics)
+                    .filter(guildId => this.selectedGuilds.find(guild => guild.id == guildId) != undefined)
+                    .reduce((metrics, guildId) => {
+                        metrics[guildId] = this.metrics[guildId];
+                        return metrics;
+                    }, {});
 
                 for (let guild of this.selectedGuilds) {
                     if (this.metrics.hasOwnProperty(guild.id)) {
@@ -112,33 +117,31 @@
                     this.metrics[guild.id] = response.data.data.splice(0, 90);
                 }
 
-                for (let guildId of Object.keys(this.metrics)) {
-                    let guild = this.selectedGuilds.find(guild => guild.id == guildId);
-
-                    if (guild == undefined) {
-                        delete this.metrics[guildId];
-                    }
+                this.metricDates = [];
+                if (this.selectedGuilds.length <= 0) {
+                    return Promise.resolve();
                 }
 
-                this.metricDates = [];
-                if (this.selectedGuilds.length > 0) {
-                    this.metricDates = Object.values(this.metrics).sort((v1, v2) => {
-                        return v1.length > v2.length ? -1 : 1;
-                    })[0].map(metric => moment(metric.created_at).format("DD MMM YYYY - hh:mm"));
+                let largetMetricDataPoint = Object.values(this.metrics)
+                    .map(metrics => {
+                        return metrics.filter(v => v != null);
+                    }).sort((v1, v2) => v2 < v1 ? -1 : 1)[0];
 
-                    let totalItems = this.metricDates.length;
+                this.metricDates = largetMetricDataPoint.map(metric => {
+                    return moment(metric.created_at).format("DD MMM YYYY - hh:mm")
+                });
 
-                    for (let guildId of Object.keys(this.metrics)) {
-                        if (this.metrics[guildId].length < totalItems) {
-                            for (let i = this.metrics[guildId].length; i < totalItems; i++) {
-                                this.metrics[guildId].push(null)
-                            }
+                let totalItems = this.metricDates.length;
+
+                for (let guildId of Object.keys(this.metrics)) {
+                    if (this.metrics[guildId].length < totalItems) {
+                        for (let i = this.metrics[guildId].length; i < totalItems; i++) {
+                            this.metrics[guildId].push(null)
                         }
                     }
-
                 }
 
-                this.isLoading = false;
+                return Promise.resolve();
             }
         },
         computed: {
@@ -153,18 +156,17 @@
             },
         },
         watch: {
-            selectedGuilds(state) {
-                if (this.isLoading) {
-                    return;
-                }
-
+            selectedGuilds(state, before) {
                 let queryParam = state.map(guild => guild.id).join('.');
                 let paths = this.$route.path.split('/');
                 let uri = paths.length > 2 ? paths.splice(0, paths.length - 1).join('/') : paths.join('/');
 
                 history.pushState({}, null, `${uri}/${queryParam}`);
 
-                this.loadMetrics();
+                this.isLoading = true;
+                this.loadMetrics().then(() => {
+                    this.isLoading = false;
+                });
             }
         }
     };
