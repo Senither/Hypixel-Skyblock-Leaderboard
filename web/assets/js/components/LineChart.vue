@@ -74,8 +74,9 @@
                             enabled: false,
                         },
                         animations: {
+                            enabled: false,
                             dynamicAnimation: {
-                                enabled: true,
+                                enabled: false,
                             }
                         }
                     },

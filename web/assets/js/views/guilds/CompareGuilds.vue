@@ -97,10 +97,8 @@
         mounted() {
             let ids = this.$route.params.ids ?? null;
             if (ids != null) {
-                let guilds = Store.get('guilds');
-
                 ids.split('.').forEach(id => {
-                    let guild = guilds.find(guild => guild.id == id) ?? null;
+                    let guild = this.filteredGuilds.find(guild => guild.id == id) ?? null;
                     if (guild != null) {
                         this.selectedGuilds.push(guild);
                     }
@@ -151,7 +149,14 @@
 
                     let response = await axios.get('/metrics/' + guild.id);
 
-                    this.metrics[guild.id] = response.data.data.splice(0, 90);
+                    this.metrics[guild.id] = response.data.data.splice(0, 90).map(metric => {
+                        return {
+                            average_skill_progress: metric.average_skill_progress,
+                            average_slayer: metric.average_slayer,
+                            members: metric.members,
+                            created_at: metric.created_at,
+                        };
+                    });
                 }
 
                 this.metricDates = [];
