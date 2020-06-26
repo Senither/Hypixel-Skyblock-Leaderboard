@@ -6,6 +6,13 @@
                     <h1 class="title is-1">
                         Guild Metrics Comparison
                     </h1>
+
+                    <router-link :to="{ name: 'guilds' }" class="button">
+                        <span class="icon is-small">
+                            <i class="fas fa-arrow-alt-circle-left"></i>
+                        </span>
+                        <span>Return to guild list</span>
+                    </router-link>
                 </div>
             </div>
         </section>
@@ -56,6 +63,11 @@
                         />
                     </div>
                 </div>
+                <div class="columns" v-else>
+                    <div class="column has-text-centered">
+                        <p>Enter the name of a one or more guilds in the input box above to to view and compare the metrics!</p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -95,7 +107,7 @@
                 })
             }
 
-            this.loadMetrics();
+            this.loadMetrics().then(() => this.isLoading = false);
         },
         data() {
             return {
