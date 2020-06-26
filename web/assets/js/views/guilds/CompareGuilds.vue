@@ -74,10 +74,21 @@
 </template>
 
 <style lang="scss">
+    a.dropdown-item:hover,
     .autocomplete .dropdown-item.is-hovered,
     .autocomplete .dropdown .dropdown-menu .has-link a.is-hovered,
     .dropdown .dropdown-menu .has-link .autocomplete a.is-hovered {
         color: #1abc9c !important;
+    }
+    .input, .select select, .taginput .taginput-container.is-focusable, .textarea {
+        background-color: #1f2424;
+        border-color: #4a4e4e;
+        color: #8c9b9d;
+    }
+    .input, .select select, .taginput .taginput-container.is-focusable, .textarea {
+        &::placeholder {
+            color: #373D3F;
+        }
     }
 </style>
 
