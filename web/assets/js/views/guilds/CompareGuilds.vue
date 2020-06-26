@@ -31,12 +31,28 @@
                 </div>
                 <div class="columns" v-if="selectedGuilds.length > 0">
                     <div class="column">
-                        <h4 class="subtitle is-4">Skill Metrics</h4>
+                        <h4 class="subtitle has-text-centered is-4">Skill Metrics</h4>
                         <line-chart
                             :name="'Average Skills (Last 90 days)'"
                             :type="'Average Skills'"
                             :keys="this.metricDates"
                             :values="this.skillsMetrics"
+                        />
+
+                        <h4 class="subtitle has-text-centered is-4">Slayer Metrics</h4>
+                        <line-chart
+                            :name="'Average Slayers (Last 90 days)'"
+                            :type="'Average Slayers'"
+                            :keys="this.metricDates"
+                            :values="this.slayersMetrics"
+                        />
+
+                        <h4 class="subtitle has-text-centered is-4">Member Metrics</h4>
+                        <line-chart
+                            :name="'Members (Last 90 days)'"
+                            :type="'Members'"
+                            :keys="this.metricDates"
+                            :values="this.membersMetrics"
                         />
                     </div>
                 </div>
@@ -99,6 +115,15 @@
                     return guild.name.toLowerCase().includes(text.toLowerCase());
                 });
             },
+            generateMetricsFromType(type) {
+                let guilds = {};
+                for (let guild of this.selectedGuilds) {
+                    guilds[guild.name] = this.metrics[guild.id].map(metric => {
+                        return metric == null ? null : metric[type];
+                    });
+                }
+                return guilds;
+            },
             async loadMetrics() {
                 this.metrics = Object.keys(this.metrics)
                     .filter(guildId => this.selectedGuilds.find(guild => guild.id == guildId) != undefined)
@@ -146,13 +171,13 @@
         },
         computed: {
             skillsMetrics() {
-                let guilds = {};
-                for (let guild of this.selectedGuilds) {
-                    guilds[guild.name] = this.metrics[guild.id].map(metric => {
-                        return metric == null ? null : metric.average_skill_progress
-                    });
-                }
-                return guilds;
+                return this.generateMetricsFromType('average_skill_progress');
+            },
+            slayersMetrics() {
+                return this.generateMetricsFromType('average_slayer');
+            },
+            membersMetrics() {
+                return this.generateMetricsFromType('members');
             },
         },
         watch: {
