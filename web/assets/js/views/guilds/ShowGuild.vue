@@ -111,6 +111,20 @@
                 </div>
             </div>
 
+            <div class="columns">
+                <div class="column has-text-centered">
+                    <h4 class="subtitle is-4">Member Metrics</h4>
+
+                    <line-chart
+                        v-if="this.quarterMembersMetrics.keys.length > 30 && this.quarterMembersMetrics.values.length > 30"
+                        :name="'Average Members (90 Days)'"
+                        :type="'Average Members'"
+                        :keys="this.quarterMembersMetrics.keys"
+                        :values="this.quarterMembersMetrics.values"
+                    />
+                </div>
+            </div>
+
             <h3 class="subtitle is-3 has-text-centered">Players</h3>
             <div class="columns">
                 <div class="column">
@@ -160,7 +174,6 @@
             }
 
             axios.get(`/metrics/${this.guild.id}`).then(response => {
-                console.log(response.data.data.length);
                 this.metrics = response.data.data;
 
                 this.getItemsFromMetrics(7).forEach(metric => {
@@ -182,6 +195,8 @@
                     this.quarterSkillsMetrics.keys.push(moment(metric.created_at).format("DD MMM YYYY - hh:mm"));
                     this.quarterSlayersMetrics.values.push(metric.average_slayer);
                     this.quarterSlayersMetrics.keys.push(moment(metric.created_at).format("DD MMM YYYY - hh:mm"));
+                    this.quarterMembersMetrics.values.push(metric.members);
+                    this.quarterMembersMetrics.keys.push(moment(metric.created_at).format("DD MMM YYYY - hh:mm"));
                 });
 
 
@@ -226,6 +241,10 @@
                     keys: [],
                     values: [],
                 },
+                quarterMembersMetrics: {
+                    keys: [],
+                    values: [],
+                },
             };
         },
         methods: {
@@ -233,7 +252,6 @@
                 this.playerSortMethod = method;
             },
             getItemsFromMetrics(amount = 999999999) {
-                console.log(this.metrics[0].created_at, this.metrics[this.metrics.length - 1].created_at);
                 let items = [];
                 for (let i = 0; i < Math.min(amount, this.metrics.length); i++) {
                     items.push(this.metrics[i]);
