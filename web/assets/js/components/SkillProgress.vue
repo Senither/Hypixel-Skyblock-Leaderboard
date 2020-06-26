@@ -1,9 +1,10 @@
 <template>
     <div class="skill">
-        <div class="name">{{ name }} {{ Math.floor(this.level) }}</div>
+        <div class="name">{{ name }} {{ this.formattedLevel }}</div>
         <div class="xp" v-if="this.xp > 0">{{ formatNumber(this.xp) }} XP</div>
+        <div class="xp" v-else>API DISABLED</div>
         <progress
-            v-if="Math.floor(this.level) < 50"
+            v-if="this.formattedLevel < 50"
             class="progress is-primary"
             :value="this.percentage"
             max="100"
@@ -43,6 +44,13 @@
         computed: {
             percentage() {
                 return (this.level - Math.floor(this.level)) * 100;
+            },
+            formattedLevel() {
+                let level = Math.floor(this.level);
+                if (level > 0) {
+                    return level;
+                }
+                return 0;
             }
         }
     }
