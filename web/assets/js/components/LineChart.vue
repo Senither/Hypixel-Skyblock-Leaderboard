@@ -70,6 +70,11 @@
                         },
                         zoom: {
                             enabled: false,
+                        },
+                        animations: {
+                            dynamicAnimation: {
+                                enabled: false,
+                            }
                         }
                     },
                     colors: ['#209CEE', '#EE2020', '#20EE38', '#E7EE20', '#8B20EE'],
