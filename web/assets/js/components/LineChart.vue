@@ -45,8 +45,8 @@
                     });
                 }
 
-                this.options.yaxis.min = Math.min.apply(Math, totalValues) * 0.99;
-                this.options.yaxis.max = Math.max.apply(Math, totalValues) * 1.01;
+                this.options.yaxis.min = Math.min.apply(Math, totalValues.filter(v => v != null)) * 0.99;
+                this.options.yaxis.max = Math.max.apply(Math, totalValues.filter(v => v != null)) * 1.01;
             }
 
 
@@ -112,6 +112,10 @@
                     yaxis: {
                         labels: {
                             formatter: value => {
+                                if (value == null) {
+                                    return 'No data';
+                                }
+
                                 let parts = value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',').split('.');
                                 if (parts[0].length > 3 || parts.length == 1) {
                                     return parts[0];

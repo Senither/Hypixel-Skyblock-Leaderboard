@@ -1,5 +1,6 @@
 
 import Vue from 'vue';
+import { Taginput } from 'buefy';
 
 import Axios from 'axios';
 import config from './config';
@@ -8,6 +9,8 @@ window.axios = Axios.create({
     baseURL: config.apiUrl,
     timeout: 10000,
 });
+
+Vue.use(Taginput);
 
 Vue.mixin({
     methods: {

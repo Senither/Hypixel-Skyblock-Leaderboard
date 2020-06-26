@@ -38,11 +38,29 @@
                         </div>
                     </div>
 
-                    <h2 class="subtitle">
-                        <router-link :to="{ name: 'guilds' }">
-                            <i class="fas fa-arrow-alt-circle-left"></i> Return to guild list
-                        </router-link>
-                    </h2>
+                    <div class="columns">
+                        <div class="column has-text-right">
+                            <h2 class="subtitle">
+                                <router-link :to="{ name: 'guilds' }" class="button">
+                                    <span class="icon is-small">
+                                        <i class="fas fa-arrow-alt-circle-left"></i>
+                                    </span>
+                                    <span>Return to guild list</span>
+                                </router-link>
+                            </h2>
+                        </div>
+
+                        <div class="column has-text-left">
+                            <h2 class="subtitle">
+                                <router-link :to="{ name: 'guilds.compare', params: { ids: this.guild.id } }" class="button">
+                                    <span>Compare guild metrics</span>
+                                    <span class="icon is-small">
+                                        <i class="fas fa-chart-pie"></i>
+                                    </span>
+                                </router-link>
+                            </h2>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
