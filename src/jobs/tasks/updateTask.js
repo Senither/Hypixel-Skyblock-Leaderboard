@@ -28,7 +28,11 @@ class UpdateTask extends Task {
         let member = this.members.pop();
 
         this.updatePlayerForGuild(app, member).catch(error => {
-            if (error.response.status == 410) {
+            let isInvalidProfileError = error.hasOwnProperty('response')
+                && error.response.hasOwnProperty('status')
+                && error.response.status == 410;
+
+            if (isInvalidProfileError) {
                 if (! member.hasOwnProperty('updateAttempts')) {
                     member.updateAttempts = 1;
                     this.members.push(member);
