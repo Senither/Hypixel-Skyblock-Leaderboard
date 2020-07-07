@@ -11,7 +11,7 @@ class UpdateTask extends Task {
     }
 
     interval() {
-        return 10 * 1000;
+        return 5 * 1000;
     }
 
     async run(app) {
@@ -28,11 +28,13 @@ class UpdateTask extends Task {
         let member = this.members.pop();
 
         this.updatePlayerForGuild(app, member).catch(error => {
-            let isInvalidProfileError = error.hasOwnProperty('response')
+            let hasErrorStatusCode = error != undefined
+                && error.hasOwnProperty('response')
+                && error.response != undefined
                 && error.response.hasOwnProperty('status')
-                && error.response.status == 410;
+                && error.response.status != undefined;
 
-            if (isInvalidProfileError) {
+            if (hasErrorStatusCode && error.response.status == 410) {
                 if (! member.hasOwnProperty('updateAttempts')) {
                     member.updateAttempts = 1;
                     this.members.push(member);
@@ -43,13 +45,24 @@ class UpdateTask extends Task {
                 return console.warn(`${member.uuid} does not have any valid SkyBlock profiles, skipping!`);
             }
 
-            console.error('An error occurred while trying to update player data for: ' + member.uuid, error.message);
 
             if (! member.hasOwnProperty('updateAttempts')) {
                 member.updateAttempts = 0;
             }
 
+            console.error('An error occurred while trying to update player data for: ' + member.uuid, error.message);
+
             if (member.updateAttempts++ < 5) {
+                let retrying = `retrying ${5 - member.updateAttempts} more times`;
+
+                if (hasErrorStatusCode && error.response.status == 500) {
+                    console.error(`The server responded with a internal error code(500), ${retrying}! Message: `, error.message);
+                } else if (error.message.includes('timeout of')) {
+                    console.error(`The request timed out for ${member.uuid}, ${retrying}!`)
+                } else {
+                    console.error(`An unknown error occurred while trying to update player data for ${member.uuid}, ${retrying}, error:`, error.message);
+                }
+
                 this.members.push(member);
             }
         });
