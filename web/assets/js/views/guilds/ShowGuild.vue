@@ -85,82 +85,82 @@
                     <h4 class="subtitle is-4">Skill Metrics</h4>
 
                     <line-chart
-                        v-if="this.sevenDaysSkillsMetrics.keys.length > 0 && this.sevenDaysSkillsMetrics.values.length > 0"
+                        v-if="this.sevenDaysSkillsMetrics.length > 0"
                         :name="'Average Skills (Last 7 days)'"
                         :type="'Average Skills'"
-                        :keys="this.sevenDaysSkillsMetrics.keys"
-                        :values="this.sevenDaysSkillsMetrics.values"
+                        :keys="this.sevenDaysDates"
+                        :values="this.sevenDaysSkillsMetrics"
                     />
 
                     <line-chart
-                        v-if="this.monthSkillsMetrics.keys.length > 7 && this.monthSkillsMetrics.values.length > 7"
+                        v-if="this.monthSkillsMetrics.length > 7"
                         :name="'Average Skills (Last 30 days)'"
                         :type="'Average Skills'"
-                        :keys="this.monthSkillsMetrics.keys"
-                        :values="this.monthSkillsMetrics.values"
+                        :keys="this.monthDates"
+                        :values="this.monthSkillsMetrics"
                     />
 
                     <line-chart
-                        v-if="this.quarterSkillsMetrics.keys.length > 30 && this.quarterSkillsMetrics.values.length > 30"
+                        v-if="this.quarterSkillsMetrics.length > 30"
                         :name="'Average Skills (90 Days)'"
                         :type="'Average Skills'"
-                        :keys="this.quarterSkillsMetrics.keys"
-                        :values="this.quarterSkillsMetrics.values"
+                        :keys="this.quarterDates"
+                        :values="this.quarterSkillsMetrics"
                     />
                 </div>
                 <div class="column has-text-centered">
                     <h4 class="subtitle is-4">Slayer Metrics</h4>
 
                     <line-chart
-                        v-if="this.sevenDaysSlayersMetrics.keys.length > 0 && this.sevenDaysSlayersMetrics.values.length > 0"
+                        v-if="this.sevenDaysSlayersMetrics.length > 0"
                         :name="'Average Slayers (Last 7 days)'"
                         :type="'Average Slayers'"
-                        :keys="this.sevenDaysSlayersMetrics.keys"
-                        :values="this.sevenDaysSlayersMetrics.values"
+                        :keys="this.sevenDaysDates"
+                        :values="this.sevenDaysSlayersMetrics"
                     />
 
                     <line-chart
-                        v-if="this.monthSlayersMetrics.keys.length > 7 && this.monthSlayersMetrics.values.length > 7"
+                        v-if="this.monthSlayersMetrics.length > 7"
                         :name="'Average Slayers (Last 30 days)'"
                         :type="'Average Slayers'"
-                        :keys="this.monthSlayersMetrics.keys"
-                        :values="this.monthSlayersMetrics.values"
+                        :keys="this.monthDates"
+                        :values="this.monthSlayersMetrics"
                     />
 
                     <line-chart
-                        v-if="this.quarterSlayersMetrics.keys.length > 30 && this.quarterSlayersMetrics.values.length > 30"
+                        v-if="this.quarterSlayersMetrics.length > 30"
                         :name="'Average Slayers (90 Days)'"
                         :type="'Average Slayers'"
-                        :keys="this.quarterSlayersMetrics.keys"
-                        :values="this.quarterSlayersMetrics.values"
+                        :keys="this.quarterDates"
+                        :values="this.quarterSlayersMetrics"
                     />
                 </div>
             </div>
 
-            <div class="columns" v-if="quarterMembersMetrics.keys.length > 1">
+            <div class="columns" v-if="quarterMembersMetrics.length > 1">
                 <div class="column has-text-centered">
                     <h4 class="subtitle is-4">Member Metrics</h4>
 
                     <line-chart
-                        v-if="this.quarterMembersMetrics.keys.length > 1 && this.quarterMembersMetrics.values.length > 1"
+                        v-if="this.quarterMembersMetrics.length > 1"
                         :name="'Average Members (90 Days)'"
                         :type="'Average Members'"
-                        :keys="this.quarterMembersMetrics.keys"
-                        :values="this.quarterMembersMetrics.values"
+                        :keys="this.quarterDates"
+                        :values="this.quarterMembersMetrics"
                     />
                 </div>
             </div>
 
-            <div class="columns" v-if="quarterWeightMetrics.keys.length > 1">
+            <div class="columns" v-if="quarterWeightMetrics.length > 1">
                 <div class="column has-text-centered">
                     <h4 class="subtitle is-4">Weight Metrics</h4>
 
                     <line-chart
-                        v-if="this.quarterWeightMetrics.keys.length > 1 && this.quarterWeightMetrics.values.length > 1"
+                        v-if="this.quarterWeightMetrics.length > 1"
                         :name="'Guild Weight (90 Days)'"
                         :type="'Guild Progress Weight'"
-                        :keys="this.quarterWeightMetrics.keys"
-                        :values="this.quarterWeightMetrics.values"
+                        :keys="this.quarterDates"
+                        :values="this.quarterWeightMetrics"
                     />
                 </div>
             </div>
@@ -217,28 +217,26 @@
                 this.metrics = response.data.data;
 
                 this.getItemsFromMetrics(7).forEach(metric => {
-                    this.sevenDaysSkillsMetrics.values.push(metric.average_skill_progress);
-                    this.sevenDaysSkillsMetrics.keys.push(moment(metric.created_at).format("DD MMM YYYY - hh:mm"));
-                    this.sevenDaysSlayersMetrics.values.push(metric.average_slayer);
-                    this.sevenDaysSlayersMetrics.keys.push(moment(metric.created_at).format("DD MMM YYYY - hh:mm"));
+                    this.sevenDaysDates.push(moment(metric.created_at).format("DD MMM YYYY - hh:mm"));
+
+                    this.sevenDaysSkillsMetrics.push(metric.average_skill_progress);
+                    this.sevenDaysSlayersMetrics.push(metric.average_slayer);
                 });
 
                 this.getItemsFromMetrics(30).forEach(metric => {
-                    this.monthSkillsMetrics.values.push(metric.average_skill_progress);
-                    this.monthSkillsMetrics.keys.push(moment(metric.created_at).format("DD MMM YYYY - hh:mm"));
-                    this.monthSlayersMetrics.values.push(metric.average_slayer);
-                    this.monthSlayersMetrics.keys.push(moment(metric.created_at).format("DD MMM YYYY - hh:mm"));
+                    this.monthDates.push(moment(metric.created_at).format("DD MMM YYYY - hh:mm"));
+
+                    this.monthSkillsMetrics.push(metric.average_skill_progress);
+                    this.monthSlayersMetrics.push(metric.average_slayer);
                 });
 
                 this.getItemsFromMetrics(90).forEach(metric => {
-                    this.quarterSkillsMetrics.values.push(metric.average_skill_progress);
-                    this.quarterSkillsMetrics.keys.push(moment(metric.created_at).format("DD MMM YYYY - hh:mm"));
-                    this.quarterSlayersMetrics.values.push(metric.average_slayer);
-                    this.quarterSlayersMetrics.keys.push(moment(metric.created_at).format("DD MMM YYYY - hh:mm"));
-                    this.quarterMembersMetrics.values.push(metric.members);
-                    this.quarterMembersMetrics.keys.push(moment(metric.created_at).format("DD MMM YYYY - hh:mm"));
-                    this.quarterWeightMetrics.values.push(metric.weight.total);
-                    this.quarterWeightMetrics.keys.push(moment(metric.created_at).format("DD MMM YYYY - hh:mm"));
+                    this.quarterDates.push(moment(metric.created_at).format("DD MMM YYYY - hh:mm"));
+
+                    this.quarterSkillsMetrics.push(metric.average_skill_progress);
+                    this.quarterSlayersMetrics.push(metric.average_slayer);
+                    this.quarterMembersMetrics.push(metric.members);
+                    this.quarterWeightMetrics.push(metric.weight.total);
                 });
 
 
@@ -259,38 +257,17 @@
                 metrics: null,
                 players: null,
                 playerSortMethod: 'average_skill_progress',
-                sevenDaysSkillsMetrics: {
-                    keys: [],
-                    values: [],
-                },
-                monthSkillsMetrics: {
-                    keys: [],
-                    values: [],
-                },
-                quarterSkillsMetrics: {
-                    keys: [],
-                    values: [],
-                },
-                sevenDaysSlayersMetrics: {
-                    keys: [],
-                    values: [],
-                },
-                monthSlayersMetrics: {
-                    keys: [],
-                    values: [],
-                },
-                quarterSlayersMetrics: {
-                    keys: [],
-                    values: [],
-                },
-                quarterMembersMetrics: {
-                    keys: [],
-                    values: [],
-                },
-                quarterWeightMetrics: {
-                    keys: [],
-                    values: [],
-                },
+                sevenDaysDates: [],
+                monthDates: [],
+                quarterDates: [],
+                sevenDaysSkillsMetrics: [],
+                monthSkillsMetrics: [],
+                quarterSkillsMetrics: [],
+                sevenDaysSlayersMetrics: [],
+                monthSlayersMetrics: [],
+                quarterSlayersMetrics: [],
+                quarterMembersMetrics: [],
+                quarterWeightMetrics: [],
             };
         },
         methods: {
