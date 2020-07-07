@@ -1,7 +1,7 @@
 Hypixel Skyblock Leaderboard
 ============================
 
-Hypixel Skyblock Leaderboard is a stateless API build for the [Hypixel Skyblock Assistant](https://github.com/Senither/Hypixel-Skyblock-Assistant/) Discord bot, the API creates a way to track guilds on the [Hypixel Network](https://hypixel.net/) for their SkyBlock gamemode, which can then be used to create metrics, guild, and player leaderboards.
+Hypixel Skyblock Leaderboard is a stateless API build for the [Hypixel Skyblock Assistant](https://github.com/Senither/Hypixel-Skyblock-Assistant) Discord bot, the API creates a way to track guilds on the [Hypixel Network](https://hypixel.net/) for their SkyBlock gamemode, which can then be used to create metrics, guild, and player leaderboards.
 
 <hr>
 
@@ -19,7 +19,7 @@ Hypixel Skyblock Leaderboard is a stateless API build for the [Hypixel Skyblock 
  * Yarn >= 1.3
  * A SQL database, supports: [MySQL](https://www.mysql.com/), [MariaDB](https://mariadb.org/), and [SQLite3](https://www.sqlite.org/index.html).
  * Git
- * A running version of [Hypixel Skyblock Assistant](https://github.com/Senither/Hypixel-Skyblock-Assistant/)
+ * A running version of [Hypixel Skyblock Assistant](https://github.com/Senither/Hypixel-Skyblock-Assistant)
 
 ##### Web UI
  * NodeJS >= 8
@@ -69,11 +69,11 @@ Now you should be done, and ready to use the site, to view the site open the `in
 
 #### Port
 
-This is the port that the API should be running on, make sure the port is exposed on the machine the API is hosted on so that the [Skyblock Assistant](https://github.com/Senither/Hypixel-Skyblock-Assistant/) project, and other projects is able to talk and pull data from the API.
+This is the port that the API should be running on, make sure the port is exposed on the machine the API is hosted on so that the [Skyblock Assistant](https://github.com/Senither/Hypixel-Skyblock-Assistant) project, and other projects is able to talk and pull data from the API.
 
 #### API URL & API Token
 
-The API URL and Token is the URL the internal API servlet is running on, and the secret token used to communicate with the internal API in the [Skyblock Assistant](https://github.com/Senither/Hypixel-Skyblock-Assistant/) project.
+The API URL and Token is the URL the internal API servlet is running on, and the secret token used to communicate with the internal API in the [Skyblock Assistant](https://github.com/Senither/Hypixel-Skyblock-Assistant) project.
 
 #### Database
 
