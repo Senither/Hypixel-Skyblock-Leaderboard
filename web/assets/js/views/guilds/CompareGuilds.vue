@@ -61,6 +61,14 @@
                             :keys="this.metricDates"
                             :values="this.membersMetrics"
                         />
+
+                        <h4 class="subtitle has-text-centered is-4">Weight Metrics</h4>
+                        <line-chart
+                            :name="'Weight (Last 90 days)'"
+                            :type="'Weight'"
+                            :keys="this.metricDates"
+                            :values="this.weightMetrics"
+                        />
                     </div>
                 </div>
                 <div class="columns" v-else>
@@ -165,6 +173,7 @@
                             average_skill_progress: metric.average_skill_progress,
                             average_slayer: metric.average_slayer,
                             members: metric.members,
+                            weight: metric.weight.total,
                             created_at: metric.created_at,
                         };
                     });
@@ -206,6 +215,9 @@
             },
             membersMetrics() {
                 return this.generateMetricsFromType('members');
+            },
+            weightMetrics() {
+                return this.generateMetricsFromType('weight');
             },
         },
         watch: {
