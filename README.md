@@ -1,7 +1,7 @@
 Hypixel Skyblock Leaderboard
 ============================
 
-Hypixel Skyblock Leaderboard is a stateless API build for the [Hypixel Skyblock Assistant](https://github.com/Senither/Hypixel-Skyblock-Assistant) Discord bot, the API creates a way to track guilds on the [Hypixel Network](https://hypixel.net/) for their SkyBlock gamemode, which can then be used to create metrics, guild, and player leaderboards.
+Hypixel Skyblock Leaderboard is a stateless API build for the [Hypixel Skyblock Assistant](https://github.com/Senither/Hypixel-Skyblock-Assistant) Discord bot, the API creates a way to track guilds on the [Hypixel Network](https://hypixel.net/) for their SkyBlock gamemode, which can then be used to create metrics, guild, and player leaderboards, the leaderboard also comes with a Web UI which allows viewing and comparing of the data from the API in a nice and clean way. 
 
 <hr>
 
