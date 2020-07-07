@@ -11,7 +11,7 @@ class UpdateTask extends Task {
     }
 
     interval() {
-        return 10 * 1000;
+        return 5 * 1000;
     }
 
     async run(app) {
