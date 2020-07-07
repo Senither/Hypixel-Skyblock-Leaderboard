@@ -24,6 +24,10 @@
                                     Name
                                     <sort-button v-show="sorter == 'name'" :sort="this.reverseSort" />
                                 </th>
+                                <th class="is-clickable" @click="clickSort('weight')">
+                                    Weight
+                                    <sort-button v-show="sorter == 'weight'" :sort="this.reverseSort" />
+                                </th>
                                 <th class="is-clickable" @click="clickSort('members')">
                                     Members
                                     <sort-button v-show="sorter == 'members'" :sort="this.reverseSort" />
@@ -43,6 +47,9 @@
                             <tr v-for="(guild, index) of guilds" @click="clickGuild(guild)">
                                 <th>{{ index + 1 }}</th>
                                 <td>{{ guild.name }}</td>
+                                <td :data-tooltip="`${guild.name} has a ${guild.weight.skill} skill weight, and ${guild.weight.slayer} slayer weight, with a ${guild.weight.multiplier} multiplier`">
+                                    <span class="tag is-purple">{{ formatNumber(parseFloat(guild.weight.total), 2) }}</span>
+                                </td>
                                 <td>
                                     <span class="tag is-warning">{{ guild.members }}</span>
                                 </td>
@@ -82,7 +89,7 @@
         },
         data() {
             return {
-                sorter: 'average_skill_progress',
+                sorter: 'weight',
                 reverseSort: false,
             };
         },
@@ -112,13 +119,13 @@
             },
             guilds() {
                 return Store.get('guilds').sort((v1, v2) => {
-                    if (this.sorter == null) {
-                        return v2.average_skill_progress - v1.average_skill_progress;
-                    }
+                    let getProperty = this.sorter == 'weight'
+                        ? type => type.weight.total
+                        : type => type[this.sorter];
 
                     return this.reverseSort
-                        ? v1[this.sorter] > v2[this.sorter] ? 1 : -1
-                        : v2[this.sorter] > v1[this.sorter] ? 1 : -1;
+                        ? getProperty(v1) > getProperty(v2) ? 1 : -1
+                        : getProperty(v2) > getProperty(v1) ? 1 : -1;
                 }).map(guild => {
                     guild.last_updated_at_humanized = moment(guild.last_updated_at)
                         .toNow()

@@ -11,6 +11,14 @@
                         <div class="field is-grouped is-centered is-grouped-multiline" style="margin: auto">
                             <div class="control">
                                 <div class="tags has-addons">
+                                    <span class="tag is-dark">Guild Weight</span>
+                                    <span class="tag is-purple">
+                                        {{ guild.weight.total }}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="control">
+                                <div class="tags has-addons">
                                     <span class="tag is-dark">Average Skill Progress</span>
                                     <span class="tag is-info">
                                         {{ guild.average_skill_progress }}
@@ -129,16 +137,30 @@
                 </div>
             </div>
 
-            <div class="columns">
+            <div class="columns" v-if="quarterMembersMetrics.keys.length > 1">
                 <div class="column has-text-centered">
                     <h4 class="subtitle is-4">Member Metrics</h4>
 
                     <line-chart
-                        v-if="this.quarterMembersMetrics.keys.length > 30 && this.quarterMembersMetrics.values.length > 30"
+                        v-if="this.quarterMembersMetrics.keys.length > 1 && this.quarterMembersMetrics.values.length > 1"
                         :name="'Average Members (90 Days)'"
                         :type="'Average Members'"
                         :keys="this.quarterMembersMetrics.keys"
                         :values="this.quarterMembersMetrics.values"
+                    />
+                </div>
+            </div>
+
+            <div class="columns" v-if="quarterWeightMetrics.keys.length > 1">
+                <div class="column has-text-centered">
+                    <h4 class="subtitle is-4">Weight Metrics</h4>
+
+                    <line-chart
+                        v-if="this.quarterWeightMetrics.keys.length > 1 && this.quarterWeightMetrics.values.length > 1"
+                        :name="'Guild Weight (90 Days)'"
+                        :type="'Guild Progress Weight'"
+                        :keys="this.quarterWeightMetrics.keys"
+                        :values="this.quarterWeightMetrics.values"
                     />
                 </div>
             </div>
@@ -215,6 +237,8 @@
                     this.quarterSlayersMetrics.keys.push(moment(metric.created_at).format("DD MMM YYYY - hh:mm"));
                     this.quarterMembersMetrics.values.push(metric.members);
                     this.quarterMembersMetrics.keys.push(moment(metric.created_at).format("DD MMM YYYY - hh:mm"));
+                    this.quarterWeightMetrics.values.push(metric.weight.total);
+                    this.quarterWeightMetrics.keys.push(moment(metric.created_at).format("DD MMM YYYY - hh:mm"));
                 });
 
 
@@ -260,6 +284,10 @@
                     values: [],
                 },
                 quarterMembersMetrics: {
+                    keys: [],
+                    values: [],
+                },
+                quarterWeightMetrics: {
                     keys: [],
                     values: [],
                 },
