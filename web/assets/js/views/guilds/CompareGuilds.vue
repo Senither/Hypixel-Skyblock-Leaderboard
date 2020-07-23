@@ -191,7 +191,7 @@
 
                 this.metricDates = largetMetricDataPoint.map(metric => {
                     return moment(metric.created_at).format("DD MMM YYYY - hh:mm")
-                });
+                }).reverse();
 
                 let totalItems = this.metricDates.length;
 

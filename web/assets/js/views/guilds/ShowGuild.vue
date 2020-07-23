@@ -239,6 +239,9 @@
                     this.quarterWeightMetrics.push(metric.weight.total);
                 });
 
+                this.sevenDaysDates.reverse();
+                this.monthDates.reverse();
+                this.quarterDates.reverse();
 
                 return axios.get(`/players/${this.guild.id}`);
             }).then(response => {
