@@ -25,7 +25,7 @@
             this.options.title.text = this.name;
             this.options.yaxis.title.text = this.type;
 
-            this.options.xaxis.categories = this.keys.reverse();
+            this.options.xaxis.categories = this.keys;
 
             if (Array.isArray(this.values)) {
                 this.options.yaxis.min = Math.min.apply(Math, this.values) * 0.99;
