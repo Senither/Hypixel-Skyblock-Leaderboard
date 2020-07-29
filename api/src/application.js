@@ -61,6 +61,7 @@ class Application {
         this.servlet.get('/', require('./routes/getGuilds'));
         this.servlet.get('/stats', require('./routes/getStats'));
         this.servlet.get('/players', require('./routes/getPlayers'));
+        this.servlet.get('/player/:id', require('./routes/getPlayerMetrics'));
         this.servlet.get('/metrics/:id', require('./routes/getGuildMetrics'));
         this.servlet.get('/players/:id', require('./routes/getGuildPlayers'));
 

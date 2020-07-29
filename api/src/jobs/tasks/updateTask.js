@@ -140,16 +140,22 @@ class UpdateTask extends Task {
         let summedSkills = 0, summedSkillsProgress = 0, skillsPlayers = 0;
 
         for (let entry of this.profiles) {
-            if (entry.slayer > 1000) {
-                summedSlayer += entry.slayer;
+            if (entry.total_slayer > 1000) {
+                summedSlayer += entry.total_slayer;
                 slayerPlayers++;
             }
 
-            if (entry.skill > 5) {
-                summedSkills += entry.skill;
-                summedSkillsProgress += entry.skill_progress;
+            if (entry.average_skill > 5) {
+                summedSkills += entry.average_skill;
+                summedSkillsProgress += entry.average_skill_progress;
                 skillsPlayers++;
             }
+
+            delete entry.guild_id;
+            delete entry.username;
+            delete entry.last_updated_at;
+
+            app.database.insert('player_metrics', entry);
         }
 
         app.database.update('guilds', {
@@ -184,16 +190,15 @@ class UpdateTask extends Task {
         let result = response.data.data;
         let record = await app.database.getClient().table('players').where('uuid', result.uuid).first();
 
-        this.profiles.push({
-            slayer: result.stats.slayer.total_experience,
-            skill_progress: result.stats.skills.average_skills_progress,
-            skill: result.stats.skills.average_skills
-        });
+
+        let updateableContent = this.createUpdateableContentFromResult(result);
+
+        this.profiles.push(updateableContent);
 
         if (record == null || record == undefined) {
-            app.database.insert('players', this.createUpdateableContentFromResult(result));
+            app.database.insert('players', updateableContent);
         } else {
-            app.database.update('players', this.createUpdateableContentFromResult(result), query => {
+            app.database.update('players', updateableContent, query => {
                 return query.where('uuid', result.uuid);
             });
         }
