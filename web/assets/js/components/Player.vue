@@ -3,6 +3,7 @@
         <header class="card-header">
             <div v-on:click="toggleCollaps(player)" class="columns is-clickable is-gapless" style="width: 100%">
                 <p class="card-header-title">
+                    <span class="tag is-primary player-rank" :class="{ 'is-active': ! player.collaps }">#{{ rank }}</span>
                     {{ player.username }}
                 </p>
                 <div class="is-centered player-tags">
@@ -149,6 +150,20 @@
 </template>
 
 <style lang="scss" scoped>
+    .card-header {
+        & .player-rank {
+            border-radius: 10em;
+            margin-right: 8px;
+            transition: background 0.25s ease;
+            background: rgba(55, 90, 127, .35);
+        }
+
+        &:hover .player-rank,
+        & .player-rank.is-active {
+            background: rgba(55, 90, 127, 1);
+        }
+    }
+
     .card {
         margin-bottom: 3px;
 
@@ -175,6 +190,7 @@
     export default {
         props: {
             player: Object,
+            rank: Number,
         },
         components: {
             SlayerProgress,

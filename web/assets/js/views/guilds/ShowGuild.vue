@@ -183,8 +183,9 @@
                 </div>
             </div>
             <player
-                v-for="player of sortedPlayers"
+                v-for="(player, rank) of sortedPlayers"
                 :player="player"
+                :rank="rank + 1"
                 :key="player.uuid"
             />
         </div>
