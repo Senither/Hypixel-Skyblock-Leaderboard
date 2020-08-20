@@ -18,5 +18,10 @@ export default [
         path: '/compare-guilds/:ids?',
         name: 'guilds.compare',
         component: CompareGuilds,
+    },
+    {
+        path: '/*',
+        name: 'not-found',
+        redirect: '/',
     }
 ];
