@@ -49,7 +49,7 @@
                             <router-card-button
                                 :name="'Player Leaderboard'"
                                 :icon="'fas fa-users'"
-                                :go-to="null"
+                                :go-to="'players'"
                             />
                         </div>
                     </div>

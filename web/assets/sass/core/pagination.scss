@@ -1,0 +1,6 @@
+
+nav.pagination {
+    & li + li, & li {
+        list-style: none;
+    }
+}

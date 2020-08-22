@@ -5,6 +5,8 @@ import ListGuilds from '../views/guilds/ListGuilds';
 import ShowGuild from '../views/guilds/ShowGuild';
 import CompareGuilds from '../views/guilds/CompareGuilds';
 
+import ListPlayers from '../views/players/ListPlayers';
+
 export default [
     {
         path: '/',
@@ -25,6 +27,11 @@ export default [
         path: '/compare-guilds/:ids?',
         name: 'guilds.compare',
         component: CompareGuilds,
+    },
+    {
+        path: '/players',
+        name: 'players',
+        component: ListPlayers,
     },
     {
         path: '/*',
