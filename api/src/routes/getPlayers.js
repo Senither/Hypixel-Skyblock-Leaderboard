@@ -39,7 +39,14 @@ async function paginateResponse(request, query) {
     let perPage = parseInt(request.query.perPage);
     let page = 1;
 
-    let total = await app.database.getClient().from('players').count({ total: 'uuid' });
+    let total = await app.database.getClient()
+        .select(['guilds.name as guild_name', 'players.guild_id', 'players.uuid'])
+        .from('players')
+        .leftJoin('guilds', function () {
+            return this.on('players.guild_id', '=', 'guilds.id');
+        })
+        .havingRaw('guilds.name IS NOT ?', [null])
+        .count({ total: 'players.uuid' });
     let totalEntities = total[0].total;
     let lastPage = Math.ceil(totalEntities / perPage);
 
