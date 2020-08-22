@@ -4,11 +4,18 @@
             <div class="hero-body">
                 <div class="container">
                     <h1 class="title">
-                        Hypixel Guild Leaderboard
+                        Hypixel SkyBlock Guild Leaderboard
                     </h1>
                     <h2 class="subtitle">
                         Currently tracking {{ formatNumber(stats.guilds) }} guilds with {{ formatNumber(stats.players) }} members!
                     </h2>
+
+                    <router-link :to="{ name: 'landing-page' }" class="button">
+                        <span class="icon is-small">
+                            <i class="fas fa-arrow-alt-circle-left"></i>
+                        </span>
+                        <span>Return to welcome notes</span>
+                    </router-link>
                 </div>
             </div>
         </section>
