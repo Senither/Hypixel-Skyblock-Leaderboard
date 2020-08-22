@@ -46,7 +46,7 @@ async function paginateResponse(request, query) {
     query.limit(perPage);
 
     if (has(request, 'page')) {
-        page = Math.max((parseInt(request.query.page) - 1), 1);
+        page = Math.max((parseInt(request.query.page) - 1), 0) + 1;
         page = Math.min(page, lastPage);
 
         query.offset((page - 1) * perPage);
