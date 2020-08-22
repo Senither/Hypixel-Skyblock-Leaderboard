@@ -41,12 +41,12 @@ async function paginateResponse(request, query) {
 
     let total = await app.database.getClient().from('players').count({ total: 'uuid' });
     let totalEntities = total[0].total;
-    let lastPage = Math.floor(totalEntities / perPage);
+    let lastPage = Math.ceil(totalEntities / perPage);
 
     query.limit(perPage);
 
     if (has(request, 'page')) {
-        page = Math.max((parseInt(request.query.page) - 1), 1);
+        page = Math.max((parseInt(request.query.page) - 1), 0) + 1;
         page = Math.min(page, lastPage);
 
         query.offset((page - 1) * perPage);
