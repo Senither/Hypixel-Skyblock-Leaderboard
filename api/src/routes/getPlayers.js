@@ -1,6 +1,35 @@
 
 const app = require('../application');
 
+const sortableColumns = [
+    'average_skill',
+    'average_skill_progress',
+    'total_slayer',
+    'revenant_xp',
+    'tarantula_xp',
+    'sven_xp',
+    'mining',
+    'mining_xp',
+    'foraging',
+    'foraging_xp',
+    'enchanting',
+    'enchanting_xp',
+    'farming',
+    'farming_xp',
+    'combat',
+    'combat_xp',
+    'fishing',
+    'fishing_xp',
+    'alchemy',
+    'alchemy_xp',
+    'taming',
+    'taming_xp',
+    'carpentry',
+    'carpentry_xp',
+    'runecrafting',
+    'runecrafting_xp'
+];
+
 function has(request, name) {
     let prop = request.query[name];
     return prop != null && prop != undefined;
@@ -42,6 +71,10 @@ module.exports = async (request, response) => {
 
     if (has(request, 'username')) {
         query.where('username', 'like', `%${request.query.username}%`);
+    }
+
+    if (has(request, 'sort') && sortableColumns.includes(request.query.sort)) {
+        query.orderBy(request.query.sort, 'desc');
     }
 
     let paginate = null;
