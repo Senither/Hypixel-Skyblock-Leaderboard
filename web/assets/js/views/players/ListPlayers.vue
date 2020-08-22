@@ -22,7 +22,18 @@
 
         <div class="columns">
             <div class="column">
-                <div class="box">
+                <input
+                    type="text"
+                    class="input is-large"
+                    placeholder="Enter the username of a player here to find their stats"
+                    v-model="username"
+                />
+            </div>
+        </div>
+
+        <div class="columns">
+            <div class="column">
+                <div class="box" v-if="players.length > 0">
                     <table class="table is-striped is-hoverable is-fullwidth">
                         <thead>
                             <tr>
@@ -89,6 +100,10 @@
                         @go-to-page="handlePaginationNavigation"
                     />
                 </div>
+
+                <div class="box has-text-centered" v-else>
+                    <p class="subtitle">Found no player with the username of <strong><i>{{ username }}</i></strong> on the leaderboard!</p>
+                </div>
             </div>
         </div>
     </div>
@@ -138,6 +153,8 @@
                 page: 1,
                 sorter: 'average_skill_progress',
                 customValue: 'Combat XP',
+                username: '',
+                usernameTimer: null,
                 players: [],
                 paginate: null,
                 isLoading: false,
@@ -181,8 +198,13 @@
 
                 this.isLoading = true;
 
+                let uri = `/players?perPage=25&page=${this.page}&sort=${this.sorter}`;
+                if (this.username.length > 1) {
+                    uri += '&username=' + this.username;
+                }
+
                 let rankCounter = ((this.page - 1) * 25) + 1;
-                axios.get(`/players?perPage=25&page=${this.page}&sort=${this.sorter}`).then(response => {
+                axios.get(uri).then(response => {
                     this.paginate = response.data.paginate;
                     this.players = response.data.data.map(player => {
                         let value = player[this.sortableColumns[this.customValue]];
@@ -216,6 +238,15 @@
                 //     params: { id: player.uuid }
                 // });
             },
+        },
+        watch: {
+            username(value) {
+                clearTimeout(this.usernameTimer);
+                this.usernameTimer = setTimeout(() => {
+                    this.loadPlayers();
+                }, 500);
+
+            }
         },
         computed: {
             stats() {
