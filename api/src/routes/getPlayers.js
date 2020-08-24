@@ -48,7 +48,7 @@ async function paginateResponse(request, query) {
         .havingRaw('guilds.name IS NOT ?', [null])
         .count({ total: 'players.uuid' });
     let totalEntities = total[0].total;
-    let lastPage = Math.ceil(totalEntities / perPage);
+    let lastPage = Math.floor(totalEntities / perPage);
 
     query.limit(perPage);
 
