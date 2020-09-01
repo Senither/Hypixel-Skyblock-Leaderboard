@@ -6,6 +6,7 @@ import ShowGuild from '../views/guilds/ShowGuild';
 import CompareGuilds from '../views/guilds/CompareGuilds';
 
 import ListPlayers from '../views/players/ListPlayers';
+import ShowPlayer from '../views/players/ShowPlayer';
 
 export default [
     {
@@ -32,6 +33,11 @@ export default [
         path: '/players',
         name: 'players',
         component: ListPlayers,
+    },
+    {
+        path: '/players/:uuid',
+        name: 'players.show',
+        component: ShowPlayer,
     },
     {
         path: '/*',

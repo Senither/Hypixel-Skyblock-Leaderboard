@@ -233,10 +233,10 @@
                 this.loadPlayers();
             },
             clickPlayer(player) {
-                // this.$router.push({
-                //     name: 'players.show',
-                //     params: { id: player.uuid }
-                // });
+                this.$router.push({
+                    name: 'players.show',
+                    params: { uuid: player.uuid }
+                });
             },
         },
         watch: {
