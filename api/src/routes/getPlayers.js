@@ -76,6 +76,10 @@ module.exports = async (request, response) => {
         })
         .havingRaw('guilds.name IS NOT ?', [null]);
 
+    if (has(request, 'uuid')) {
+        query.where('players.uuid', '=', request.query.uuid);
+    }
+
     if (has(request, 'username')) {
         query.where('username', 'like', `%${request.query.username}%`);
     }
