@@ -143,8 +143,15 @@
             </div>
         </div>
         <footer class="card-footer" v-if="!player.collaps">
+            <router-link class="card-footer-item" tag="a" :to="{
+                name: 'players.show',
+                params: { uuid: player.uuid }
+            }">
+                View Metrics
+            </router-link>
             <a :href="`https://sky.lea.moe/stats/${player.username}`" target="blank" class="card-footer-item">View on sky.lea.moe</a>
             <a :href="`https://namemc.com/profile/${player.uuid}`" target="blank" class="card-footer-item">View on NameMC</a>
+            <a :href="`https://plancke.io/hypixel/player/stats/${player.uuid}`" target="blank" class="card-footer-item">View on Plancke</a>
         </footer>
     </article>
 </template>
