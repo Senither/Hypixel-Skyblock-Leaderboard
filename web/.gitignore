@@ -5,3 +5,6 @@ node_modules/
 public/css
 public/js
 mix-manifest\.json
+
+# Config
+config.js

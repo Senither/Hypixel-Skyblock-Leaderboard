@@ -1,5 +1,11 @@
-const mix = require('laravel-mix');
 const path = require('path');
+const config = require('./config');
+const mix = require('laravel-mix');
+require('laravel-mix-definitions');
+
+mix.definition({
+    configApiUrl: `'${config.apiUrl}'`
+});
 
 mix.webpackConfig({
     resolve: {

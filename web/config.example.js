@@ -1,5 +1,5 @@
 
-export default {
+module.exports = {
 
     /**
      * This is the hostname and port that the API server is running on,

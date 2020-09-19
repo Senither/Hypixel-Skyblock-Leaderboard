@@ -40,7 +40,6 @@ While the dependencies are being installed you can copy the configuration file.
 
     cp config.example.json config.json
 
-
 Next edit and setup the config file with a proper database, real API tokens, and a list of guilds that should be tracked by the system, once you're done you can start the app.
 
     node index.js
@@ -55,7 +54,7 @@ Next go into the `Hypixel-Skyblock-Leaderboard/web` folder and install all the d
 
     yarn
 
-While the dependencies are being installed go to the config file to setup the API endpoint URL, the config can be found at `web/assets/js/config.js`, once that's done and the installation have finished, you can now build the project.
+While the dependencies are being installed rename the config file from `config.example.js` to `config.js`, then set setup the API endpoint URL, the config can be found at the root of the `web` directory, once that's done and the installation have finished, you can now build the project.
 
     yarn prod
 

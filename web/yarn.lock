@@ -3906,6 +3906,11 @@ kleur@^4.0.1:
   resolved "https://registry.yarnpkg.com/kleur/-/kleur-4.0.1.tgz#3d4948534b666e2578f93b6fafb62108e64f05ef"
   integrity sha512-Qs6SqCLm63rd0kNVh+wO4XsWLU6kgfwwaPYsLiClWf0Tewkzsa6MvB21bespb8cz+ANS+2t3So1ge3gintzhlw==
 
+laravel-mix-definitions@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/laravel-mix-definitions/-/laravel-mix-definitions-1.1.0.tgz#6830350f7911388501a5ed036675a3207fea7455"
+  integrity sha512-ltY3za6hZnoJKTsxztcftDCsIdcJeWV0jppaFpHAm+ppH3jqA8ErB3lPcwB45Hd8ucNhdcjhN7JiCKzOJqPUYQ==
+
 laravel-mix@^4.0.7:
   version "4.1.4"
   resolved "https://registry.yarnpkg.com/laravel-mix/-/laravel-mix-4.1.4.tgz#3260b89a2a85ff5e21c7f9db860a5086cbf75dca"
