@@ -178,6 +178,10 @@
                                 @click="clickSort('total_slayer')"
                                 :class="{ 'is-active': this.playerSortMethod == 'total_slayer' }"
                             ><a>Sort by Slayers</a></li>
+                            <li
+                                @click="clickSort('catacomb_xp')"
+                                :class="{ 'is-active': this.playerSortMethod == 'catacomb_xp' }"
+                            ><a>Sort by Catacombs</a></li>
                         </ul>
                     </div>
                 </div>

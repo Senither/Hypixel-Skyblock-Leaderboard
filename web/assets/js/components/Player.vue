@@ -28,6 +28,12 @@
                                 <span class="tag is-danger">{{ formatNumber(player.total_slayer) }}</span>
                             </div>
                         </div>
+                        <div class="control">
+                            <div class="tags has-addons">
+                                <span class="tag is-dark">Catacomb</span>
+                                <span class="tag is-success">{{ formatNumber(player.catacomb) }}</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <a class="card-header-icon" aria-label="more options">
