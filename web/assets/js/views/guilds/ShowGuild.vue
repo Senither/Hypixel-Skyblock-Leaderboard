@@ -39,6 +39,12 @@
                             </div>
                             <div class="control">
                                 <div class="tags has-addons">
+                                    <span class="tag is-dark">Catacomb</span>
+                                    <span class="tag is-success">{{ formatNumber(guild.average_catacomb) }}</span>
+                                </div>
+                            </div>
+                            <div class="control">
+                                <div class="tags has-addons">
                                     <span class="tag is-dark">Members</span>
                                     <span class="tag is-warning">{{ formatNumber(guild.members) }}</span>
                                 </div>
