@@ -25,10 +25,10 @@
 </template>
 
 <script>
-    import TransitionPage from '../components/TransitionPage';
-    import Loading from '../components/Loading';
+    import TransitionPage from '@components/TransitionPage';
+    import Loading from '@components/Loading';
 
-    import Store from '../store';
+    import Store from '@/store';
 
     export default {
         components: {

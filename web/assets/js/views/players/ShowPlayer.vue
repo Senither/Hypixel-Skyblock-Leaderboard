@@ -310,12 +310,12 @@
 <script>
     import moment from 'moment';
 
-    import SlayerProgress from '../../components/SlayerProgress';
-    import SkillProgress from '../../components/SkillProgress';
-    import LineChart from '../../components/LineChart';
-    import Loading from '../../components/Loading';
+    import SlayerProgress from '@components/SlayerProgress';
+    import SkillProgress from '@components/SkillProgress';
+    import LineChart from '@components/LineChart';
+    import Loading from '@components/Loading';
 
-    import Store from '../../store';
+    import Store from '@/store';
 
     export default {
         components: {

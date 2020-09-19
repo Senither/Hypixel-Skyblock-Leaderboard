@@ -195,11 +195,11 @@
 <script>
     import moment from 'moment';
 
-    import LineChart from '../../components/LineChart';
-    import Loading from '../../components/Loading';
-    import Player from '../../components/Player';
+    import LineChart from '@components/LineChart';
+    import Loading from '@components/Loading';
+    import Player from '@components/Player';
 
-    import Store from '../../store';
+    import Store from '@/store';
 
     export default {
         components: {

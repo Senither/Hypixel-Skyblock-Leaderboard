@@ -86,8 +86,8 @@
 </style>
 
 <script>
-    import SortButton from '../../components/SortButton';
-    import Store from '../../store';
+    import SortButton from '@components/SortButton';
+    import Store from '@/store';
     import moment from 'moment';
 
     export default {

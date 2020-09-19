@@ -1,12 +1,12 @@
 
-import LandingPage from '../views/LandingPage';
+import LandingPage from '@/views/LandingPage';
 
-import ListGuilds from '../views/guilds/ListGuilds';
-import ShowGuild from '../views/guilds/ShowGuild';
-import CompareGuilds from '../views/guilds/CompareGuilds';
+import ListGuilds from '@/views/guilds/ListGuilds';
+import ShowGuild from '@/views/guilds/ShowGuild';
+import CompareGuilds from '@/views/guilds/CompareGuilds';
 
-import ListPlayers from '../views/players/ListPlayers';
-import ShowPlayer from '../views/players/ShowPlayer';
+import ListPlayers from '@/views/players/ListPlayers';
+import ShowPlayer from '@/views/players/ShowPlayer';
 
 export default [
     {

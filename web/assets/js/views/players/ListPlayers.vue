@@ -133,10 +133,10 @@
 </style>
 
 <script>
-    import SortButton from '../../components/SortButton';
-    import Pagination from '../../components/Pagination';
-    import Loading from '../../components/Loading';
-    import Store from '../../store';
+    import SortButton from '@components/SortButton';
+    import Pagination from '@components/Pagination';
+    import Loading from '@components/Loading';
+    import Store from '@/store';
     import moment from 'moment';
 
     export default {

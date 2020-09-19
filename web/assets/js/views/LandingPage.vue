@@ -66,8 +66,8 @@
 </style>
 
 <script>
-    import Store from '../store';
-    import RouterCardButton from '../components/RouterCardButton';
+    import Store from '@/store';
+    import RouterCardButton from '@components/RouterCardButton';
 
     export default {
         components: {
