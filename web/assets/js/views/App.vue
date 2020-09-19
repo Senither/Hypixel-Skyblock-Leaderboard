@@ -57,6 +57,12 @@
                     guild.slayers_rank = index + 1;
 
                     return guild;
+                }).sort((v1, v2) => {
+                    return v2.average_catacomb > v1.average_catacomb ? 1 : -1;
+                }).map((guild, index) => {
+                    guild.catacombs_rank = index + 1;
+
+                    return guild;
                 });
 
                 Store.put('guilds', guilds);

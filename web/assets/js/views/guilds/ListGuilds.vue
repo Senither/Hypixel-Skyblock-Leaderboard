@@ -47,6 +47,10 @@
                                     Average Slayer
                                     <sort-button v-show="sorter == 'average_slayer'" :sort="this.reverseSort" />
                                 </th>
+                                <th class="is-clickable" @click="clickSort('average_catacomb')">
+                                    Average Catacombs
+                                    <sort-button v-show="sorter == 'average_catacomb'" :sort="this.reverseSort" />
+                                </th>
                                 <th>Last updated</th>
                             </tr>
                         </thead>
@@ -68,6 +72,9 @@
                                 </td>
                                 <td :data-tooltip="`${guild.name} is rank #${guild.slayers_rank} for average slayers`">
                                     <span class="tag is-danger">{{ formatNumber(guild.average_slayer) }}</span>
+                                </td>
+                                <td :data-tooltip="`${guild.name} is rank #${guild.catacombs_rank} for average catacombs level`">
+                                    <span class="tag is-success">{{ formatNumber(guild.average_catacomb) }}</span>
                                 </td>
                                 <td>{{ guild.last_updated_at_humanized }}</td>
                             </tr>
