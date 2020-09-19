@@ -8,5 +8,5 @@ export default {
      *
      * @type {String}
      */
-    apiUrl: 'http://localhost:3000/',
+    apiUrl: 'https://hypixel-app-api.senither.com/leaderboard',
 };

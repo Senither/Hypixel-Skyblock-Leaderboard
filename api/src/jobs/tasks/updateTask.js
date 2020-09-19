@@ -137,12 +137,18 @@ class UpdateTask extends Task {
         console.log('The guild scan has finished, calculating averages and updating DB records');
 
         let summedSlayer = 0, slayerPlayers = 0;
+        let summedCatacombs = 0, catacombsPlayers = 0;
         let summedSkills = 0, summedSkillsProgress = 0, skillsPlayers = 0;
 
         for (let entry of this.profiles) {
             if (entry.total_slayer > 1000) {
                 summedSlayer += entry.total_slayer;
                 slayerPlayers++;
+            }
+
+            if (entry.catacomb > 0) {
+                summedCatacombs += entry.catacomb;
+                catacombsPlayers++;
             }
 
             if (entry.average_skill > 5) {
@@ -162,6 +168,7 @@ class UpdateTask extends Task {
             average_skill: summedSkills / skillsPlayers,
             average_skill_progress: summedSkillsProgress / skillsPlayers,
             average_slayer: summedSlayer / slayerPlayers,
+            average_catacomb: summedCatacombs / catacombsPlayers,
             members: this.profiles.length,
             last_updated_at: new Date
         }, query => query.where('id', this.guild.id));
@@ -171,6 +178,7 @@ class UpdateTask extends Task {
             average_skill: summedSkills / skillsPlayers,
             average_skill_progress: summedSkillsProgress / skillsPlayers,
             average_slayer: summedSlayer / slayerPlayers,
+            average_catacomb: summedCatacombs / catacombsPlayers,
             members: this.profiles.length
         });
 
@@ -190,7 +198,6 @@ class UpdateTask extends Task {
         let result = response.data.data;
         let record = await app.database.getClient().table('players').where('uuid', result.uuid).first();
 
-
         let updateableContent = this.createUpdateableContentFromResult(result);
 
         this.profiles.push(updateableContent);
@@ -205,12 +212,26 @@ class UpdateTask extends Task {
     }
 
     createUpdateableContentFromResult(result) {
+        const { classes, types } = result.stats.dungeons;
+
         return {
             guild_id: this.guild.id,
             uuid: result.uuid,
             username: result.username,
             average_skill_progress: result.stats.skills.average_skills_progress,
             average_skill: result.stats.skills.average_skills,
+            catacomb: types.hasOwnProperty('catacombs') ? types.catacombs.level : 0,
+            catacomb_xp: types.hasOwnProperty('catacombs') ? types.catacombs.experience : 0,
+            healer: classes.hasOwnProperty('healer') ? classes.healer.level : 0,
+            healer_xp: classes.hasOwnProperty('healer') ? classes.healer.experience : 0,
+            mage: classes.hasOwnProperty('mage') ? classes.mage.level : 0,
+            mage_xp: classes.hasOwnProperty('mage') ? classes.mage.level : 0,
+            berserk: classes.hasOwnProperty('berserk') ? classes.berserk.level : 0,
+            berserk_xp: classes.hasOwnProperty('berserk') ? classes.berserk.level : 0,
+            archer: classes.hasOwnProperty('archer') ? classes.archer.level : 0,
+            archer_xp: classes.hasOwnProperty('archer') ? classes.archer.level : 0,
+            tank: classes.hasOwnProperty('tank') ? classes.tank.level : 0,
+            tank_xp: classes.hasOwnProperty('tank') ? classes.tank.level : 0,
             total_slayer: result.stats.slayer.total_experience,
             revenant_xp: result.stats.slayer.bosses.revenant.experience,
             tarantula_xp: result.stats.slayer.bosses.tarantula.experience,

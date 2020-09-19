@@ -4,7 +4,16 @@ const weightCalculator = require('../utils/weightCalculator');
 
 module.exports = async (request, response) => {
     let guilds = await app.database.getClient()
-        .select('uuid as id', 'name', 'average_skill', 'average_skill_progress', 'average_slayer', 'members', 'last_updated_at')
+        .select(
+            'uuid as id',
+            'name',
+            'average_skill',
+            'average_skill_progress',
+            'average_slayer',
+            'average_catacomb',
+            'members',
+            'last_updated_at'
+        )
         .from('guilds')
         .orderBy('name');
 
