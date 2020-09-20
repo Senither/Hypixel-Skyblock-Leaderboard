@@ -58,7 +58,7 @@
                             <tr v-for="(guild, index) of guilds" @click="clickGuild(guild)">
                                 <th>{{ index + 1 }}</th>
                                 <td>{{ guild.name }}</td>
-                                <td :data-tooltip="`${guild.name} has a ${guild.weight.skill} skill weight, and ${guild.weight.slayer} slayer weight, with a ${guild.weight.multiplier} multiplier`">
+                                <td :data-tooltip="`${guild.name} has a ${guild.weight.skill} skill weight, ${guild.weight.catacomb} catacomb weight, and ${guild.weight.slayer} slayer weight, with a ${guild.weight.multiplier} multiplier`">
                                     <span class="tag is-purple">{{ formatNumber(parseFloat(guild.weight.total), 2) }}</span>
                                 </td>
                                 <td>
