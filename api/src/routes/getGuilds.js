@@ -12,7 +12,8 @@ module.exports = async (request, response) => {
             'average_slayer',
             'average_catacomb',
             'members',
-            'last_updated_at'
+            'last_updated_at',
+            'last_skipped_at',
         )
         .from('guilds')
         .orderBy('name');

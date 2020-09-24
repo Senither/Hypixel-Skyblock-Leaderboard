@@ -105,7 +105,8 @@ class UpdateTask extends Task {
                 console.warn('Skipping guild for now!');
 
                 app.database.update('guilds', {
-                    last_updated_at: new Date
+                    last_updated_at: new Date,
+                    last_skipped_at: new Date,
                 }, query => query.where('id', this.guild.id));
             }
             return;
@@ -170,7 +171,8 @@ class UpdateTask extends Task {
             average_slayer: summedSlayer / slayerPlayers,
             average_catacomb: summedCatacombs / catacombsPlayers,
             members: this.profiles.length,
-            last_updated_at: new Date
+            last_updated_at: new Date,
+            last_skipped_at: null,
         }, query => query.where('id', this.guild.id));
 
         app.database.insert('metrics', {
@@ -179,7 +181,7 @@ class UpdateTask extends Task {
             average_skill_progress: summedSkillsProgress / skillsPlayers,
             average_slayer: summedSlayer / slayerPlayers,
             average_catacomb: summedCatacombs / catacombsPlayers,
-            members: this.profiles.length
+            members: this.profiles.length,
         });
 
         this.guild = null;
