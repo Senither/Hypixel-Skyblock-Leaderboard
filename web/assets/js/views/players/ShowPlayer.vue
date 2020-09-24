@@ -347,6 +347,7 @@
                 this.metrics.forEach(metric => {
                     this.dates.push(moment(metric.created_at).format("DD MMM YYYY - hh:mm"));
                 });
+                this.dates.reverse();
 
                 this.isLoading = false;
             });
