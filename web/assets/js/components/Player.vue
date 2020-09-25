@@ -118,6 +118,7 @@
                             :name="'Runecrafting'"
                             :level="player.runecrafting"
                             :xp="player.runecrafting_xp"
+                            :max-level="25"
                         />
                     </div>
                 </div>

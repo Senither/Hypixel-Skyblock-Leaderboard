@@ -4,7 +4,7 @@
         <div class="xp" v-if="this.xp > 0">{{ formatNumber(this.xp) }} XP</div>
         <div class="xp" v-else>API DISABLED</div>
         <progress
-            v-if="this.formattedLevel < 50"
+            v-if="this.formattedLevel < this.maxLevel"
             class="progress is-primary"
             :value="this.percentage"
             max="100"
@@ -40,6 +40,10 @@
             name: String,
             level: Number,
             xp: Number,
+            maxLevel: {
+                type: Number,
+                default: 50,
+            },
         },
         computed: {
             percentage() {
