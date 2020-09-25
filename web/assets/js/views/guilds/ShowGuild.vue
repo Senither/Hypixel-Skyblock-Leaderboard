@@ -11,14 +11,6 @@
                         <div class="field is-grouped is-centered is-grouped-multiline" style="margin: auto">
                             <div class="control">
                                 <div class="tags has-addons">
-                                    <span class="tag is-dark">Guild Weight</span>
-                                    <span class="tag is-purple">
-                                        {{ guild.weight.total }}
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="control">
-                                <div class="tags has-addons">
                                     <span class="tag is-dark">Average Skill Progress</span>
                                     <span class="tag is-info">
                                         {{ guild.average_skill_progress }}
@@ -51,6 +43,53 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="is-centered" style="display: flex">
+                        <div class="field is-grouped is-centered is-grouped-multiline" style="margin: auto">
+                            <div class="control">
+                                <div class="tags has-addons">
+                                    <span class="tag is-dark">Total Weight</span>
+                                    <span class="tag is-purple">
+                                        {{ guild.weight.total }}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="control">
+                                <div class="tags has-addons">
+                                    <span class="tag is-dark">Skill Weight</span>
+                                    <span class="tag is-purple">
+                                        {{ guild.weight.skill }}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="control">
+                                <div class="tags has-addons">
+                                    <span class="tag is-dark">Slayer Weight</span>
+                                    <span class="tag is-purple">
+                                        {{ guild.weight.slayer }}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="control">
+                                <div class="tags has-addons">
+                                    <span class="tag is-dark">Catacomb Weight</span>
+                                    <span class="tag is-purple">
+                                        {{ guild.weight.catacomb }}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="control">
+                                <div class="tags has-addons">
+                                    <span class="tag is-dark">Weight Multiplier</span>
+                                    <span class="tag is-purple">
+                                        {{ weightMultiplier }}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr>
 
                     <div class="columns">
                         <div class="column has-text-right">
@@ -304,6 +343,22 @@
                     return guild.id == id;
                 });
                 return guild.length == 0 ? null : guild[0];
+            },
+            weightMultiplier() {
+                if (this.guild == null) {
+                    return '??';
+                }
+
+                let multiplier = this.guild.weight.multiplier;
+                let parts = this.formatNumber(multiplier * 100, 2)
+                    .split(',')[0]
+                    .split('\.');
+
+                if (parts[1] == '00') {
+                    return parts[0] + '%';
+                }
+
+                return parts.join('.') + '%';
             },
             sortedPlayers() {
                 return this.players.sort((v1, v2) => {
