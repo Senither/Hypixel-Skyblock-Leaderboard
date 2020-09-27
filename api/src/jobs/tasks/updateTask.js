@@ -7,6 +7,7 @@ class UpdateTask extends Task {
 
         this.guild = null;
         this.members = null;
+        this.history = null;
         this.profiles = null;
     }
 
@@ -81,6 +82,7 @@ class UpdateTask extends Task {
         time.setDate(time.getDate() - 1);
 
         this.members = null;
+        this.history = null;
         this.profiles = null;
         this.guild = await app.database.getClient()
             .table('guilds')
@@ -120,12 +122,25 @@ class UpdateTask extends Task {
         let uuids = [];
         guild.members.forEach(member => uuids.push(member.uuid));
 
-        app.database.update('players', {
-            guild_id: null
-        }, query => {
-            return query.whereNotIn('uuid', uuids)
-                        .andWhere('guild_id', this.guild.id);
-        });
+        let oldMembers = await app.database.getClient()
+            .table('players')
+            .where('guild_id', this.guild.id);
+
+        oldMembers = oldMembers.map(row => row.uuid);
+
+        let membersWhoJoined = uuids.filter(uuid => ! oldMembers.includes(uuid));
+        let membersWhoLeft = oldMembers.filter(uuid => ! uuids.includes(uuid));
+
+        let memberHistoryUsernames = await app.database.getClient()
+            .table('players')
+            .select(['uuid', 'username'])
+            .whereIn('uuid', membersWhoJoined.concat(membersWhoLeft));
+
+        this.history = {
+            uuids: uuids,
+            joined: await this.convertUUIDArrayToHistoryObjects(app, membersWhoJoined, memberHistoryUsernames, 0),
+            left: await this.convertUUIDArrayToHistoryObjects(app, membersWhoLeft, memberHistoryUsernames, 1),
+        }
 
         app.database.update('guilds', {
             name: guild.name,
@@ -165,6 +180,21 @@ class UpdateTask extends Task {
             app.database.insert('player_metrics', entry);
         }
 
+        app.database.update('players', {
+            guild_id: null
+        }, query => {
+            return query.whereNotIn('uuid', this.history.uuids)
+                        .andWhere('guild_id', this.guild.id);
+        });
+
+        if (this.history.left.length > 0) {
+            app.database.insert('history', this.history.left);
+        }
+
+        if (this.history.joined.length > 0) {
+            app.database.insert('history', this.history.joined);
+        }
+
         app.database.update('guilds', {
             average_skill: summedSkills / skillsPlayers,
             average_skill_progress: summedSkillsProgress / skillsPlayers,
@@ -186,6 +216,7 @@ class UpdateTask extends Task {
 
         this.guild = null;
         this.members = null;
+        this.history = null;
         this.profiles = null;
     }
 
@@ -211,6 +242,29 @@ class UpdateTask extends Task {
                 return query.where('uuid', result.uuid);
             });
         }
+    }
+
+    async convertUUIDArrayToHistoryObjects(app, uuids, history, type) {
+        return Promise.all(uuids.map(async (uuid) => {
+            let record = history.find(record => record.uuid == uuid);
+            if (record == undefined) {
+                let response = await app.http.get(`/username?uuid=${uuid}`);
+                let result = response.data.data;
+
+                if (result.hasOwnProperty(uuid)) {
+                    record = { username: result[uuid] };
+                }
+            }
+
+            return {
+                guild_id: this.guild.id,
+                type: type,
+                uuid: uuid,
+                username: record == undefined ? null : record.username,
+                created_at: new Date,
+                updated_at: new Date,
+            };
+        }));
     }
 
     createUpdateableContentFromResult(result) {
