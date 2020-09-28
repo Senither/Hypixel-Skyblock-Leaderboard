@@ -68,7 +68,7 @@ async function paginateResponse(request, query) {
         page = Math.max((parseInt(request.query.page) - 1), 0) + 1;
         page = Math.min(page, lastPage);
 
-        query.offset((page - 1) * perPage);
+        query.offset((Math.max(page, 1) - 1) * perPage);
     }
 
     return {
