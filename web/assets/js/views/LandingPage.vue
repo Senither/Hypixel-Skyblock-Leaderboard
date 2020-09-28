@@ -72,7 +72,7 @@
                                         <tr v-for="record of history">
                                             <td>
                                                 <router-link :to="{
-                                                    name: 'players.show',
+                                                    name: 'history.player',
                                                     params: {
                                                         uuid: record.uuid,
                                                     }
@@ -93,7 +93,7 @@
                                             </td>
                                             <td>
                                                 <router-link :to="{
-                                                    name: 'guilds.show',
+                                                    name: 'history.guild',
                                                     params: {
                                                         id: record.guild_id,
                                                     }

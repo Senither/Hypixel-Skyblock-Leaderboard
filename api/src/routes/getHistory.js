@@ -11,12 +11,15 @@ async function paginateResponse(request, query) {
     let page = 1;
 
     let totalQuery = app.database.getClient()
-        .select(['id'])
+        .select(['history.id', 'guilds.uuid as guild_id'])
         .from('history')
+        .leftJoin('guilds', function () {
+            return this.on('history.guild_id', '=', 'guilds.id');
+        })
         .count({ total: 'history.id' });
 
     if (has(request, 'guild_id')) {
-        totalQuery.where('history.guild_id', '=', request.query.guild_id);
+        totalQuery.where('guilds.uuid', '=', request.query.guild_id);
     }
 
     let totalEntities = (await totalQuery)[0].total;
@@ -57,7 +60,9 @@ module.exports = async (request, response) => {
         .orderBy('id', 'desc');
 
     if (has(request, 'guild_id')) {
-        query.where('history.guild_id', '=', request.query.guild_id);
+        query.where('guilds.uuid', '=', request.query.guild_id);
+    } else if (has(request, 'uuid')) {
+        query.where('history.uuid', '=', request.query.uuid);
     }
 
     let paginate = null;

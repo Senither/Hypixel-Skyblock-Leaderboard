@@ -8,6 +8,9 @@ import CompareGuilds from '@/views/guilds/CompareGuilds';
 import ListPlayers from '@/views/players/ListPlayers';
 import ShowPlayer from '@/views/players/ShowPlayer';
 
+import ShowPlayerHistory from '@/views/history/ShowPlayerHistory';
+import ShowGuildHistory from '@/views/history/ShowGuildHistory';
+
 export default [
     {
         path: '/',
@@ -38,6 +41,16 @@ export default [
         path: '/players/:uuid',
         name: 'players.show',
         component: ShowPlayer,
+    },
+    {
+        path: '/history/player/:uuid',
+        name: 'history.player',
+        component: ShowPlayerHistory,
+    },
+    {
+        path: '/history/guild/:id',
+        name: 'history.guild',
+        component: ShowGuildHistory,
     },
     {
         path: '/*',
