@@ -8,10 +8,10 @@
 
                 <div class="container" v-else-if="history.length == 0">
                     <h1 class="title is-1">
-                        Found no player history!
+                        Found no guild history!
                     </h1>
                     <h4 class="subtitle is-4">
-                        Found no player history for any player with an id of <i>{{ id }}</i>
+                        Found no player history for any guild with an id of <i>{{ id }}</i>
                     </h4>
                     <p>
                         <router-link :to="{ name: 'landing-page' }" class="button">
