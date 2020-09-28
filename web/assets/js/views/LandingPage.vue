@@ -60,17 +60,13 @@
 
                             <div class="box" v-if="history.length > 0">
                                 <table class="table is-striped is-hoverable is-fullwidth">
-                                    <thead>
-                                        <tr>
-                                            <th>Name</th>
-                                            <th>Status</th>
-                                            <th>Guild</th>
-                                            <th>Created at</th>
-                                        </tr>
-                                    </thead>
                                     <tbody>
                                         <tr v-for="record of history">
                                             <td>
+                                                <span class="has-text-grey-light">
+                                                    {{ record.created_at_short }}
+                                                </span>
+
                                                 <router-link :to="{
                                                     name: 'history.player',
                                                     params: {
@@ -82,16 +78,9 @@
                                                     </span>
                                                     <span v-else>{{ record.username }}</span>
                                                 </router-link>
-                                            </td>
-                                            <td>
-                                                <span class="tag" :class="{
-                                                    'is-success': record.type == 0,
-                                                    'is-danger': record.type == 1,
-                                                }">
-                                                    {{ record.type == 0 ? 'Joined' : 'Left' }}
-                                                </span>
-                                            </td>
-                                            <td>
+
+                                                {{ record.type == 0 ? 'joined' : 'left' }}
+
                                                 <router-link :to="{
                                                     name: 'history.guild',
                                                     params: {
@@ -99,7 +88,7 @@
                                                     }
                                                 }">{{ record.guild_name }}</router-link>
                                             </td>
-                                            <td>{{ record.created_at_humanized }}</td>
+                                            <td class="has-text-grey-light has-text-right">{{ record.created_at_humanized }}</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -167,11 +156,10 @@
                 axios.get(`/history?perPage=10&page=${this.page}`).then(response => {
                     this.paginate = response.data.paginate;
                     this.history = response.data.data.map(record => {
-                        record.created_at_humanized = moment(record.created_at)
-                            .toNow()
-                            .split(' ')
-                            .splice(1)
-                            .join(' ') + ' ago';
+                        let createdAt = moment(record.created_at);
+
+                        record.created_at_short = createdAt.format('MMM Do, YYYY');
+                        record.created_at_humanized = createdAt.toNow().split(' ').splice(1).join(' ') + ' ago';
 
                         return record;
                     });
