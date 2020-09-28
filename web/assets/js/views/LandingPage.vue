@@ -76,7 +76,12 @@
                                                     params: {
                                                         uuid: record.uuid,
                                                     }
-                                                }">{{ record.username }}</router-link>
+                                                }">
+                                                    <span v-if="record.username == null || record.username.length == 0">
+                                                        <i class="fas fa-spinner fa-spin"></i> <i>Resolving Username</i>
+                                                    </span>
+                                                    <span v-else>{{ record.username }}</span>
+                                                </router-link>
                                             </td>
                                             <td>
                                                 <span class="tag" :class="{

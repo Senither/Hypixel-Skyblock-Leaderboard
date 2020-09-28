@@ -16,6 +16,7 @@ class Application {
         this.jobs = require('./jobs/manager');
         this.jobs.register(this, 'updateTask');
         this.jobs.register(this, 'cleanupMetrics');
+        this.jobs.register(this, 'resolveHistoryUsernames');
 
         console.log('Setting up axios for outgoing HTTP requests');
         const axios = require('axios');
