@@ -23,7 +23,7 @@ async function paginateResponse(request, query) {
     }
 
     let totalEntities = (await totalQuery)[0].total;
-    let lastPage = Math.floor(totalEntities / perPage);
+    let lastPage = Math.ceil(totalEntities / perPage);
 
     query.limit(perPage);
 
