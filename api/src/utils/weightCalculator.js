@@ -11,8 +11,18 @@ module.exports = function (guild) {
     let catacomb = Math.pow(guild.average_catacomb * 2, 1.048455);
 
     // Calcualtes the slayer weight with a flat curve,
-    // giving 1 point every 12,500 average slayer.
-    let slayer = guild.average_slayer / 12500;
+    // giving 1 point every 12,000 average slayer up
+    // to 3,000,000 XP, the weight past the 3 million
+    // limit is first divided by 18,000, and then
+    // reducded by 10%
+    let slayerOverflow = 3000000 - guild.average_slayer;
+    let slayer = slayerOverflow > 0
+        ? guild.average_slayer / 12000
+        : (guild.average_slayer + slayerOverflow) / 12000;
+
+    if (slayerOverflow < 0) {
+        slayer += Math.pow((slayerOverflow * -1) / 18000, .90);
+    }
 
     // Creates the multiplier, where the max value is 1 at 125 members
     // which is the guild member limit on Hypixel, guilds with less
