@@ -118,143 +118,44 @@
             </div>
         </section>
 
-        <loading
-            v-if="isLoading"
-            :message="'Loading metrics & players data...'"
-        />
-
-        <div v-else>
-            <h3 class="subtitle is-3 has-text-centered">Metrics</h3>
-            <div class="columns">
-                <div class="column has-text-centered">
-                    <h4 class="subtitle is-4">Skill Metrics</h4>
-
-                    <line-chart
-                        v-if="this.sevenDaysSkillsMetrics.length > 0"
-                        :name="'Average Skills (Last 7 days)'"
-                        :type="'Average Skills'"
-                        :keys="this.sevenDaysDates"
-                        :values="this.sevenDaysSkillsMetrics"
-                    />
-
-                    <line-chart
-                        v-if="this.monthSkillsMetrics.length > 7"
-                        :name="'Average Skills (Last 30 days)'"
-                        :type="'Average Skills'"
-                        :keys="this.monthDates"
-                        :values="this.monthSkillsMetrics"
-                    />
-
-                    <line-chart
-                        v-if="this.quarterSkillsMetrics.length > 30"
-                        :name="'Average Skills (90 Days)'"
-                        :type="'Average Skills'"
-                        :keys="this.quarterDates"
-                        :values="this.quarterSkillsMetrics"
-                    />
-                </div>
-                <div class="column has-text-centered">
-                    <h4 class="subtitle is-4">Slayer Metrics</h4>
-
-                    <line-chart
-                        v-if="this.sevenDaysSlayersMetrics.length > 0"
-                        :name="'Average Slayers (Last 7 days)'"
-                        :type="'Average Slayers'"
-                        :keys="this.sevenDaysDates"
-                        :values="this.sevenDaysSlayersMetrics"
-                    />
-
-                    <line-chart
-                        v-if="this.monthSlayersMetrics.length > 7"
-                        :name="'Average Slayers (Last 30 days)'"
-                        :type="'Average Slayers'"
-                        :keys="this.monthDates"
-                        :values="this.monthSlayersMetrics"
-                    />
-
-                    <line-chart
-                        v-if="this.quarterSlayersMetrics.length > 30"
-                        :name="'Average Slayers (90 Days)'"
-                        :type="'Average Slayers'"
-                        :keys="this.quarterDates"
-                        :values="this.quarterSlayersMetrics"
-                    />
-                </div>
+        <div>
+            <div class="tabs is-large is-centered">
+                <ul>
+                    <li
+                        :class="{ 'is-active': selectedView == views.PLAYERS }"
+                        @click="selectView(views.PLAYERS)"
+                    >
+                        <a>Players</a>
+                    </li>
+                    <li
+                        :class="{ 'is-active': selectedView == views.METRICS }"
+                        @click="selectView(views.METRICS)"
+                    >
+                        <a>Metrics</a>
+                    </li>
+                </ul>
             </div>
 
-            <div class="columns" v-if="quarterMembersMetrics.length > 1">
-                <div class="column has-text-centered">
-                    <h4 class="subtitle is-4">Member Metrics</h4>
-
-                    <line-chart
-                        v-if="this.quarterMembersMetrics.length > 1"
-                        :name="'Average Members (90 Days)'"
-                        :type="'Average Members'"
-                        :keys="this.quarterDates"
-                        :values="this.quarterMembersMetrics"
-                    />
-                </div>
+            <div v-if="selectedView == views.METRICS">
+                <guild-metrics :id="guild.id" />
             </div>
 
-            <div class="columns" v-if="quarterWeightMetrics.length > 1">
-                <div class="column has-text-centered">
-                    <h4 class="subtitle is-4">Weight Metrics</h4>
-
-                    <line-chart
-                        v-if="this.quarterWeightMetrics.length > 1"
-                        :name="'Guild Weight (90 Days)'"
-                        :type="'Guild Progress Weight'"
-                        :keys="this.quarterDates"
-                        :values="this.quarterWeightMetrics"
-                    />
-                </div>
+            <div v-else-if="selectedView == views.PLAYERS">
+                <guild-players :id="guild.id" />
             </div>
-
-            <h3 class="subtitle is-3 has-text-centered">Players</h3>
-            <div class="columns">
-                <div class="column">
-                    <div class="tabs is-toggle is-fullwidth">
-                        <ul>
-                            <li
-                                @click="clickSort('average_skill_progress')"
-                                :class="{ 'is-active': this.playerSortMethod == 'average_skill_progress' }"
-                            ><a>Sort by Skills</a></li>
-                            <li
-                                @click="clickSort('total_slayer')"
-                                :class="{ 'is-active': this.playerSortMethod == 'total_slayer' }"
-                            ><a>Sort by Slayers</a></li>
-                            <li
-                                @click="clickSort('catacomb_xp')"
-                                :class="{ 'is-active': this.playerSortMethod == 'catacomb_xp' }"
-                            ><a>Sort by Catacombs</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <player
-                v-for="(player, rank) of sortedPlayers"
-                :player="player"
-                :rank="rank + 1"
-                :key="player.uuid"
-            />
         </div>
     </div>
 </template>
 
 <script>
-    import moment from 'moment';
-
-    import LineChart from '@components/LineChart';
-    import Loading from '@components/Loading';
-    import Player from '@components/Player';
-
+    import GuildPlayers from './partials/GuildPlayers';
+    import GuildMetrics from './partials/GuildMetrics';
     import Store from '@/store';
 
     export default {
         components: {
-            LineChart,
-            Loading,
-            Player,
+            GuildPlayers,
+            GuildMetrics,
         },
         mounted() {
             if (this.guild == null) {
@@ -262,78 +163,21 @@
                     name: 'guilds'
                 });
             }
-
-            axios.get(`/metrics/${this.guild.id}`).then(response => {
-                this.metrics = response.data.data;
-
-                this.getItemsFromMetrics(7).forEach(metric => {
-                    this.sevenDaysDates.push(moment(metric.created_at).format("DD MMM YYYY - hh:mm"));
-
-                    this.sevenDaysSkillsMetrics.push(metric.average_skill_progress);
-                    this.sevenDaysSlayersMetrics.push(metric.average_slayer);
-                });
-
-                this.getItemsFromMetrics(30).forEach(metric => {
-                    this.monthDates.push(moment(metric.created_at).format("DD MMM YYYY - hh:mm"));
-
-                    this.monthSkillsMetrics.push(metric.average_skill_progress);
-                    this.monthSlayersMetrics.push(metric.average_slayer);
-                });
-
-                this.getItemsFromMetrics(90).forEach(metric => {
-                    this.quarterDates.push(moment(metric.created_at).format("DD MMM YYYY - hh:mm"));
-
-                    this.quarterSkillsMetrics.push(metric.average_skill_progress);
-                    this.quarterSlayersMetrics.push(metric.average_slayer);
-                    this.quarterMembersMetrics.push(metric.members);
-                    this.quarterWeightMetrics.push(metric.weight.total);
-                });
-
-                this.sevenDaysDates.reverse();
-                this.monthDates.reverse();
-                this.quarterDates.reverse();
-
-                return axios.get(`/players/${this.guild.id}`);
-            }).then(response => {
-                this.players = response.data.data.map(player => {
-                    player.collaps = true;
-
-                    return player;
-                });
-
-                this.isLoading = false;
-            });
         },
         data() {
             return {
                 isLoading: true,
-                metrics: null,
-                players: null,
-                playerSortMethod: 'average_skill_progress',
-                sevenDaysDates: [],
-                monthDates: [],
-                quarterDates: [],
-                sevenDaysSkillsMetrics: [],
-                monthSkillsMetrics: [],
-                quarterSkillsMetrics: [],
-                sevenDaysSlayersMetrics: [],
-                monthSlayersMetrics: [],
-                quarterSlayersMetrics: [],
-                quarterMembersMetrics: [],
-                quarterWeightMetrics: [],
+                selectedView: 0,
+                views: {
+                    PLAYERS: 0,
+                    METRICS: 1,
+                },
             };
         },
         methods: {
-            clickSort(method) {
-                this.playerSortMethod = method;
+            selectView(view) {
+                this.selectedView = view;
             },
-            getItemsFromMetrics(amount = 999999999) {
-                let items = [];
-                for (let i = 0; i < Math.min(amount, this.metrics.length); i++) {
-                    items.push(this.metrics[i]);
-                }
-                return items;
-            }
         },
         computed: {
             guild() {
@@ -360,11 +204,6 @@
 
                 return parts.join('.') + '%';
             },
-            sortedPlayers() {
-                return this.players.sort((v1, v2) => {
-                    return v2[this.playerSortMethod] > v1[this.playerSortMethod] ? 1 : -1;
-                });
-            }
         }
     }
 </script>
