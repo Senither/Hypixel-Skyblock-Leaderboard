@@ -62,9 +62,37 @@
             </div>
         </div>
 
-        <div class="columns" v-if="quarterMembersMetrics.length > 1">
+        <div class="columns">
             <div class="column has-text-centered">
-                <h4 class="subtitle is-4">Member Metrics</h4>
+                <h4 class="subtitle is-4">Catacombs Metrics</h4>
+
+                <line-chart
+                    v-if="this.sevenDaysCatacombMetrics.length > 0"
+                    :name="'Average Catacomb (Last 7 days)'"
+                    :type="'Average Catacomb'"
+                    :keys="this.sevenDaysDates"
+                    :values="this.sevenDaysCatacombMetrics"
+                />
+
+                <line-chart
+                    v-if="this.monthCatacombMetrics.length > 7"
+                    :name="'Average Catacomb (Last 30 days)'"
+                    :type="'Average Catacomb'"
+                    :keys="this.monthDates"
+                    :values="this.monthCatacombMetrics"
+                />
+
+                <line-chart
+                    v-if="this.quarterCatacombMetrics.length > 30"
+                    :name="'Average Catacomb (90 Days)'"
+                    :type="'Average Catacomb'"
+                    :keys="this.quarterDates"
+                    :values="this.quarterCatacombMetrics"
+                />
+            </div>
+
+            <div class="column has-text-centered">
+                <h4 class="subtitle is-4">Member & Weight Metrics</h4>
 
                 <line-chart
                     v-if="this.quarterMembersMetrics.length > 1"
@@ -73,15 +101,18 @@
                     :keys="this.quarterDates"
                     :values="this.quarterMembersMetrics"
                 />
-            </div>
-        </div>
 
-        <div class="columns" v-if="quarterWeightMetrics.length > 1">
-            <div class="column has-text-centered">
-                <h4 class="subtitle is-4">Weight Metrics</h4>
 
                 <line-chart
-                    v-if="this.quarterWeightMetrics.length > 1"
+                    v-if="this.sevenDaysWeightMetrics.length > 1"
+                    :name="'Guild Weight (7 Days)'"
+                    :type="'Guild Progress Weight'"
+                    :keys="this.sevenDaysDates"
+                    :values="this.sevenDaysWeightMetrics"
+                />
+
+                <line-chart
+                    v-if="this.quarterWeightMetrics.length > 7"
                     :name="'Guild Weight (90 Days)'"
                     :type="'Guild Progress Weight'"
                     :keys="this.quarterDates"
@@ -114,6 +145,8 @@
 
                     this.sevenDaysSkillsMetrics.push(metric.average_skill_progress);
                     this.sevenDaysSlayersMetrics.push(metric.average_slayer);
+                    this.sevenDaysCatacombMetrics.push(metric.average_catacomb);
+                    this.sevenDaysWeightMetrics.push(metric.weight.total);
                 });
 
                 this.getItemsFromMetrics(30).forEach(metric => {
@@ -121,6 +154,7 @@
 
                     this.monthSkillsMetrics.push(metric.average_skill_progress);
                     this.monthSlayersMetrics.push(metric.average_slayer);
+                    this.monthCatacombMetrics.push(metric.average_catacomb);
                 });
 
                 this.getItemsFromMetrics(90).forEach(metric => {
@@ -128,6 +162,7 @@
 
                     this.quarterSkillsMetrics.push(metric.average_skill_progress);
                     this.quarterSlayersMetrics.push(metric.average_slayer);
+                    this.quarterCatacombMetrics.push(metric.average_catacomb);
                     this.quarterMembersMetrics.push(metric.members);
                     this.quarterWeightMetrics.push(metric.weight.total);
                 });
@@ -152,7 +187,11 @@
                 sevenDaysSlayersMetrics: [],
                 monthSlayersMetrics: [],
                 quarterSlayersMetrics: [],
+                sevenDaysCatacombMetrics: [],
+                monthCatacombMetrics: [],
+                quarterCatacombMetrics: [],
                 quarterMembersMetrics: [],
+                sevenDaysWeightMetrics: [],
                 quarterWeightMetrics: [],
             };
         },
