@@ -216,8 +216,6 @@ class UpdateTask extends Task {
 
         this.guild = null;
         this.members = null;
-        this.history = null;
-        this.profiles = null;
     }
 
     async updatePlayerForGuild(app, player) {
