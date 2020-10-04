@@ -24,12 +24,17 @@ class resolveHistoryUsernames extends Task {
         try {
             console.log(`Resolving ${user.uuid} username for the history`);
 
-            let response = await app.http.get(`player/${user.uuid}`);
+            let response = await app.http.get(`username?uuid=${user.uuid}`);
+            let content = response.data.data;
 
             await app.database.getClient()
-                .table('history')
-                .where('uuid', user.uuid)
-                .update({ username: response.data.data.username });
+                    .table('history')
+                    .where('uuid', user.uuid)
+                    .update({
+                        username: content.hasOwnProperty(user.uuid)
+                            ? content[user.uuid]
+                            : '*Unknown*'
+                    });
         } catch (e) {
             console.log(`Failed to resolve player username for ${user.uuid}: `, e);
         }
