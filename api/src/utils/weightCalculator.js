@@ -28,7 +28,9 @@ module.exports = function (guild) {
     // which is the guild member limit on Hypixel, guilds with less
     // points will have points deducted from their total score
     // depending on the amount of missing players.
-    let multiplier = (guild.members / 125) + (1 - guild.members / 125) / 1.5;
+    let frequency = Math.sin(guild.members / (125 / .927296)) + .2;
+
+    let multiplier = (guild.members / 125) + (1 - guild.members / 125) * frequency;
 
     // Calculates the total amount of points for the guild by summing
     // up our values and using our multiplier to deduct points
