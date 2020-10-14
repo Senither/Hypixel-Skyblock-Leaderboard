@@ -106,6 +106,83 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="columns">
+                        <div class="column">
+                            <h3 class="subtitle is-3 has-text-centered">Leaderboard Requirements</h3>
+                            <p>Guilds on the leaderboard must meet the requirements below to be added to the leaderboard.
+                            <br>If you think a guild meets the requirements that aren't already on the leaderboard, you can contact <a>Senither#0001</a> on Discord, or join the <a target="blank" href="http://discord.gg/UY7XJs9">Trouble Brewing</a> Discord server.</p>
+
+                            <br>
+
+                            <div class="columns">
+                                <div class="column">
+                                    <h4 class="subtitle is-4 has-text-centered">Join Requirements</h4>
+
+                                    <div class="box">
+                                        <p>A guild must meet these requirements to be added to the leaderboard.</p>
+
+                                        <br>
+
+                                        <nav class="level">
+                                            <div class="level-item has-text-centered">
+                                                <div>
+                                                    <p class="heading">Average Skills</p>
+                                                    <p class="title">25</p>
+                                                </div>
+                                            </div>
+                                            <div class="level-item has-text-centered">
+                                                <div>
+                                                    <p class="heading">Average Slayer</p>
+                                                    <p class="title">150K</p>
+                                                </div>
+                                            </div>
+                                            <div class="level-item has-text-centered">
+                                                <div>
+                                                    <p class="heading">Members</p>
+                                                    <p class="title">30</p>
+                                                </div>
+                                            </div>
+                                        </nav>
+                                    </div>
+                                </div>
+                                <div class="column">
+                                    <h4 class="subtitle is-4 has-text-centered">Stay Requirements</h4>
+
+                                    <div class="box">
+                                        <p>A guild must meet these requirements to stay on the leaderboard.</p>
+
+                                        <br>
+
+                                        <nav class="level">
+                                            <div class="level-item has-text-centered">
+                                                <div>
+                                                    <p class="heading">Average Skills</p>
+                                                    <p class="title">20</p>
+                                                </div>
+                                            </div>
+                                            <div class="level-item has-text-centered">
+                                                <div>
+                                                    <p class="heading">Average Slayer</p>
+                                                    <p class="title">100K</p>
+                                                </div>
+                                            </div>
+                                            <div class="level-item has-text-centered">
+                                                <div>
+                                                    <p class="heading">Members</p>
+                                                    <p class="title">20</p>
+                                                </div>
+                                            </div>
+                                        </nav>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <br>
+
+                            <p>If a guild falls below the <strong>Stay requirements</strong>, they will have a grace period of <strong>5 days</strong> before being removed.</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
