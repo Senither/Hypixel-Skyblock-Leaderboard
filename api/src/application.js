@@ -1,9 +1,9 @@
-
+const Logger = require('./logger/winston');
 const Config = require('../config.json');
 
 class Application {
     async bootstrap() {
-        console.log('Connecting to database and running migrations');
+        Logger.info('Connecting to database and running migrations');
 
         const Database = require('./database/database');
         this.database = new Database();
@@ -12,13 +12,13 @@ class Application {
     }
 
     async register() {
-        console.log('Creating job manager and registering tasks');
+        Logger.info('Creating job manager and registering tasks');
         this.jobs = require('./jobs/manager');
         this.jobs.register(this, 'updateTask');
         this.jobs.register(this, 'cleanupMetrics');
         this.jobs.register(this, 'resolveHistoryUsernames');
 
-        console.log('Setting up axios for outgoing HTTP requests');
+        Logger.info('Setting up axios for outgoing HTTP requests');
         const axios = require('axios');
         this.http = axios.create({
             baseURL: Config.api_url,
@@ -26,20 +26,20 @@ class Application {
             timeout: 10000
         });
 
-        console.log('Registering any new guild IDs with the database');
+        Logger.info('Registering any new guild IDs with the database');
         await this.database.getClient().table('guilds').whereNotIn('uuid', Config.guilds).del();
 
         for (let guildId of Config.guilds) {
             let guild = await this.database.getClient().table('guilds').where('uuid', guildId).first();
             if (guild == undefined) {
-                console.log(`No guild with an UUID of ${guildId} where found, creating entry`);
+                Logger.info(`No guild with an UUID of ${guildId} where found, creating entry`);
                 this.database.insert('guilds', {
                     uuid: guildId
                 });
             }
         }
 
-        console.log('Deleting unused player and metric records from the database');
+        Logger.info('Deleting unused player and metric records from the database');
         await this.database.getClient().raw(
             'DELETE `players` FROM `players` LEFT JOIN `guilds` ON `players`.`guild_id` = `guilds`.`id` WHERE `id` IS NULL'
         );
@@ -51,7 +51,7 @@ class Application {
     }
 
     async connect() {
-        console.log('Creating web servlet and registering routes');
+        Logger.info('Creating web servlet and registering routes');
         const express = require('express');
         this.servlet = express();
         this.servlet.use((request, response, next) => {
@@ -73,7 +73,7 @@ class Application {
             response.json({ status: 404, error: 'Route was not found' });
         });
 
-        console.log(`Starting listening for requests on port ${Config.port}`);
+        Logger.info(`Starting listening for requests on port ${Config.port}`);
         this.servlet.listen(Config.port);
     }
 }

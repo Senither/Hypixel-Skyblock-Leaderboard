@@ -1,5 +1,6 @@
 
 const Knex = require('knex');
+const Logger = require('../logger/winston');
 const Config = require('../../config.json');
 
 class Database {
@@ -24,7 +25,7 @@ class Database {
             this.getClient().migrate.latest().then(() => {
                 resolve();
             }).catch(err => {
-                console.error('Failed to run/update database migrations.', err);
+                Logger.error('Failed to run/update database migrations.', err);
                 reject(err);
             });
         });

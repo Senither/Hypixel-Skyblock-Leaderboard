@@ -1,11 +1,13 @@
 
+const Logger = require('../logger/winston');
+
 class Task {
     interval() {
-        console.error('The interval() method has not yet been implemented');
+        Logger.error('The interval() method has not yet been implemented');
     }
 
     run(app) {
-        console.error('The run() method has not yet been implemented');
+        Logger.error('The run() method has not yet been implemented');
     }
 }
 

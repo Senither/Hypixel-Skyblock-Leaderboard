@@ -1,5 +1,6 @@
 
 const Task = require('../task');
+const Logger = require('../../logger/winston');
 
 class resolveHistoryUsernames extends Task {
     constructor() {
@@ -22,7 +23,7 @@ class resolveHistoryUsernames extends Task {
         }
 
         try {
-            console.log(`Resolving ${user.uuid} username for the history`);
+            Logger.info(`Resolving ${user.uuid} username for the history`);
 
             let response = await app.http.get(`username?uuid=${user.uuid}`);
             let content = response.data.data;
@@ -36,7 +37,7 @@ class resolveHistoryUsernames extends Task {
                             : '*Unknown*'
                     });
         } catch (e) {
-            console.log(`Failed to resolve player username for ${user.uuid}: `, e);
+            Logger.info(`Failed to resolve player username for ${user.uuid}: `, e);
         }
     }
 }

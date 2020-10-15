@@ -12,6 +12,7 @@
     "express": "^4.17.1",
     "knex": "^0.20.13",
     "mysql": "^2.18.1",
-    "prompt-sync": "^4.2.0"
+    "prompt-sync": "^4.2.0",
+    "winston": "^3.3.3"
   }
 }

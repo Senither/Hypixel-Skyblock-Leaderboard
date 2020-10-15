@@ -1,3 +1,4 @@
 # Node & NPM
 node_modules/
+logs/
 config.json

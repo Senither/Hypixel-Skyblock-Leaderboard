@@ -1,5 +1,6 @@
 
 const Task = require('../task');
+const Logger = require('../../logger/winston');
 
 class CleanupMetrics extends Task {
     constructor() {
@@ -15,8 +16,8 @@ class CleanupMetrics extends Task {
             this.createCleanupQuery(app, 'metrics'),
             this.createCleanupQuery(app, 'player_metrics')
         ]).then(() => {
-            console.log('> Metrics have been cleaned up');
-        }).catch(error => console.error(error));
+            Logger.info('> Metrics have been cleaned up');
+        }).catch(error => Logger.error(error));
     }
 
     createCleanupQuery(app, table) {

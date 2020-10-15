@@ -1,5 +1,6 @@
 
 const Task = require('./task');
+const Logger = require('../logger/winston');
 
 class Manager {
     constructor() {
@@ -18,7 +19,7 @@ class Manager {
             try {
                 instance.run(self);
             } catch (e) {
-                console.error(`${taskName} failed to execute due to an error: `, e);
+                Logger.error(`${taskName} failed to execute due to an error: `, e);
             }
         }, instance.interval());
     }

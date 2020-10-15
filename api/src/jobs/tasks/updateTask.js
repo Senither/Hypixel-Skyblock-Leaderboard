@@ -1,15 +1,27 @@
 
 const Task = require('../task');
+const Logger = require('../../logger/winston');
 
 class UpdateTask extends Task {
     constructor() {
         super();
 
+        this.task     = null;
         this.running  = false;
         this.guild    = null;
         this.members  = null;
         this.history  = null;
         this.profiles = [];
+
+        process.on('SIGINT', () => {
+            Logger.info('CTRL+C detected, stopping update task process and close the application!');
+
+            if (this.running) {
+                clearTimeout(this.task);
+            }
+
+            process.exit();
+        });
     }
 
     interval() {
@@ -21,7 +33,7 @@ class UpdateTask extends Task {
             return;
         }
 
-        console.log('Looking up guilds to update stats for...');
+        Logger.info('Looking up guilds to update stats for...');
 
         let time = new Date;
         time.setDate(time.getDate() - 1);
@@ -33,11 +45,11 @@ class UpdateTask extends Task {
             .first();
 
         if (this.guild == null && this.guild == undefined) {
-            console.log(' - No guilds that are ready to be updated were found!');
+            Logger.info(' - No guilds that are ready to be updated were found!');
             return;
         }
 
-        console.log(`Loading guild data from the API for ${this.guild.uuid} (${this.guild.name})`);
+        Logger.info(`Loading guild data from the API for ${this.guild.uuid} (${this.guild.name})`);
 
         let guild = null;
         try {
@@ -45,8 +57,8 @@ class UpdateTask extends Task {
             guild = response.data.data;
         } catch (e) {
             if (e.response.status == 404) {
-                console.warn(`Failed to find ${this.guild.uuid} (${this.guild.name}), API responded with a 404!`);
-                console.warn('Skipping guild for now!');
+                Logger.warn(`Failed to find ${this.guild.uuid} (${this.guild.name}), API responded with a 404!`);
+                Logger.warn('Skipping guild for now!');
 
                 app.database.update('guilds', {
                     last_updated_at: new Date,
@@ -56,7 +68,7 @@ class UpdateTask extends Task {
             return;
         }
 
-        console.log(`Beginning guild scan for ${this.guild.uuid} (${this.guild.name})`);
+        Logger.info(`Beginning guild scan for ${this.guild.uuid} (${this.guild.name})`);
 
         this.members  = guild.members;
         this.profiles = [];
@@ -91,7 +103,11 @@ class UpdateTask extends Task {
             data: JSON.stringify(guild.members)
         }, query => query.where('uuid', guild.id));
 
-        setTimeout(() => this.updatePlayerData(app), 2500);
+        this.queueNextPlayer(app);
+    }
+
+    queueNextPlayer(app) {
+        this.task = setTimeout(() => this.updatePlayerData(app), 2500);
     }
 
     updatePlayerData(app) {
@@ -113,12 +129,12 @@ class UpdateTask extends Task {
                     member.updateAttempts = 1;
                     this.members.push(member);
 
-                    console.warn(`${member.uuid} does not have any valid SkyBlock profiles, retrying once!`);
+                    Logger.warn(`${member.uuid} does not have any valid SkyBlock profiles, retrying once!`);
                 } else {
-                    console.warn(`${member.uuid} does not have any valid SkyBlock profiles, skipping!`);
+                    Logger.warn(`${member.uuid} does not have any valid SkyBlock profiles, skipping!`);
                 }
 
-                return setTimeout(() => this.updatePlayerData(app), 2500);
+                return this.queueNextPlayer(app);
             }
 
 
@@ -126,32 +142,32 @@ class UpdateTask extends Task {
                 member.updateAttempts = 0;
             }
 
-            console.error('An error occurred while trying to update player data for: ' + member.uuid, error.message);
+            Logger.error('An error occurred while trying to update player data for: ' + member.uuid, error.message);
 
             if (member.updateAttempts++ < 5) {
                 let retrying = `retrying ${5 - member.updateAttempts} more times`;
 
                 if (hasErrorStatusCode && error.response.status == 500) {
-                    console.error(`The server responded with a internal error code(500), ${retrying}! Message: `, error.message);
+                    Logger.error(`The server responded with a internal error code(500), ${retrying}! Message: `, error.message);
                 } else if (error.message.includes('timeout of')) {
-                    console.error(`The request timed out for ${member.uuid}, ${retrying}!`)
+                    Logger.error(`The request timed out for ${member.uuid}, ${retrying}!`)
                 } else {
-                    console.error(`An unknown error occurred while trying to update player data for ${member.uuid}, ${retrying}, error:`, error.message);
+                    Logger.error(`An unknown error occurred while trying to update player data for ${member.uuid}, ${retrying}, error:`, error.message);
                 }
 
                 this.members.push(member);
             }
 
-            setTimeout(() => this.updatePlayerData(app), 2500);
+            this.queueNextPlayer(app);
         });
     }
 
     async updatePlayerForGuild(app, player) {
-        console.log(`Looking up stats for ${player.uuid} (${this.profiles.length + 1} out of ${this.members.length + this.profiles.length + 1})`);
+        Logger.info(`Looking up stats for ${player.uuid} (${this.profiles.length + 1} out of ${this.members.length + this.profiles.length + 1})`);
 
         let response = await app.http.get(`player/${player.uuid}`);
         if (response.status != 200) {
-            return console.warn(`The player API didn't return a 200 status code for ${player.uuid}`);
+            return Logger.warn(`The player API didn't return a 200 status code for ${player.uuid}`);
         }
 
         let result = response.data.data;
@@ -169,11 +185,11 @@ class UpdateTask extends Task {
             });
         }
 
-        setTimeout(() => this.updatePlayerData(app), 2500);
+        this.queueNextPlayer(app);
     }
 
     async updateAveragesForGuild(app) {
-        console.log('The guild scan has finished, calculating averages and updating DB records');
+        Logger.info('The guild scan has finished, calculating averages and updating DB records');
 
         let summedSlayer = 0, slayerPlayers = 0;
         let summedCatacombs = 0, catacombsPlayers = 0;
