@@ -5,85 +5,27 @@ class UpdateTask extends Task {
     constructor() {
         super();
 
-        this.guild = null;
-        this.members = null;
-        this.history = null;
-        this.profiles = null;
+        this.running  = false;
+        this.guild    = null;
+        this.members  = null;
+        this.history  = null;
+        this.profiles = [];
     }
 
     interval() {
-        return 5 * 1000;
+        return 10 * 1000;
     }
 
     async run(app) {
-        if (! this.hasData()) {
-            return await this.setLastUpdatedGuild(app).catch(error => {
-                console.warn('Failed to fetch guild data to begin the guild scan, error: ', error.message);
-            });
+        if (this.running) {
+            return;
         }
 
-        if (this.members.length == 0) {
-            return this.updateAveragesForGuild(app);
-        }
-
-        let member = this.members.pop();
-
-        this.updatePlayerForGuild(app, member).catch(error => {
-            let hasErrorStatusCode = error != undefined
-                && error.hasOwnProperty('response')
-                && error.response != undefined
-                && error.response.hasOwnProperty('status')
-                && error.response.status != undefined;
-
-            if (hasErrorStatusCode && error.response.status == 410) {
-                if (! member.hasOwnProperty('updateAttempts')) {
-                    member.updateAttempts = 1;
-                    this.members.push(member);
-
-                    return console.warn(`${member.uuid} does not have any valid SkyBlock profiles, retrying once!`);
-                }
-
-                return console.warn(`${member.uuid} does not have any valid SkyBlock profiles, skipping!`);
-            }
-
-
-            if (! member.hasOwnProperty('updateAttempts')) {
-                member.updateAttempts = 0;
-            }
-
-            console.error('An error occurred while trying to update player data for: ' + member.uuid, error.message);
-
-            if (member.updateAttempts++ < 5) {
-                let retrying = `retrying ${5 - member.updateAttempts} more times`;
-
-                if (hasErrorStatusCode && error.response.status == 500) {
-                    console.error(`The server responded with a internal error code(500), ${retrying}! Message: `, error.message);
-                } else if (error.message.includes('timeout of')) {
-                    console.error(`The request timed out for ${member.uuid}, ${retrying}!`)
-                } else {
-                    console.error(`An unknown error occurred while trying to update player data for ${member.uuid}, ${retrying}, error:`, error.message);
-                }
-
-                this.members.push(member);
-            }
-        });
-    }
-
-    hasData() {
-        return this.guild != null
-            && this.guild != undefined
-            && this.members != null;
-    }
-
-    async setLastUpdatedGuild(app) {
         console.log('Looking up guilds to update stats for...');
 
         let time = new Date;
         time.setDate(time.getDate() - 1);
 
-        this.members = null;
-        this.history = null;
-        this.profiles = null;
         this.guild = await app.database.getClient()
             .table('guilds')
             .where('last_updated_at', '<', time)
@@ -116,8 +58,9 @@ class UpdateTask extends Task {
 
         console.log(`Beginning guild scan for ${this.guild.uuid} (${this.guild.name})`);
 
-        this.members = guild.members;
+        this.members  = guild.members;
         this.profiles = [];
+        this.running  = true;
 
         let uuids = [];
         guild.members.forEach(member => uuids.push(member.uuid));
@@ -147,6 +90,86 @@ class UpdateTask extends Task {
             members: guild.members.length,
             data: JSON.stringify(guild.members)
         }, query => query.where('uuid', guild.id));
+
+        setTimeout(() => this.updatePlayerData(app), 2500);
+    }
+
+    updatePlayerData(app) {
+        if (this.members.length == 0) {
+            return this.updateAveragesForGuild(app);
+        }
+
+        let member = this.members.pop();
+
+        this.updatePlayerForGuild(app, member).catch(error => {
+            let hasErrorStatusCode = error != undefined
+                && error.hasOwnProperty('response')
+                && error.response != undefined
+                && error.response.hasOwnProperty('status')
+                && error.response.status != undefined;
+
+            if (hasErrorStatusCode && error.response.status == 410) {
+                if (! member.hasOwnProperty('updateAttempts')) {
+                    member.updateAttempts = 1;
+                    this.members.push(member);
+
+                    console.warn(`${member.uuid} does not have any valid SkyBlock profiles, retrying once!`);
+                } else {
+                    console.warn(`${member.uuid} does not have any valid SkyBlock profiles, skipping!`);
+                }
+
+                return setTimeout(() => this.updatePlayerData(app), 2500);
+            }
+
+
+            if (! member.hasOwnProperty('updateAttempts')) {
+                member.updateAttempts = 0;
+            }
+
+            console.error('An error occurred while trying to update player data for: ' + member.uuid, error.message);
+
+            if (member.updateAttempts++ < 5) {
+                let retrying = `retrying ${5 - member.updateAttempts} more times`;
+
+                if (hasErrorStatusCode && error.response.status == 500) {
+                    console.error(`The server responded with a internal error code(500), ${retrying}! Message: `, error.message);
+                } else if (error.message.includes('timeout of')) {
+                    console.error(`The request timed out for ${member.uuid}, ${retrying}!`)
+                } else {
+                    console.error(`An unknown error occurred while trying to update player data for ${member.uuid}, ${retrying}, error:`, error.message);
+                }
+
+                this.members.push(member);
+            }
+
+            setTimeout(() => this.updatePlayerData(app), 2500);
+        });
+    }
+
+    async updatePlayerForGuild(app, player) {
+        console.log(`Looking up stats for ${player.uuid} (${this.profiles.length + 1} out of ${this.members.length + this.profiles.length + 1})`);
+
+        let response = await app.http.get(`player/${player.uuid}`);
+        if (response.status != 200) {
+            return console.warn(`The player API didn't return a 200 status code for ${player.uuid}`);
+        }
+
+        let result = response.data.data;
+        let record = await app.database.getClient().table('players').where('uuid', result.uuid).first();
+
+        let updateableContent = this.createUpdateableContentFromResult(result);
+
+        this.profiles.push(updateableContent);
+
+        if (record == null || record == undefined) {
+            app.database.insert('players', updateableContent);
+        } else {
+            app.database.update('players', updateableContent, query => {
+                return query.where('uuid', result.uuid);
+            });
+        }
+
+        setTimeout(() => this.updatePlayerData(app), 2500);
     }
 
     async updateAveragesForGuild(app) {
@@ -214,32 +237,11 @@ class UpdateTask extends Task {
             members: this.profiles.length,
         });
 
-        this.guild = null;
-        this.members = null;
-    }
-
-    async updatePlayerForGuild(app, player) {
-        console.log(`Looking up stats for ${player.uuid} (${this.profiles.length} out of ${this.members.length + this.profiles.length + 1})`);
-
-        let response = await app.http.get(`player/${player.uuid}`);
-        if (response.status != 200) {
-            return console.warn(`The player API didn't return a 200 status code for ${player.uuid}`);
-        }
-
-        let result = response.data.data;
-        let record = await app.database.getClient().table('players').where('uuid', result.uuid).first();
-
-        let updateableContent = this.createUpdateableContentFromResult(result);
-
-        this.profiles.push(updateableContent);
-
-        if (record == null || record == undefined) {
-            app.database.insert('players', updateableContent);
-        } else {
-            app.database.update('players', updateableContent, query => {
-                return query.where('uuid', result.uuid);
-            });
-        }
+        this.guild    = null;
+        this.members  = null;
+        this.history  = null;
+        this.profiles = [];
+        this.running  = false;
     }
 
     async convertUUIDArrayToHistoryObjects(app, uuids, history, type) {
