@@ -179,9 +179,21 @@ function calculatePlayerSlayerWeight(player) {
         let divider = slayerWeights[type];
         let experience = player[type + '_xp'];
 
-        // Calculates the slayer weight and returns it to the weight object builder.
+        if (experience <= 1000000) {
+            return {
+                weight: experience == 0 ? 0 : experience / divider,
+                overflow: 0,
+            };
+        }
+
+        // Calculates the slayer and overflow weight and
+        // returns it to the weight object builder.
+        let base = 1000000 / divider;
+        let remaining = experience - 1000000;
+        let overflow = Math.pow(remaining / (divider * 1.5), 0.942);
+
         return {
-            weight: experience == 0 ? 0 : experience / divider,
+            weight: base + overflow,
             overflow: 0,
         };
     });
