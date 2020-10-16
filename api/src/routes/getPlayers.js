@@ -1,5 +1,6 @@
 
 const app = require('../application');
+const weightCalculator = require('../utils/playerWeightCalculator');
 
 const sortableColumns = [
     'average_skill',
@@ -111,6 +112,8 @@ module.exports = async (request, response) => {
             delete player.guild_id;
             delete player.created_at;
             delete player.updated_at;
+
+            player.weight = weightCalculator(player);
 
             return player;
         })

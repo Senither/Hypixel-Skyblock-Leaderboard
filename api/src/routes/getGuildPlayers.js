@@ -1,5 +1,6 @@
 
 const app = require('../application');
+const weightCalculator = require('../utils/playerWeightCalculator');
 
 module.exports = async (request, response) => {
     let guild = await app.database.getClient()
@@ -27,6 +28,8 @@ module.exports = async (request, response) => {
             delete player.guild_id;
             delete player.created_at;
             delete player.updated_at;
+
+            player.weight = weightCalculator(player);
 
             return player;
         })

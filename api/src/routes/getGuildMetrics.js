@@ -1,6 +1,6 @@
 
 const app = require('../application');
-const weightCalculator = require('../utils/weightCalculator');
+const weightCalculator = require('../utils/guildWeightCalculator');
 
 const metricTypes = [
     'average_skill',

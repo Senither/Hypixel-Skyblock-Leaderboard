@@ -1,6 +1,6 @@
 
 const app = require('../application');
-const weightCalculator = require('../utils/weightCalculator');
+const weightCalculator = require('../utils/guildWeightCalculator');
 
 module.exports = async (request, response) => {
     let guilds = await app.database.getClient()
