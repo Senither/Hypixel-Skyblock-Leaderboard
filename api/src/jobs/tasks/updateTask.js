@@ -6,12 +6,13 @@ class UpdateTask extends Task {
     constructor() {
         super();
 
-        this.task     = null;
-        this.running  = false;
-        this.guild    = null;
-        this.members  = null;
-        this.history  = null;
-        this.profiles = [];
+        this.task      = null;
+        this.running   = false;
+        this.guild     = null;
+        this.members   = null;
+        this.history   = null;
+        this.profiles  = [];
+        this.taskStart = 0;
 
         process.on('SIGINT', () => {
             Logger.info('CTRL+C detected, stopping update task process and close the application!');
@@ -30,6 +31,19 @@ class UpdateTask extends Task {
 
     async run(app) {
         if (this.running) {
+            // Checks if task has been running for more than 15 minutes,
+            // if it has we'll cancel it and start a new task instead.
+            if (this.taskStart + 900000 < new Date().getTime()) {
+                Logger.warn('Update task took too long to be completed, canceling the update task!');
+
+                clearTimeout(this.task);
+
+                this.guild    = null;
+                this.members  = null;
+                this.history  = null;
+                this.profiles = [];
+                this.running  = false;
+            }
             return;
         }
 
@@ -70,9 +84,10 @@ class UpdateTask extends Task {
 
         Logger.info(`Beginning guild scan for ${this.guild.uuid} (${this.guild.name})`);
 
-        this.members  = guild.members;
-        this.profiles = [];
-        this.running  = true;
+        this.members   = guild.members;
+        this.profiles  = [];
+        this.running   = true;
+        this.taskStart = new Date().getTime();
 
         let uuids = [];
         guild.members.forEach(member => uuids.push(member.uuid));
