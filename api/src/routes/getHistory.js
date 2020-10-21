@@ -20,6 +20,11 @@ async function paginateResponse(request, query) {
 
     if (has(request, 'guild_id')) {
         totalQuery.where('guilds.uuid', '=', request.query.guild_id);
+    } else {
+        const date = new Date;
+        date.setDate(date.getDate() - 7);
+
+        totalQuery.where('history.created_at', '>', date);
     }
 
     let totalEntities = (await totalQuery)[0].total;
