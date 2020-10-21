@@ -14,6 +14,9 @@
                     </h3>
 
                     <p>
+                        <router-link :to="{ name: 'history.player', params: { uuid: player.uuid } }" class="button is-small">
+                            <span>View Guild History</span>
+                        </router-link>
                         <a :href="`https://sky.lea.moe/stats/${player.username}`" target="blank" class="button is-small">View on sky.lea.moe</a>
                         <a :href="`https://namemc.com/profile/${player.uuid}`" target="blank" class="button is-small">View on NameMC</a>
                         <a :href="`https://plancke.io/hypixel/player/stats/${player.uuid}`" target="blank" class="button is-small">View on Plancke</a>

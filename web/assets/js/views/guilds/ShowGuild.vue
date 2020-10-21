@@ -92,7 +92,7 @@
                     <hr>
 
                     <div class="columns">
-                        <div class="column has-text-right">
+                        <div class="column has-text-centered">
                             <h2 class="subtitle">
                                 <router-link :to="{ name: 'guilds' }" class="button">
                                     <span class="icon is-small">
@@ -100,11 +100,18 @@
                                     </span>
                                     <span>Return to guild list</span>
                                 </router-link>
-                            </h2>
-                        </div>
 
-                        <div class="column has-text-left">
-                            <h2 class="subtitle">
+                                &nbsp;&nbsp;&nbsp;
+
+                                <router-link :to="{ name: 'history.guild', params: { ids: this.guild.id } }" class="button">
+                                    <span>View History</span>
+                                    <span class="icon is-small">
+                                        <i class="fas fa-align-right"></i>
+                                    </span>
+                                </router-link>
+
+                                &nbsp;&nbsp;&nbsp;
+
                                 <router-link :to="{ name: 'guilds.compare', params: { ids: this.guild.id } }" class="button">
                                     <span>Compare guild metrics</span>
                                     <span class="icon is-small">

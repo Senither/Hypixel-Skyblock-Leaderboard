@@ -38,6 +38,13 @@
                             </span>
                             <span>Return to welcome notes</span>
                         </router-link>
+
+                        <a class="button" @click="viewGuild">
+                            <span>Return to guild statistics</span>
+                            <span class="icon is-small">
+                                <i class="fas fa-arrow-alt-circle-right"></i>
+                            </span>
+                        </a>
                     </p>
 
                     <hr>
