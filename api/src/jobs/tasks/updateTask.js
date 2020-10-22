@@ -127,7 +127,9 @@ class UpdateTask extends Task {
 
     updatePlayerData(app) {
         if (this.members.length == 0) {
-            return this.updateAveragesForGuild(app);
+            return this.updateAveragesForGuild(app).catch(error => {
+                Logger.error('Failed to update guild averages, error: ' + error.message, error);
+            });
         }
 
         let member = this.members.pop();
@@ -250,10 +252,10 @@ class UpdateTask extends Task {
         }
 
         app.database.update('guilds', {
-            average_skill: summedSkills / skillsPlayers,
-            average_skill_progress: summedSkillsProgress / skillsPlayers,
-            average_slayer: summedSlayer / slayerPlayers,
-            average_catacomb: summedCatacombs / catacombsPlayers,
+            average_skill: isNaN(summedSkills / skillsPlayers) ? 0 : summedSkills / skillsPlayers,
+            average_skill_progress: isNaN(summedSkillsProgress / skillsPlayers) ? 0 : summedSkillsProgress / skillsPlayers,
+            average_slayer: isNaN(summedSlayer / slayerPlayers) ? 0 : summedSlayer / slayerPlayers,
+            average_catacomb: isNaN(summedCatacombs / catacombsPlayers) ? 0 : summedCatacombs / catacombsPlayers,
             members: this.profiles.length,
             last_updated_at: new Date,
             last_skipped_at: null,
@@ -261,10 +263,10 @@ class UpdateTask extends Task {
 
         app.database.insert('metrics', {
             guild_id: this.guild.id,
-            average_skill: summedSkills / skillsPlayers,
-            average_skill_progress: summedSkillsProgress / skillsPlayers,
-            average_slayer: summedSlayer / slayerPlayers,
-            average_catacomb: summedCatacombs / catacombsPlayers,
+            average_skill: isNaN(summedSkills / skillsPlayers) ? 0 : summedSkills / skillsPlayers,
+            average_skill_progress: isNaN(summedSkillsProgress / skillsPlayers) ? 0 : summedSkillsProgress / skillsPlayers,
+            average_slayer: isNaN(summedSlayer / slayerPlayers) ? 0 : summedSlayer / slayerPlayers,
+            average_catacomb: isNaN(summedCatacombs / catacombsPlayers) ? 0 : summedCatacombs / catacombsPlayers,
             members: this.profiles.length,
         });
 
