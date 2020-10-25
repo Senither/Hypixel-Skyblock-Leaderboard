@@ -215,12 +215,12 @@ const level50DungeonExp = 569809640;
  * @type {Object}
  */
 const dungeonWeights = {
-    catacomb: 1000,
-    healer: 500,
-    mage: 500,
-    berserk: 500,
-    archer: 500,
-    tank: 500,
+    catacomb: 6500,
+    healer: 200,
+    mage: 200,
+    berserk: 200,
+    archer: 200,
+    tank: 200,
 };
 
 /**
@@ -241,7 +241,7 @@ function calculatePlayerDungeonWeight(player) {
         let level = player[type];
 
         // Calculates the base weight using the players level
-        let base = maxPoints * ((level * 2) / 100);
+        let base = Math.pow(level * 10, 3) * (maxPoints / 100000) / 1250;
 
         // If the dungeon XP is below the requirements for a level 50 dungeon we'll
         // just return our weight to the weight object builder right away.
@@ -255,7 +255,7 @@ function calculatePlayerDungeonWeight(player) {
         // Calculates the XP above the level 50 requirement, and the splitter
         // value, weight given past level 50 is given at 1/4 the rate.
         let remaining = experience - level50DungeonExp;
-        let splitter = (level50DungeonExp / maxPoints) * 4;
+        let splitter = 4 * level50DungeonExp / maxPoints;
 
         // Calculates the dungeon overflow weight and returns it to the weight object builder.
         return {
