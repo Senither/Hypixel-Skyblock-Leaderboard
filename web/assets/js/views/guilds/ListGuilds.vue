@@ -55,7 +55,11 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="(guild, index) of guilds" @click="clickGuild(guild)">
+                            <tr
+                                v-for="(guild, index) of guilds"
+                                @click="clickGuild(guild)"
+                                :class="{ 'was-skipped': guild.last_skipped_at !== null }"
+                            >
                                 <th>{{ index + 1 }}</th>
                                 <td>{{ guild.name }}</td>
                                 <td :data-tooltip="`${guild.name} has a ${guild.weight.skill} skill weight, ${guild.weight.catacomb} catacomb weight, and ${guild.weight.slayer} slayer weight, with a ${guild.weight.multiplier} multiplier`">
@@ -89,6 +93,14 @@
 <style lang="scss" scoped>
     tbody > tr {
         cursor: pointer;
+
+        &.was-skipped {
+            background-color: rgba(#FF3860, 0.3);
+
+            &:hover {
+                background-color: rgba(#FF3860, 0.15) !important;
+            }
+        }
     }
 </style>
 
