@@ -38,11 +38,14 @@
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th class="is-clickable">
+                                <th>
                                     Name
                                 </th>
-                                <th class="is-clickable">
+                                <th>
                                     Guild
+                                </th>
+                                <th>
+                                    Weight
                                 </th>
                                 <th class="is-clickable" @click="clickSort('average_skill_progress')">
                                     Average Skills
@@ -72,6 +75,9 @@
                                 <th>{{ formatNumber(player.rank) }}</th>
                                 <td>{{ player.username }}</td>
                                 <td>{{ player.guild_name }}</td>
+                                <td>
+                                    <span class="tag is-purple">{{ player.weight.total == null ? 0 : formatNumber(player.weight.total.toFixed(2)) }}</span>
+                                </td>
                                 <td>
                                     <div class="tags has-addons">
                                         <span class="tag is-info">{{ formatNumber(player.average_skill_progress, 2) }}</span>
