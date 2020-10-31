@@ -7,6 +7,7 @@ const sortableColumns = [
     'average_skill_progress',
     'catacomb',
     'catacomb_xp',
+    'secrets_found',
     'healer',
     'healer_xp',
     'mage',

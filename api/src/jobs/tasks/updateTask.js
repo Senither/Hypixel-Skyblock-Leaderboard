@@ -301,7 +301,7 @@ class UpdateTask extends Task {
     }
 
     createUpdateableContentFromResult(result) {
-        const { classes, types } = result.stats.dungeons;
+        const { classes, types, secrets_found } = result.stats.dungeons;
 
         return {
             guild_id: this.guild.id,
@@ -309,6 +309,7 @@ class UpdateTask extends Task {
             username: result.username,
             average_skill_progress: result.stats.skills.average_skills_progress,
             average_skill: result.stats.skills.average_skills,
+            secrets_found: secrets_found == null ? 0 : secrets_found,
             catacomb: types.hasOwnProperty('catacombs') ? types.catacombs.level : 0,
             catacomb_xp: types.hasOwnProperty('catacombs') ? types.catacombs.experience : 0,
             healer: classes.hasOwnProperty('healer') ? classes.healer.level : 0,
