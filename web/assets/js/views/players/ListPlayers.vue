@@ -152,6 +152,11 @@
             Loading,
         },
         mounted() {
+            let currentPage = parseInt(new URLSearchParams(window.location.search).get('page'));
+            if (! isNaN(currentPage)) {
+                this.page = currentPage;
+            }
+
             this.loadPlayers();
         },
         data() {
@@ -206,6 +211,8 @@
         methods: {
             handlePaginationNavigation(page) {
                 this.page = page;
+
+                history.pushState({ page }, `Page #${page}`, `?page=${page}`)
 
                 this.loadPlayers();
             },
