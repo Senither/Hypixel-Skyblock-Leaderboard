@@ -91,6 +91,25 @@
 
                     <hr>
 
+                    <div class="columns" v-if="hasSocials">
+                        <div class="column">
+                            <a
+                                v-if="guild.meta.hasOwnProperty('discord')"
+                                :href="'https://discord.gg/' + guild.meta.discord"
+                                class="button"
+                                target="blank"
+                                style="background-color: #8B9BD4"
+                            >
+                                <span class="icon is-small">
+                                    <i class="fab fa-discord"></i>
+                                </span>
+                                <span>Join Guild Discord</span>
+                            </a>
+
+                            <hr>
+                        </div>
+                    </div>
+
                     <div class="columns">
                         <div class="column has-text-centered">
                             <h2 class="subtitle">
@@ -193,7 +212,16 @@
                 let guild = Store.get('guilds').filter(guild => {
                     return guild.id == id;
                 });
+
                 return guild.length == 0 ? null : guild[0];
+            },
+            hasSocials() {
+                const { meta } = this.guild;
+
+                // Can add more social links here so all of them
+                // can be checked for at the same time.
+
+                return meta.hasOwnProperty('discord');
             },
             weightMultiplier() {
                 if (this.guild == null) {

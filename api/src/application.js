@@ -27,9 +27,9 @@ class Application {
         });
 
         Logger.info('Registering any new guild IDs with the database');
-        await this.database.getClient().table('guilds').whereNotIn('uuid', Config.guilds).del();
+        await this.database.getClient().table('guilds').whereNotIn('uuid', Object.keys(Config.guilds)).del();
 
-        for (let guildId of Config.guilds) {
+        for (let guildId of Object.keys(Config.guilds)) {
             let guild = await this.database.getClient().table('guilds').where('uuid', guildId).first();
             if (guild == undefined) {
                 Logger.info(`No guild with an UUID of ${guildId} where found, creating entry`);

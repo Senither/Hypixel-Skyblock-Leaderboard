@@ -1,5 +1,6 @@
 
 const app = require('../application');
+const config = require('../../config.json');
 const weightCalculator = require('../utils/guildWeightCalculator');
 
 module.exports = async (request, response) => {
@@ -22,6 +23,8 @@ module.exports = async (request, response) => {
         status: 200,
         data: guilds.map(guild => {
             guild.weight = weightCalculator(guild);
+            guild.meta = config.guilds[guild.id] != null
+                ? config.guilds[guild.id] : {};
 
             return guild;
         })
