@@ -5,10 +5,10 @@ module.exports = function (guild) {
     // which is the middle point in terms of XP in the game
     let skill = Math.pow(guild.average_skill_progress * 10, 0.5 + (guild.average_skill_progress / 100));
 
-    // Calculates the catacomb weight by adding 200% to the current average,
-    // then powering it by an additional 4.8455% on top of that, that
-    // will cause a level 50 average to max out at 125 points.
-    let catacomb = Math.pow(guild.average_catacomb * 2, 1.048455);
+    // Calculates the catacomb weight by powering it by 2, and then
+    // dividing the result by 8.333, this will end up rewarding
+    // 300 points at max level on a soft exponential curve.
+    let catacomb = Math.pow(guild.average_catacomb, 2) / 8.3333333333333333;
 
     // Calcualtes the slayer weight with a flat curve,
     // giving 1 point every 12,000 average slayer up
