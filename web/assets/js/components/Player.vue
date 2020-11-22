@@ -147,6 +147,52 @@
                         />
                     </div>
                 </div>
+                <div class="columns">
+                    <div class="column has-text-centered">
+                        <h4>Dungeons</h4>
+                    </div>
+                </div>
+                <div class="columns">
+                    <div class="column">
+                        <skill-progress
+                            :name="'Catacombs'"
+                            :level="player.catacomb"
+                            :xp="player.catacomb_xp"
+                        />
+
+                        <skill-progress
+                            :name="'Berserker'"
+                            :level="player.berserk"
+                            :xp="player.berserk_xp"
+                        />
+
+                        <skill-progress
+                            :name="'Tank'"
+                            :level="player.tank"
+                            :xp="player.tank_xp"
+                        />
+                    </div>
+
+                    <div class="column">
+                        <skill-progress
+                            :name="'Mage'"
+                            :level="player.mage"
+                            :xp="player.mage_xp"
+                        />
+
+                        <skill-progress
+                            :name="'Archer'"
+                            :level="player.archer"
+                            :xp="player.archer_xp"
+                        />
+
+                        <skill-progress
+                            :name="'Healer'"
+                            :level="player.healer"
+                            :xp="player.healer_xp"
+                        />
+                    </div>
+                </div>
             </div>
         </div>
         <footer class="card-footer" v-if="!player.collaps">
