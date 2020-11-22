@@ -202,7 +202,7 @@
             }">
                 View Metrics
             </router-link>
-            <a :href="`https://sky.lea.moe/stats/${player.username}`" target="blank" class="card-footer-item">View on sky.lea.moe</a>
+            <a :href="`https://sky.shiiyu.moe/stats/${player.username}`" target="blank" class="card-footer-item">View on sky.shiiyu.moe</a>
             <a :href="`https://namemc.com/profile/${player.uuid}`" target="blank" class="card-footer-item">View on NameMC</a>
             <a :href="`https://plancke.io/hypixel/player/stats/${player.uuid}`" target="blank" class="card-footer-item">View on Plancke</a>
         </footer>
