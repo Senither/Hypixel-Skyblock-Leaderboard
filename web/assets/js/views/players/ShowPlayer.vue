@@ -305,6 +305,157 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="columns">
+                        <div class="column has-text-centered">
+                            <h3 class="subtitle is-3">Dungeons</h3>
+                        </div>
+                    </div>
+                    <div class="columns">
+                        <div class="column">
+                            <skill-progress
+                                :name="'Catacombs'"
+                                :level="player.catacomb"
+                                :xp="player.catacomb_xp"
+                            />
+
+                            <skill-progress
+                                :name="'Berserker'"
+                                :level="player.berserk"
+                                :xp="player.berserk_xp"
+                            />
+
+                            <skill-progress
+                                :name="'Tank'"
+                                :level="player.tank"
+                                :xp="player.tank_xp"
+                            />
+                        </div>
+
+                        <div class="column">
+                            <skill-progress
+                                :name="'Mage'"
+                                :level="player.mage"
+                                :xp="player.mage_xp"
+                            />
+
+                            <skill-progress
+                                :name="'Archer'"
+                                :level="player.archer"
+                                :xp="player.archer_xp"
+                            />
+
+                            <skill-progress
+                                :name="'Healer'"
+                                :level="player.healer"
+                                :xp="player.healer_xp"
+                            />
+                        </div>
+                    </div>
+
+                    <div class="columns" v-if="! showDungeons">
+                        <div class="column has-text-centered">
+                            <a @click="viewDungeons" class="button is-primary" :class="{ 'is-loading': this.loadingDungeons }">
+                                Show Dungeon Metrics
+                            </a>
+                        </div>
+                    </div>
+                    <div v-else>
+                        <div class="columns">
+                            <div class="column has-text-centered">
+                                <h4 class="subtitle is-4">Dungeon Metrics</h4>
+                            </div>
+                        </div>
+                        <div class="columns">
+                            <div class="column">
+                                <line-chart
+                                    :name="'Catacombs Level'"
+                                    :type="'Catacombs Level'"
+                                    :keys="this.dates"
+                                    :values="this.metrics.map(metric => metric.catacomb)"
+                                />
+
+                                <line-chart
+                                    :name="'Healer Level'"
+                                    :type="'Healer Level'"
+                                    :keys="this.dates"
+                                    :values="this.metrics.map(metric => metric.healer)"
+                                />
+
+                                <line-chart
+                                    :name="'Mage Level'"
+                                    :type="'Mage Level'"
+                                    :keys="this.dates"
+                                    :values="this.metrics.map(metric => metric.mage)"
+                                />
+
+                                <line-chart
+                                    :name="'Berserker Level'"
+                                    :type="'Berserker Level'"
+                                    :keys="this.dates"
+                                    :values="this.metrics.map(metric => metric.berserk)"
+                                />
+
+                                <line-chart
+                                    :name="'Archer Level'"
+                                    :type="'Archer Level'"
+                                    :keys="this.dates"
+                                    :values="this.metrics.map(metric => metric.archer)"
+                                />
+
+                                <line-chart
+                                    :name="'Tank Level'"
+                                    :type="'Tank Level'"
+                                    :keys="this.dates"
+                                    :values="this.metrics.map(metric => metric.tank)"
+                                />
+                            </div>
+
+                            <div class="column">
+                                <line-chart
+                                    :name="'Catacombs XP'"
+                                    :type="'Catacombs XP'"
+                                    :keys="this.dates"
+                                    :values="this.metrics.map(metric => metric.catacomb_xp)"
+                                />
+
+                                <line-chart
+                                    :name="'Healer XP'"
+                                    :type="'Healer XP'"
+                                    :keys="this.dates"
+                                    :values="this.metrics.map(metric => metric.healer_xp)"
+                                />
+
+                                <line-chart
+                                    :name="'Mage XP'"
+                                    :type="'Mage XP'"
+                                    :keys="this.dates"
+                                    :values="this.metrics.map(metric => metric.mage_xp)"
+                                />
+
+                                <line-chart
+                                    :name="'Berserker XP'"
+                                    :type="'Berserker XP'"
+                                    :keys="this.dates"
+                                    :values="this.metrics.map(metric => metric.berserk_xp)"
+                                />
+
+                                <line-chart
+                                    :name="'Archer XP'"
+                                    :type="'Archer XP'"
+                                    :keys="this.dates"
+                                    :values="this.metrics.map(metric => metric.archer_xp)"
+                                />
+
+                                <line-chart
+                                    :name="'Tank XP'"
+                                    :type="'Tank XP'"
+                                    :keys="this.dates"
+                                    :values="this.metrics.map(metric => metric.tank_xp)"
+                                />
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -366,6 +517,8 @@
                 loadingSkills: false,
                 showSlayers: false,
                 loadingSlayers: false,
+                showDungeons: false,
+                loadingDungeons: false,
             };
         },
         methods: {
@@ -386,6 +539,10 @@
             viewSlayers() {
                 this.loadingSlayers = true;
                 setTimeout(() => this.showSlayers = true, 200);
+            },
+            viewDungeons() {
+                this.loadingDungeons = true;
+                setTimeout(() => this.showDungeons = true, 200);
             }
         }
     }
