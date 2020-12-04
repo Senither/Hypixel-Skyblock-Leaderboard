@@ -57,6 +57,13 @@ module.exports = function (player) {
 const level50SkillExp = 55172425;
 
 /**
+ * The experience required to reach level 60 in any skill.
+ *
+ * @type {Number}
+ */
+const level60SkillExp = 111672425;
+
+/**
  * The skill weight exponents and dividers, these values are
  * used to calculate a skills weight, the divider value is
  * only used for calculating a skills overflow value.
@@ -68,46 +75,49 @@ const skillWeights = {
     mining: {
         expo: 1.232826,
         divr: 259634,
+        lvlCap: 50,
     },
     // Maxes out foraging at 850 points at level 50.
     foraging: {
         expo: 1.232826,
         divr: 259634,
+        lvlCap: 50,
     },
-    // Maxes out enchanting at 250 points at level 50.
+    // Maxes out enchanting at 450 points at level 60.
     enchanting: {
-        expo: 1.035905,
+        expo: 0.96976583,
         divr: 882758,
+        lvlCap: 60,
     },
-    // Maxes out enchanting at 250 points at level 50.
-    enchanting: {
-        expo: 1.035905,
-        divr: 882758,
-    },
-    // Maxes out farming at 1,000 points at level 50.
+    // Maxes out farming at 2,200 points at level 60.
     farming: {
-        expo: 1.258976,
+        expo: 1.217848139,
         divr: 220689,
+        lvlCap: 60,
     },
     // Maxes out combat at 800 points at level 50.
     combat: {
         expo: 1.22307,
         divr: 275862,
+        lvlCap: 50,
     },
     // Maxes out fishing at 2,500 points at level 50.
     fishing: {
         expo: 1.406418,
         divr: 88274,
+        lvlCap: 50,
     },
     // Maxes out alchemy at 200 points at level 50.
     alchemy: {
         expo: 1.0,
         divr: 1103448,
+        lvlCap: 50,
     },
     // Maxes out taming at 500 points at level 50.
     taming: {
         expo: 1.14744,
         divr: 441379,
+        lvlCap: 50,
     },
 };
 
@@ -124,20 +134,25 @@ function calculatePlayerSkillWeight(player) {
         // this contains the skill weight exponent and divider.
         let skillWeight = skillWeights[type];
 
+        // Gets the XP required to max out the skill.
+        let maxSkillLevelXP = skillWeight.lvlCap == 60
+            ? level60SkillExp
+            : level50SkillExp;
+
         // Gets the current skills XP and level from the given player object.
         let experience = player[type + '_xp'];
         let level = player[type];
 
         // Calculates the base weight using the players level, if the players level
-        // is 50 we'll round off their weight to get a nicer looking number.
+        // is 50/60 we'll round off their weight to get a nicer looking number.
         let base = Math.pow(level * 10, 0.5 + skillWeight.expo + (level / 100)) / 1250;
-        if (experience > level50SkillExp) {
+        if (experience > maxSkillLevelXP) {
             base = Math.round(base);
         }
 
-        // If the skill XP is below the requirements for a level 50 skill we'll
+        // If the skill XP is below the requirements for a level 50/60 skill we'll
         // just return our weight to the weight object builder right away.
-        if (experience <= level50SkillExp) {
+        if (experience <= maxSkillLevelXP) {
             return {
                 weight: base,
                 overflow: 0,
@@ -147,7 +162,7 @@ function calculatePlayerSkillWeight(player) {
         // Calculates the skill overflow weight and returns it to the weight object builder.
         return {
             weight: base,
-            overflow: Math.pow((experience - level50SkillExp) / skillWeight.divr, 0.968),
+            overflow: Math.pow((experience - maxSkillLevelXP) / skillWeight.divr, 0.968),
         };
     });
 }
