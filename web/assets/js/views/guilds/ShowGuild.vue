@@ -91,6 +91,14 @@
 
                     <hr>
 
+                    <div class="columns" v-if="guild.meta.hasOwnProperty('hidden')">
+                        <div class="column">
+                            <div class="notification is-danger" style="max-width: 50vw; margin: auto">
+                                This guild has been hidden from the guild leaderboard, however players in the guild will still show up on the player leaderboard.
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="columns" v-if="hasSocials">
                         <div class="column">
                             <a

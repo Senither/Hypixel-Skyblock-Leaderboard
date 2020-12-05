@@ -1,6 +1,8 @@
 
 const app = require('../application');
 
+const config = require('../../config.json');
+
 /**
  * The local in-memory cache object that
  * stores all of our cache entities.
@@ -55,7 +57,13 @@ module.exports = async (request, response) => {
     response.json({
         status: 200,
         data: {
-            guilds: await getCacheEntity('guilds', async () => createCounterQuery('guilds', 'id')),
+            guilds: await getCacheEntity('guilds', async () => {
+                return [{
+                    total: Object.values(config.guilds).filter(guild => {
+                        return guild == null || ! guild.hasOwnProperty('hidden');
+                    }).length
+                }];
+            }),
             guilds_metrics: await getCacheEntity('guildMetrics', async () => createCounterQuery('metrics', 'id')),
             players: await getCacheEntity('players', async () => createCounterQuery('players', 'uuid')),
             players_metrics: await getCacheEntity('playerMetrics', async () => createCounterQuery('player_metrics', 'id')),

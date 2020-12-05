@@ -144,7 +144,9 @@
                 return Store.get('stats');
             },
             guilds() {
-                return Store.get('guilds').sort((v1, v2) => {
+                return Store.get('guilds').filter(guild => {
+                    return ! guild.meta.hasOwnProperty('hidden');
+                }).sort((v1, v2) => {
                     let getProperty = this.sorter == 'weight'
                         ? type => type.weight.total
                         : type => type[this.sorter];
