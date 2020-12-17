@@ -45,22 +45,44 @@
             }).then(response => {
                 this.message = 'Calculating ranks...';
 
+                // Sets skill guild ranks
+                let guildRank = 1;
                 let guilds = response.data.data.sort((v1, v2) => {
                     return v2.average_skill_progress > v1.average_skill_progress ? 1 : -1;
                 }).map((guild, index) => {
-                    guild.skills_rank = index + 1;
+                    if (guild.meta.hasOwnProperty('hidden')) {
+                        return guild;
+                    }
+
+                    guild.skills_rank = guildRank++;
 
                     return guild;
-                }).sort((v1, v2) => {
+                });
+
+                // Sets slayer guild ranks
+                guildRank = 1;
+                guilds.sort((v1, v2) => {
                     return v2.average_slayer > v1.average_slayer ? 1 : -1;
                 }).map((guild, index) => {
-                    guild.slayers_rank = index + 1;
+                    if (guild.meta.hasOwnProperty('hidden')) {
+                        return guild;
+                    }
+
+                    guild.slayers_rank = guildRank++;
 
                     return guild;
-                }).sort((v1, v2) => {
+                });
+
+                // Sets catacombs guild ranks
+                guildRank = 1;
+                guilds.sort((v1, v2) => {
                     return v2.average_catacomb > v1.average_catacomb ? 1 : -1;
                 }).map((guild, index) => {
-                    guild.catacombs_rank = index + 1;
+                    if (guild.meta.hasOwnProperty('hidden')) {
+                        return guild;
+                    }
+
+                    guild.catacombs_rank = guildRank++;
 
                     return guild;
                 });
