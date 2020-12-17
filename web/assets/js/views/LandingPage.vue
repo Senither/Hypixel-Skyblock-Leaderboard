@@ -128,19 +128,25 @@
                                             <div class="level-item has-text-centered">
                                                 <div>
                                                     <p class="heading">Average Skills</p>
-                                                    <p class="title">25</p>
+                                                    <p class="title">30</p>
                                                 </div>
                                             </div>
                                             <div class="level-item has-text-centered">
                                                 <div>
                                                     <p class="heading">Average Slayer</p>
-                                                    <p class="title">150K</p>
+                                                    <p class="title">250K</p>
+                                                </div>
+                                            </div>
+                                            <div class="level-item has-text-centered">
+                                                <div>
+                                                    <p class="heading">Catacombs</p>
+                                                    <p class="title">15</p>
                                                 </div>
                                             </div>
                                             <div class="level-item has-text-centered">
                                                 <div>
                                                     <p class="heading">Members</p>
-                                                    <p class="title">30</p>
+                                                    <p class="title">35</p>
                                                 </div>
                                             </div>
                                         </nav>
@@ -158,19 +164,25 @@
                                             <div class="level-item has-text-centered">
                                                 <div>
                                                     <p class="heading">Average Skills</p>
-                                                    <p class="title">20</p>
+                                                    <p class="title">25</p>
                                                 </div>
                                             </div>
                                             <div class="level-item has-text-centered">
                                                 <div>
                                                     <p class="heading">Average Slayer</p>
-                                                    <p class="title">100K</p>
+                                                    <p class="title">150K</p>
+                                                </div>
+                                            </div>
+                                            <div class="level-item has-text-centered">
+                                                <div>
+                                                    <p class="heading">Catacombs</p>
+                                                    <p class="title">12.5</p>
                                                 </div>
                                             </div>
                                             <div class="level-item has-text-centered">
                                                 <div>
                                                     <p class="heading">Members</p>
-                                                    <p class="title">20</p>
+                                                    <p class="title">25</p>
                                                 </div>
                                             </div>
                                         </nav>
