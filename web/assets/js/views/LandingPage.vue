@@ -245,7 +245,9 @@
                 axios.get(`/history?perPage=10&page=${this.page}`).then(response => {
                     this.paginate = response.data.paginate;
                     this.history = response.data.data.map(record => {
-                        let createdAt = moment(record.created_at);
+                        let createdAt = moment.utc(record.created_at);
+
+                        createdAt.local();
 
                         record.created_at_short = createdAt.format('MMM Do, YYYY');
                         record.created_at_humanized = createdAt.toNow().split(' ').splice(1).join(' ') + ' ago';
