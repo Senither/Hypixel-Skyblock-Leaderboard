@@ -71,11 +71,11 @@ const level60SkillExp = 111672425;
  * @type {Object}
  */
 const skillWeights = {
-    // Maxes out mining at 850 points at 50.
+    // Maxes out mining at 1,750 points at 60.
     mining: {
-        expo: 1.232826,
+        expo: 1.18207448,
         divr: 259634,
-        lvlCap: 50,
+        lvlCap: 60,
     },
     // Maxes out foraging at 850 points at level 50.
     foraging: {
@@ -179,7 +179,6 @@ const slayerWeights = {
     tarantula: 2118,
     sven: 1962,
 };
-
 
 /**
  * Calculates a players slayer weight using their
