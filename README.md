@@ -80,7 +80,7 @@ The database properties are used to connect to the database that the API should 
 
 #### Guilds
 
-The guilds is a list of Hypixel guild IDs that the API should track, any guild ID on the list will automatically be scanned every 24 hours.
+The guilds is a list of Hypixel guild IDs that the API should track, any guild ID on the list will automatically be scanned every 24 hours, the list is formatted as a JSON object, where the key is the guild ID, and the value is either `null` or another JSON object with the guilds meta data.
 
 ## License
 
