@@ -95,7 +95,7 @@
         cursor: pointer;
 
         &.was-skipped {
-            background-color: rgba(#FF3860, 0.3);
+            background-color: rgba(#FF3860, 0.3) !important;
 
             &:hover {
                 background-color: rgba(#FF3860, 0.15) !important;
