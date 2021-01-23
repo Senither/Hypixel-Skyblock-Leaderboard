@@ -58,31 +58,14 @@
           </div>
         </div>
         <div class="columns">
-          <div class="column">
-            <skill-progress :name="'Taming'" :level="player.taming" :xp="player.taming_xp" />
-
-            <skill-progress :name="'Mining'" :level="player.mining" :xp="player.mining_xp" />
-
-            <skill-progress :name="'Foraging'" :level="player.foraging" :xp="player.foraging_xp" />
-
-            <skill-progress :name="'Enchanting'" :level="player.enchanting" :xp="player.enchanting_xp" />
-
-            <skill-progress :name="'Carpentry'" :level="player.carpentry" :xp="player.carpentry_xp" />
-          </div>
-          <div class="column">
-            <skill-progress :name="'Farming'" :level="player.farming" :xp="player.farming_xp" />
-
-            <skill-progress :name="'Combat'" :level="player.combat" :xp="player.combat_xp" />
-
-            <skill-progress :name="'Fishing'" :level="player.fishing" :xp="player.fishing_xp" />
-
-            <skill-progress :name="'Alchemy'" :level="player.alchemy" :xp="player.alchemy_xp" />
-
+          <div class="column" v-for="group of skills">
             <skill-progress
-              :name="'Runecrafting'"
-              :level="player.runecrafting"
-              :xp="player.runecrafting_xp"
-              :max-level="25"
+              v-for="skill of Object.keys(group)"
+              :key="skill"
+              :name="group[skill].name"
+              :level="player[skill]"
+              :xp="player[skill + '_xp']"
+              :max-level="group[skill].maxLevel"
             />
           </div>
         </div>
@@ -92,14 +75,8 @@
           </div>
         </div>
         <div class="columns">
-          <div class="column">
-            <slayer-progress :name="'Revenant'" :xp="player.revenant_xp" />
-          </div>
-          <div class="column">
-            <slayer-progress :name="'Tarantula'" :xp="player.tarantula_xp" />
-          </div>
-          <div class="column">
-            <slayer-progress :name="'Sven'" :xp="player.sven_xp" />
+          <div class="column" v-for="type of Object.keys(slayers)">
+            <slayer-progress :name="slayers[type]" :xp="player[type]" />
           </div>
         </div>
         <div class="columns">
@@ -108,20 +85,14 @@
           </div>
         </div>
         <div class="columns">
-          <div class="column">
-            <skill-progress :name="'Catacombs'" :level="player.catacomb" :xp="player.catacomb_xp" />
-
-            <skill-progress :name="'Berserker'" :level="player.berserk" :xp="player.berserk_xp" />
-
-            <skill-progress :name="'Tank'" :level="player.tank" :xp="player.tank_xp" />
-          </div>
-
-          <div class="column">
-            <skill-progress :name="'Mage'" :level="player.mage" :xp="player.mage_xp" />
-
-            <skill-progress :name="'Archer'" :level="player.archer" :xp="player.archer_xp" />
-
-            <skill-progress :name="'Healer'" :level="player.healer" :xp="player.healer_xp" />
+          <div class="column" v-for="dungeon of dungeons">
+            <skill-progress
+              v-for="type of Object.keys(dungeon)"
+              :key="type"
+              :name="dungeon[type]"
+              :level="player[type]"
+              :xp="player[type + '_xp']"
+            />
           </div>
         </div>
       </div>
@@ -156,6 +127,74 @@ export default {
   props: {
     player: Object,
     rank: Number,
+  },
+
+  data() {
+    return {
+      skills: [
+        {
+          taming: {
+            name: 'Taming',
+            maxLevel: 50,
+          },
+          mining: {
+            name: 'Mining',
+            maxLevel: 60,
+          },
+          foraging: {
+            name: 'Foraging',
+            maxLevel: 50,
+          },
+          enchanting: {
+            name: 'Enchanting',
+            maxLevel: 60,
+          },
+          carpentry: {
+            name: 'Carpentry',
+            maxLevel: 50,
+          },
+        },
+        {
+          farming: {
+            name: 'Farming',
+            maxLevel: 60,
+          },
+          combat: {
+            name: 'Combat',
+            maxLevel: 50,
+          },
+          fishing: {
+            name: 'Fishing',
+            maxLevel: 50,
+          },
+          alchemy: {
+            name: 'Alchemy',
+            maxLevel: 50,
+          },
+          runecrafting: {
+            name: 'Runecrafting',
+            maxLevel: 25,
+          },
+        },
+      ],
+      slayers: {
+        revenant_xp: 'Revenant',
+        tarantula_xp: 'Tarantula',
+        sven_xp: 'Sven',
+      },
+      dungeons: [
+        {
+          catacomb: 'Catacombs',
+          berserk: 'Berserker',
+          tank: 'Tank',
+        },
+        {
+          mage: 'Mage',
+          archer: 'Archer',
+          healer: 'Healer',
+        },
+      ],
+    }
   },
 
   components: {

@@ -3,6 +3,7 @@
     <div class="name">{{ name }} {{ this.formattedLevel }}</div>
     <div class="xp" v-if="this.xp > 0">{{ formatNumber(this.xp) }} XP</div>
     <div class="xp" v-else>API DISABLED</div>
+
     <progress
       v-if="this.formattedLevel < this.maxLevel"
       class="progress is-primary"
