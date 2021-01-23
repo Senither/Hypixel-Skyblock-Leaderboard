@@ -50,38 +50,21 @@
             </div>
           </div>
           <div class="columns">
-            <div class="column">
-              <skill-progress :name="'Taming'" :level="player.taming" :xp="player.taming_xp" />
-
-              <skill-progress :name="'Mining'" :level="player.mining" :xp="player.mining_xp" />
-
-              <skill-progress :name="'Foraging'" :level="player.foraging" :xp="player.foraging_xp" />
-
-              <skill-progress :name="'Enchanting'" :level="player.enchanting" :xp="player.enchanting_xp" />
-
-              <skill-progress :name="'Carpentry'" :level="player.carpentry" :xp="player.carpentry_xp" />
-            </div>
-            <div class="column">
-              <skill-progress :name="'Farming'" :level="player.farming" :xp="player.farming_xp" />
-
-              <skill-progress :name="'Combat'" :level="player.combat" :xp="player.combat_xp" />
-
-              <skill-progress :name="'Fishing'" :level="player.fishing" :xp="player.fishing_xp" />
-
-              <skill-progress :name="'Alchemy'" :level="player.alchemy" :xp="player.alchemy_xp" />
-
+            <div class="column" v-for="group of skills">
               <skill-progress
-                :name="'Runecrafting'"
-                :level="player.runecrafting"
-                :xp="player.runecrafting_xp"
-                :max-level="25"
+                v-for="skill of Object.keys(group)"
+                :key="skill"
+                :name="group[skill].name"
+                :level="player[skill]"
+                :xp="player[skill + '_xp']"
+                :max-level="group[skill].maxLevel"
               />
             </div>
           </div>
 
           <div class="columns" v-if="!showSkills">
             <div class="column has-text-centered">
-              <a @click="viewSkills" class="button is-primary" :class="{ 'is-loading': this.loadingSkills }">
+              <a @click="viewSkills" class="button is-primary" :class="{ 'is-loading': loadingSkills }">
                 Show Skill Metrics
               </a>
             </div>
@@ -93,118 +76,14 @@
               </div>
             </div>
             <div class="columns">
-              <div class="column">
+              <div class="column" v-for="group of skillCharts">
                 <line-chart
-                  :name="'Taming Skills'"
-                  :type="'Taming Skills'"
-                  :keys="this.dates"
-                  :values="this.metrics.map(metric => metric.taming)"
-                />
-
-                <line-chart
-                  :name="'Mining Skills'"
-                  :type="'Mining Skills'"
-                  :keys="this.dates"
-                  :values="this.metrics.map(metric => metric.mining)"
-                />
-
-                <line-chart
-                  :name="'Foraging Skills'"
-                  :type="'Foraging Skills'"
-                  :keys="this.dates"
-                  :values="this.metrics.map(metric => metric.foraging)"
-                />
-
-                <line-chart
-                  :name="'Enchanting Skills'"
-                  :type="'Enchanting Skills'"
-                  :keys="this.dates"
-                  :values="this.metrics.map(metric => metric.enchanting)"
-                />
-
-                <line-chart
-                  :name="'Farming Skills'"
-                  :type="'Farming Skills'"
-                  :keys="this.dates"
-                  :values="this.metrics.map(metric => metric.farming)"
-                />
-
-                <line-chart
-                  :name="'Combat Skills'"
-                  :type="'Combat Skills'"
-                  :keys="this.dates"
-                  :values="this.metrics.map(metric => metric.combat)"
-                />
-
-                <line-chart
-                  :name="'Fishing Skills'"
-                  :type="'Fishing Skills'"
-                  :keys="this.dates"
-                  :values="this.metrics.map(metric => metric.fishing)"
-                />
-
-                <line-chart
-                  :name="'Alchemy Skills'"
-                  :type="'Alchemy Skills'"
-                  :keys="this.dates"
-                  :values="this.metrics.map(metric => metric.alchemy)"
-                />
-              </div>
-              <div class="column">
-                <line-chart
-                  :name="'Taming Experience'"
-                  :type="'Taming Experience'"
-                  :keys="this.dates"
-                  :values="this.metrics.map(metric => metric.taming_xp)"
-                />
-
-                <line-chart
-                  :name="'Mining Experience'"
-                  :type="'Mining Experience'"
-                  :keys="this.dates"
-                  :values="this.metrics.map(metric => metric.mining_xp)"
-                />
-
-                <line-chart
-                  :name="'Foraging Experience'"
-                  :type="'Foraging Experience'"
-                  :keys="this.dates"
-                  :values="this.metrics.map(metric => metric.foraging_xp)"
-                />
-
-                <line-chart
-                  :name="'Enchanting Experience'"
-                  :type="'Enchanting Experience'"
-                  :keys="this.dates"
-                  :values="this.metrics.map(metric => metric.enchanting_xp)"
-                />
-
-                <line-chart
-                  :name="'Farming Experience'"
-                  :type="'Farming Experience'"
-                  :keys="this.dates"
-                  :values="this.metrics.map(metric => metric.farming_xp)"
-                />
-
-                <line-chart
-                  :name="'Combat Experience'"
-                  :type="'Combat Experience'"
-                  :keys="this.dates"
-                  :values="this.metrics.map(metric => metric.combat_xp)"
-                />
-
-                <line-chart
-                  :name="'Fishing Experience'"
-                  :type="'Fishing Experience'"
-                  :keys="this.dates"
-                  :values="this.metrics.map(metric => metric.fishing_xp)"
-                />
-
-                <line-chart
-                  :name="'Alchemy Experience'"
-                  :type="'Alchemy Experience'"
-                  :keys="this.dates"
-                  :values="this.metrics.map(metric => metric.alchemy_xp)"
+                  v-for="skill of Object.keys(group)"
+                  :key="skill"
+                  :name="group[skill]"
+                  :type="group[skill]"
+                  :keys="dates"
+                  :values="metrics.map(metric => metric[skill])"
                 />
               </div>
             </div>
@@ -216,20 +95,14 @@
             </div>
           </div>
           <div class="columns">
-            <div class="column">
-              <slayer-progress :name="'Revenant'" :xp="player.revenant_xp" />
-            </div>
-            <div class="column">
-              <slayer-progress :name="'Tarantula'" :xp="player.tarantula_xp" />
-            </div>
-            <div class="column">
-              <slayer-progress :name="'Sven'" :xp="player.sven_xp" />
+            <div class="column" v-for="type of Object.keys(slayers)">
+              <slayer-progress :name="slayers[type]" :xp="player[type]" />
             </div>
           </div>
 
           <div class="columns" v-if="!showSlayers">
             <div class="column has-text-centered">
-              <a @click="viewSlayers" class="button is-primary" :class="{ 'is-loading': this.loadingSlayers }">
+              <a @click="viewSlayers" class="button is-primary" :class="{ 'is-loading': loadingSlayers }">
                 Show Slayer Metrics
               </a>
             </div>
@@ -243,24 +116,12 @@
             <div class="columns">
               <div class="column">
                 <line-chart
-                  :name="'Revenant Slayer'"
-                  :type="'Revenant Slayer'"
-                  :keys="this.dates"
-                  :values="this.metrics.map(metric => metric.revenant_xp)"
-                />
-
-                <line-chart
-                  :name="'Tarantula Slayer'"
-                  :type="'Tarantula Slayer'"
-                  :keys="this.dates"
-                  :values="this.metrics.map(metric => metric.tarantula_xp)"
-                />
-
-                <line-chart
-                  :name="'Sven Slayer'"
-                  :type="'Sven Slayer'"
-                  :keys="this.dates"
-                  :values="this.metrics.map(metric => metric.sven_xp)"
+                  v-for="type of Object.keys(slayers)"
+                  :key="type"
+                  :name="slayers[type] + ' Slayer'"
+                  :type="slayers[type] + ' Slayer'"
+                  :keys="dates"
+                  :values="metrics.map(metric => metric[type])"
                 />
               </div>
             </div>
@@ -272,26 +133,20 @@
             </div>
           </div>
           <div class="columns">
-            <div class="column">
-              <skill-progress :name="'Catacombs'" :level="player.catacomb" :xp="player.catacomb_xp" />
-
-              <skill-progress :name="'Berserker'" :level="player.berserk" :xp="player.berserk_xp" />
-
-              <skill-progress :name="'Tank'" :level="player.tank" :xp="player.tank_xp" />
-            </div>
-
-            <div class="column">
-              <skill-progress :name="'Mage'" :level="player.mage" :xp="player.mage_xp" />
-
-              <skill-progress :name="'Archer'" :level="player.archer" :xp="player.archer_xp" />
-
-              <skill-progress :name="'Healer'" :level="player.healer" :xp="player.healer_xp" />
+            <div class="column" v-for="dungeon of dungeons">
+              <skill-progress
+                v-for="type of Object.keys(dungeon)"
+                :key="type"
+                :name="dungeon[type]"
+                :level="player[type]"
+                :xp="player[type + '_xp']"
+              />
             </div>
           </div>
 
           <div class="columns" v-if="!showDungeons">
             <div class="column has-text-centered">
-              <a @click="viewDungeons" class="button is-primary" :class="{ 'is-loading': this.loadingDungeons }">
+              <a @click="viewDungeons" class="button is-primary" :class="{ 'is-loading': loadingDungeons }">
                 Show Dungeon Metrics
               </a>
             </div>
@@ -303,91 +158,14 @@
               </div>
             </div>
             <div class="columns">
-              <div class="column">
+              <div class="column" v-for="group of dungeonCharts">
                 <line-chart
-                  :name="'Catacombs Level'"
-                  :type="'Catacombs Level'"
-                  :keys="this.dates"
-                  :values="this.metrics.map(metric => metric.catacomb)"
-                />
-
-                <line-chart
-                  :name="'Healer Level'"
-                  :type="'Healer Level'"
-                  :keys="this.dates"
-                  :values="this.metrics.map(metric => metric.healer)"
-                />
-
-                <line-chart
-                  :name="'Mage Level'"
-                  :type="'Mage Level'"
-                  :keys="this.dates"
-                  :values="this.metrics.map(metric => metric.mage)"
-                />
-
-                <line-chart
-                  :name="'Berserker Level'"
-                  :type="'Berserker Level'"
-                  :keys="this.dates"
-                  :values="this.metrics.map(metric => metric.berserk)"
-                />
-
-                <line-chart
-                  :name="'Archer Level'"
-                  :type="'Archer Level'"
-                  :keys="this.dates"
-                  :values="this.metrics.map(metric => metric.archer)"
-                />
-
-                <line-chart
-                  :name="'Tank Level'"
-                  :type="'Tank Level'"
-                  :keys="this.dates"
-                  :values="this.metrics.map(metric => metric.tank)"
-                />
-              </div>
-
-              <div class="column">
-                <line-chart
-                  :name="'Catacombs XP'"
-                  :type="'Catacombs XP'"
-                  :keys="this.dates"
-                  :values="this.metrics.map(metric => metric.catacomb_xp)"
-                />
-
-                <line-chart
-                  :name="'Healer XP'"
-                  :type="'Healer XP'"
-                  :keys="this.dates"
-                  :values="this.metrics.map(metric => metric.healer_xp)"
-                />
-
-                <line-chart
-                  :name="'Mage XP'"
-                  :type="'Mage XP'"
-                  :keys="this.dates"
-                  :values="this.metrics.map(metric => metric.mage_xp)"
-                />
-
-                <line-chart
-                  :name="'Berserker XP'"
-                  :type="'Berserker XP'"
-                  :keys="this.dates"
-                  :values="this.metrics.map(metric => metric.berserk_xp)"
-                />
-
-                <line-chart
-                  :name="'Archer XP'"
-                  :type="'Archer XP'"
-                  :keys="this.dates"
-                  :values="this.metrics.map(metric => metric.archer_xp)"
-                />
-
-                <line-chart
-                  :name="'Tank XP'"
-                  :type="'Tank XP'"
-                  :keys="this.dates"
-                  :values="this.metrics.map(metric => metric.tank_xp)"
+                  v-for="type of Object.keys(group)"
+                  :key="type"
+                  :name="group[type]"
+                  :type="group[type]"
+                  :keys="dates"
+                  :values="metrics.map(metric => metric[type])"
                 />
               </div>
             </div>
@@ -460,6 +238,112 @@ export default {
       loadingSlayers: false,
       showDungeons: false,
       loadingDungeons: false,
+
+      skills: [
+        {
+          taming: {
+            name: 'Taming',
+            maxLevel: 50,
+          },
+          mining: {
+            name: 'Mining',
+            maxLevel: 60,
+          },
+          foraging: {
+            name: 'Foraging',
+            maxLevel: 50,
+          },
+          enchanting: {
+            name: 'Enchanting',
+            maxLevel: 60,
+          },
+          carpentry: {
+            name: 'Carpentry',
+            maxLevel: 50,
+          },
+        },
+        {
+          farming: {
+            name: 'Farming',
+            maxLevel: 60,
+          },
+          combat: {
+            name: 'Combat',
+            maxLevel: 50,
+          },
+          fishing: {
+            name: 'Fishing',
+            maxLevel: 50,
+          },
+          alchemy: {
+            name: 'Alchemy',
+            maxLevel: 50,
+          },
+          runecrafting: {
+            name: 'Runecrafting',
+            maxLevel: 25,
+          },
+        },
+      ],
+      skillCharts: [
+        {
+          taming: 'Taming Skills',
+          mining: 'Mining Skills',
+          foraging: 'Foraging Skills',
+          enchanting: 'Enchanting Skills',
+          farming: 'Farming Skills',
+          combat: 'Combat Skills',
+          fishing: 'Fishing Skills',
+          alchemy: 'Alchemy Skills',
+        },
+        {
+          taming_xp: 'Taming XP',
+          mining_xp: 'Mining XP',
+          foraging_xp: 'Foraging XP',
+          enchanting_xp: 'Enchanting XP',
+          farming_xp: 'Farming XP',
+          combat_xp: 'Combat XP',
+          fishing_xp: 'Fishing XP',
+          alchemy_xp: 'Alchemy XP',
+        },
+      ],
+
+      slayers: {
+        revenant_xp: 'Revenant',
+        tarantula_xp: 'Tarantula',
+        sven_xp: 'Sven',
+      },
+
+      dungeons: [
+        {
+          catacomb: 'Catacombs',
+          berserk: 'Berserker',
+          tank: 'Tank',
+        },
+        {
+          mage: 'Mage',
+          archer: 'Archer',
+          healer: 'Healer',
+        },
+      ],
+      dungeonCharts: [
+        {
+          catacomb: 'Catacombs Level',
+          healer: 'Healer Level',
+          mage: 'Mage Level',
+          berserk: 'Berserker Level',
+          archer: 'Archer Level',
+          tank: 'Tank Level',
+        },
+        {
+          catacomb_xp: 'Catacombs XP',
+          healer_xp: 'Healer XP',
+          mage_xp: 'Mage XP',
+          berserk_xp: 'Berserker XP',
+          archer_xp: 'Archer XP',
+          tank_xp: 'Tank XP',
+        },
+      ],
     }
   },
 
