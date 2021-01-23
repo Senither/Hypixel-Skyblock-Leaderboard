@@ -1,4 +1,3 @@
-
 /**
  * Run the migrations, adding slayer XP columns to the players table.
  *
@@ -6,19 +5,15 @@
  * @return {Promise}
  */
 exports.up = function (knex) {
-    return Promise.all([
-        knex.schema.table('players', table => {
-            table.integer ('secrets_found')
-                 .defaultTo(0)
-                 .after('catacomb_xp');
-        }),
-        knex.schema.table('player_metrics', table => {
-            table.integer ('secrets_found')
-                 .defaultTo(0)
-                 .after('catacomb_xp');
-        }),
-    ]);
-};
+  return Promise.all([
+    knex.schema.table('players', table => {
+      table.integer('secrets_found').defaultTo(0).after('catacomb_xp')
+    }),
+    knex.schema.table('player_metrics', table => {
+      table.integer('secrets_found').defaultTo(0).after('catacomb_xp')
+    }),
+  ])
+}
 
 /**
  * Reverse the migrations.
@@ -27,12 +22,12 @@ exports.up = function (knex) {
  * @return {Promise}
  */
 exports.down = function (knex) {
-    return Promise.all([
-        knex.schema.table('players', table => {
-            table.dropColumn('secrets_found');
-        }),
-        knex.schema.table('player_metrics', table => {
-            table.dropColumn('secrets_found');
-        }),
-    ]);
-};
+  return Promise.all([
+    knex.schema.table('players', table => {
+      table.dropColumn('secrets_found')
+    }),
+    knex.schema.table('player_metrics', table => {
+      table.dropColumn('secrets_found')
+    }),
+  ])
+}

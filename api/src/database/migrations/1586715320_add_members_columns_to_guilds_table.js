@@ -1,4 +1,3 @@
-
 /**
  * Run the migrations, creating the guilds table.
  *
@@ -6,12 +5,10 @@
  * @return {Promise}
  */
 exports.up = function (knex, Promise) {
-    return knex.schema.table('guilds', table => {
-        table.integer('members')
-             .defaultTo(0)
-             .after('average_slayer');
-    });
-};
+  return knex.schema.table('guilds', table => {
+    table.integer('members').defaultTo(0).after('average_slayer')
+  })
+}
 
 /**
  * Reverse the migrations.
@@ -20,7 +17,7 @@ exports.up = function (knex, Promise) {
  * @return {Promise}
  */
 exports.down = function (knex, Promise) {
-    return knex.schema.table('guilds', table => {
-        table.dropColumn('members');
-    });
-};
+  return knex.schema.table('guilds', table => {
+    table.dropColumn('members')
+  })
+}

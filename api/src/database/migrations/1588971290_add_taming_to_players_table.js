@@ -1,4 +1,3 @@
-
 /**
  * Run the migrations, adding slayer XP columns to the players table.
  *
@@ -6,15 +5,11 @@
  * @return {Promise}
  */
 exports.up = function (knex) {
-    return knex.schema.table('players', table => {
-        table.decimal('taming', 8)
-             .defaultTo(0)
-             .after('alchemy_xp');
-        table.decimal('taming_xp', 12)
-             .defaultTo(0)
-             .after('taming');
-    });
-};
+  return knex.schema.table('players', table => {
+    table.decimal('taming', 8).defaultTo(0).after('alchemy_xp')
+    table.decimal('taming_xp', 12).defaultTo(0).after('taming')
+  })
+}
 
 /**
  * Reverse the migrations.
@@ -23,7 +18,7 @@ exports.up = function (knex) {
  * @return {Promise}
  */
 exports.down = function (knex) {
-    return knex.schema.table('players', table => {
-        table.dropColumns(['taming', 'taming_xp']);
-    });
-};
+  return knex.schema.table('players', table => {
+    table.dropColumns(['taming', 'taming_xp'])
+  })
+}

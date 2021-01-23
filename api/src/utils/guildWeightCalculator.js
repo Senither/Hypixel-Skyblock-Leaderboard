@@ -1,47 +1,44 @@
-
 module.exports = function (guild) {
-    // Maxes out a level 50 average guild at 500 skill points, and
-    // setting the middle point in terms of points at level 41,
-    // which is the middle point in terms of XP in the game
-    let skill = Math.pow(guild.average_skill_progress * 10, 0.5 + (guild.average_skill_progress / 100));
+  // Maxes out a level 50 average guild at 500 skill points, and
+  // setting the middle point in terms of points at level 41,
+  // which is the middle point in terms of XP in the game
+  let skill = Math.pow(guild.average_skill_progress * 10, 0.5 + guild.average_skill_progress / 100)
 
-    // Calculates the catacomb weight by powering it by 2, and then
-    // dividing the result by 8.333, this will end up rewarding
-    // 300 points at max level on a soft exponential curve.
-    let catacomb = Math.pow(guild.average_catacomb, 2) / 8.3333333333333333;
+  // Calculates the catacomb weight by powering it by 2, and then
+  // dividing the result by 8.333, this will end up rewarding
+  // 300 points at max level on a soft exponential curve.
+  let catacomb = Math.pow(guild.average_catacomb, 2) / 8.3333333333333333
 
-    // Calcualtes the slayer weight with a flat curve,
-    // giving 1 point every 12,000 average slayer up
-    // to 3,000,000 XP, the weight past the 3 million
-    // limit is first divided by 18,000, and then
-    // reducded by 10%
-    let slayerOverflow = 3000000 - guild.average_slayer;
-    let slayer = slayerOverflow > 0
-        ? guild.average_slayer / 12000
-        : (guild.average_slayer + slayerOverflow) / 12000;
+  // Calcualtes the slayer weight with a flat curve,
+  // giving 1 point every 12,000 average slayer up
+  // to 3,000,000 XP, the weight past the 3 million
+  // limit is first divided by 18,000, and then
+  // reducded by 10%
+  let slayerOverflow = 3000000 - guild.average_slayer
+  let slayer = slayerOverflow > 0 ? guild.average_slayer / 12000 : (guild.average_slayer + slayerOverflow) / 12000
 
-    if (slayerOverflow < 0) {
-        slayer += Math.pow((slayerOverflow * -1) / 18000, .90);
-    }
+  if (slayerOverflow < 0) {
+    slayer += Math.pow((slayerOverflow * -1) / 18000, 0.9)
+  }
 
-    // Creates the multiplier, where the max value is 1 at 125 members
-    // which is the guild member limit on Hypixel, guilds with less
-    // points will have points deducted from their total score
-    // depending on the amount of missing players.
-    let frequency = Math.sin(guild.members / (125 / .927296)) + .2;
+  // Creates the multiplier, where the max value is 1 at 125 members
+  // which is the guild member limit on Hypixel, guilds with less
+  // points will have points deducted from their total score
+  // depending on the amount of missing players.
+  let frequency = Math.sin(guild.members / (125 / 0.927296)) + 0.2
 
-    let multiplier = (guild.members / 125) + (1 - guild.members / 125) * frequency;
+  let multiplier = guild.members / 125 + (1 - guild.members / 125) * frequency
 
-    // Calculates the total amount of points for the guild by summing
-    // up our values and using our multiplier to deduct points
-    // if the guild has a low member count.
-    let total = (skill + catacomb + slayer) * multiplier;
+  // Calculates the total amount of points for the guild by summing
+  // up our values and using our multiplier to deduct points
+  // if the guild has a low member count.
+  let total = (skill + catacomb + slayer) * multiplier
 
-    return {
-        total: parseFloat(total.toFixed(3)),
-        skill: parseFloat(skill.toFixed(3)),
-        slayer: parseFloat(slayer.toFixed(3)),
-        catacomb: parseFloat(catacomb.toFixed(3)),
-        multiplier: parseFloat(multiplier.toFixed(3)),
-    };
-};
+  return {
+    total: parseFloat(total.toFixed(3)),
+    skill: parseFloat(skill.toFixed(3)),
+    slayer: parseFloat(slayer.toFixed(3)),
+    catacomb: parseFloat(catacomb.toFixed(3)),
+    multiplier: parseFloat(multiplier.toFixed(3)),
+  }
+}

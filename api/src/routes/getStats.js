@@ -1,7 +1,5 @@
-
-const app = require('../application');
-
-const config = require('../../config.json');
+const app = require('../application')
+const config = require('../../config.json')
 
 /**
  * The local in-memory cache object that
@@ -9,7 +7,7 @@ const config = require('../../config.json');
  *
  * @type {Object}
  */
-const cache = {};
+const cache = {}
 
 /**
  * Gets the given entiry fingerprint from the in-memory cache if it exists,
@@ -21,16 +19,16 @@ const cache = {};
  * @return {Integer}
  */
 async function getCacheEntity(fingerprint, callback) {
-    if (cache.hasOwnProperty(fingerprint)) {
-        return cache[fingerprint];
-    }
+  if (cache.hasOwnProperty(fingerprint)) {
+    return cache[fingerprint]
+  }
 
-    const result = await callback();
+  const result = await callback()
 
-    cache[fingerprint] = result.pop().total;
-    setTimeout(() => delete cache[fingerprint], 60000);
+  cache[fingerprint] = result.pop().total
+  setTimeout(() => delete cache[fingerprint], 60000)
 
-    return cache[fingerprint];
+  return cache[fingerprint]
 }
 
 /**
@@ -41,7 +39,7 @@ async function getCacheEntity(fingerprint, callback) {
  * @return {Object}
  */
 async function createCounterQuery(table, column) {
-    return app.database.getClient().table(table).count({ total: column });
+  return app.database.getClient().table(table).count({ total: column })
 }
 
 /**
@@ -54,19 +52,21 @@ async function createCounterQuery(table, column) {
  * @return {Object}
  */
 module.exports = async (request, response) => {
-    response.json({
-        status: 200,
-        data: {
-            guilds: await getCacheEntity('guilds', async () => {
-                return [{
-                    total: Object.values(config.guilds).filter(guild => {
-                        return guild == null || ! guild.hasOwnProperty('hidden');
-                    }).length
-                }];
-            }),
-            guilds_metrics: await getCacheEntity('guildMetrics', async () => createCounterQuery('metrics', 'id')),
-            players: await getCacheEntity('players', async () => createCounterQuery('players', 'uuid')),
-            players_metrics: await getCacheEntity('playerMetrics', async () => createCounterQuery('player_metrics', 'id')),
-        }
-    });
-};
+  response.json({
+    status: 200,
+    data: {
+      guilds: await getCacheEntity('guilds', async () => {
+        return [
+          {
+            total: Object.values(config.guilds).filter(guild => {
+              return guild == null || !guild.hasOwnProperty('hidden')
+            }).length,
+          },
+        ]
+      }),
+      guilds_metrics: await getCacheEntity('guildMetrics', async () => createCounterQuery('metrics', 'id')),
+      players: await getCacheEntity('players', async () => createCounterQuery('players', 'uuid')),
+      players_metrics: await getCacheEntity('playerMetrics', async () => createCounterQuery('player_metrics', 'id')),
+    },
+  })
+}
