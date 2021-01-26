@@ -1,4 +1,5 @@
 import LandingPage from '@/views/LandingPage'
+import Requirements from '@/views/Requirements'
 
 import ListGuilds from '@/views/guilds/ListGuilds'
 import ShowGuild from '@/views/guilds/ShowGuild'
@@ -15,6 +16,11 @@ export default [
     path: '/',
     name: 'landing-page',
     component: LandingPage,
+  },
+  {
+    path: '/new-requirements',
+    name: 'new-requirements',
+    component: Requirements,
   },
   {
     path: '/guilds',
