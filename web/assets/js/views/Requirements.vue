@@ -95,7 +95,7 @@
               </tr>
               <tr>
                 <td>Slayers</td>
-                <td>250K</td>
+                <td>150K</td>
                 <td><arrow /></td>
                 <td class="has-text-right">250K</td>
               </tr>
