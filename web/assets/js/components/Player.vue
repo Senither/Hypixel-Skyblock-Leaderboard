@@ -3,7 +3,7 @@
     <header class="card-header">
       <div v-on:click="toggleCollaps(player)" class="columns is-clickable is-gapless" style="width: 100%">
         <p class="card-header-title">
-          <span class="tag is-primary player-rank" :class="{ 'is-active': !player.collaps }">#{{ rank }}</span>
+          <span class="tag is-primary player-rank" :class="{ 'is-active': !player.collaps }"> #{{ rank }} </span>
           {{ player.username }}
         </p>
         <div class="is-centered player-tags">
@@ -19,19 +19,25 @@
             <div class="control">
               <div class="tags has-addons">
                 <span class="tag is-dark">Average Skill</span>
-                <span class="tag is-primary">{{ formatNumber(player.average_skill, 2) }}</span>
+                <span class="tag is-primary">
+                  {{ formatNumber(player.average_skill, 2) }}
+                </span>
               </div>
             </div>
             <div class="control">
               <div class="tags has-addons">
                 <span class="tag is-dark">Slayer</span>
-                <span class="tag is-danger">{{ formatNumber(player.total_slayer) }}</span>
+                <span class="tag is-danger">
+                  {{ formatNumber(player.total_slayer) }}
+                </span>
               </div>
             </div>
             <div class="control">
               <div class="tags has-addons">
                 <span class="tag is-dark">Catacomb</span>
-                <span class="tag is-success">{{ formatNumber(player.catacomb) }}</span>
+                <span class="tag is-success">
+                  {{ formatNumber(player.catacomb) }}
+                </span>
               </div>
             </div>
           </div>
@@ -86,13 +92,7 @@
         </div>
         <div class="columns">
           <div class="column" v-for="dungeon of dungeons">
-            <skill-progress
-              v-for="type of Object.keys(dungeon)"
-              :key="type"
-              :name="dungeon[type]"
-              :level="player[type]"
-              :xp="player[type + '_xp']"
-            />
+            <skill-progress v-for="type of Object.keys(dungeon)" :key="type" :name="dungeon[type]" :level="player[type]" :xp="player[type + '_xp']" />
           </div>
         </div>
       </div>
@@ -108,13 +108,9 @@
       >
         View Metrics
       </router-link>
-      <a :href="`https://sky.shiiyu.moe/stats/${player.username}`" target="blank" class="card-footer-item"
-        >View on sky.shiiyu.moe</a
-      >
-      <a :href="`https://namemc.com/profile/${player.uuid}`" target="blank" class="card-footer-item">View on NameMC</a>
-      <a :href="`https://plancke.io/hypixel/player/stats/${player.uuid}`" target="blank" class="card-footer-item"
-        >View on Plancke</a
-      >
+      <a :href="`https://sky.shiiyu.moe/stats/${player.username}`" target="blank" class="card-footer-item"> View on sky.shiiyu.moe </a>
+      <a :href="`https://namemc.com/profile/${player.uuid}`" target="blank" class="card-footer-item"> View on NameMC </a>
+      <a :href="`https://plancke.io/hypixel/player/stats/${player.uuid}`" target="blank" class="card-footer-item"> View on Plancke </a>
     </footer>
   </article>
 </template>
