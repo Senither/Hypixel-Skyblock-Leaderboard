@@ -6,10 +6,10 @@
       <div class="column">
         <div class="tabs is-toggle is-fullwidth">
           <ul>
-            <li
-              @click="clickSort('average_skill_progress')"
-              :class="{ 'is-active': this.sortMethod == 'average_skill_progress' }"
-            >
+            <li @click="clickSort('weight')" :class="{ 'is-active': this.sortMethod == 'weight' }">
+              <a>Sort by Weight</a>
+            </li>
+            <li @click="clickSort('average_skill_progress')" :class="{ 'is-active': this.sortMethod == 'average_skill_progress' }">
               <a>Sort by Skills</a>
             </li>
             <li @click="clickSort('total_slayer')" :class="{ 'is-active': this.sortMethod == 'total_slayer' }">
@@ -56,7 +56,7 @@ export default {
     return {
       isLoading: true,
       players: null,
-      sortMethod: 'average_skill_progress',
+      sortMethod: 'weight',
     }
   },
 
@@ -69,6 +69,9 @@ export default {
   computed: {
     sortedPlayers() {
       return this.players.sort((v1, v2) => {
+        if (this.sortMethod == 'weight') {
+          return v2.weight.total > v1.weight.total ? 1 : -1
+        }
         return v2[this.sortMethod] > v1[this.sortMethod] ? 1 : -1
       })
     },

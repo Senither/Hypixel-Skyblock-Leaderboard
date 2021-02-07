@@ -10,6 +10,14 @@
           <div class="field is-grouped is-centered is-grouped-multiline" style="margin: auto">
             <div class="control">
               <div class="tags has-addons">
+                <span class="tag is-dark">Weight</span>
+                <span class="tag is-purple">
+                  {{ formatNumber(player.weight.total.toFixed(2), 2) }}
+                </span>
+              </div>
+            </div>
+            <div class="control">
+              <div class="tags has-addons">
                 <span class="tag is-dark">Average Skill Progress</span>
                 <span class="tag is-info">
                   {{ formatNumber(player.average_skill_progress, 2) }}
@@ -61,6 +69,20 @@
         <div class="columns">
           <div class="column has-text-centered">
             <h4>Skills</h4>
+            <div class="is-center" style="display: flex">
+              <div class="field is-grouped is-centered is-grouped-multiline" style="margin: auto">
+                <div class="field is-grouped is-centered">
+                  <div class="control">
+                    <div class="tags has-addons">
+                      <span class="tag" style="background-color: #242a2a">Skill Weight</span>
+                      <span class="tag is-purple">
+                        {{ formatNumber((parseFloat(player.weight.skills.total.weight) + parseFloat(player.weight.skills.total.overflow)).toFixed(2), 2) }}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         <div class="columns">
@@ -78,6 +100,20 @@
         <div class="columns">
           <div class="column has-text-centered">
             <h4>Slayers</h4>
+            <div class="is-center" style="display: flex">
+              <div class="field is-grouped is-centered is-grouped-multiline" style="margin: auto">
+                <div class="field is-grouped is-centered">
+                  <div class="control">
+                    <div class="tags has-addons">
+                      <span class="tag" style="background-color: #242a2a">Slayers Weight</span>
+                      <span class="tag is-purple">
+                        {{ formatNumber((parseFloat(player.weight.slayers.total.weight) + parseFloat(player.weight.slayers.total.overflow)).toFixed(2), 2) }}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         <div class="columns">
@@ -88,6 +124,20 @@
         <div class="columns">
           <div class="column has-text-centered">
             <h4>Dungeons</h4>
+            <div class="is-center" style="display: flex">
+              <div class="field is-grouped is-centered is-grouped-multiline" style="margin: auto">
+                <div class="field is-grouped is-centered">
+                  <div class="control">
+                    <div class="tags has-addons">
+                      <span class="tag" style="background-color: #242a2a">Dungeon Weight</span>
+                      <span class="tag is-purple">
+                        {{ formatNumber((parseFloat(player.weight.dungeons.total.weight) + parseFloat(player.weight.dungeons.total.overflow)).toFixed(2), 2) }}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         <div class="columns">
