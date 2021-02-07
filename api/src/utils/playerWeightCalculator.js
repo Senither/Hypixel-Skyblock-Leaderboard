@@ -262,7 +262,7 @@ function calculatePlayerDungeonWeight(player) {
 
     // Calculates the dungeon overflow weight and returns it to the weight object builder.
     return {
-      weight: slayerWeight,
+      weight: base,
       overflow: Math.pow(remaining / splitter, 0.968),
     }
   })
