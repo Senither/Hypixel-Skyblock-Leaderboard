@@ -8,19 +8,12 @@
               <p><strong>Requirement update!</strong></p>
               <p>
                 The requirements to join the leaderboard will be raised on the
-                <u>26th of February</u>, all guilds applying to be on the
-                leaderboard must meet the new requirements from then on, and
-                guilds already on the leaderboard must meet the new stay
-                requirements.
+                <u>26th of February</u>, all guilds applying to be on the leaderboard must meet the new requirements from then on, and guilds already on the
+                leaderboard must meet the new stay requirements.
               </p>
             </div>
             <div class="column has-text-right">
-              <router-link
-                :to="{ name: 'new-requirements' }"
-                class="button is-info is-right"
-              >
-                View new Requirements
-              </router-link>
+              <router-link :to="{ name: 'new-requirements' }" class="button is-info is-right"> View new Requirements </router-link>
             </div>
           </div>
         </div>
@@ -36,20 +29,15 @@
     <transition-page :type="'slide-from-bottom'">
       <footer class="footer" v-if="!isLoading">
         <div class="content has-text-centered">
+          <!-- prettier-ignore -->
           <p>
-            Created by <a href="https://senither.com/">Alexis Tan</a>, powered
-            by <a href="https://bulma.io/">Bulma</a>,
+            Created by <a href="https://senither.com/">Alexis Tan</a>,
+            powered by <a href="https://bulma.io/">Bulma</a>,
             <a href="https://vuejs.org/">VueJS</a>, and
-            <a href="https://apexcharts.com/">ApexCharts</a>, theme by
-            <a href="https://jenil.github.io/bulmaswatch/">Bulmaswatch</a>.
-            <br />Get the
-            <a href="https://github.com/Senither/Hypixel-Skyblock-Leaderboard"
-              >source code</a
-            >
-            on
-            <a href="https://github.com/Senither/Hypixel-Skyblock-Leaderboard"
-              >GitHub</a
-            >.
+            <a href="https://apexcharts.com/">ApexCharts</a>,
+            theme by <a href="https://jenil.github.io/bulmaswatch/">Bulmaswatch</a>.
+            <br />Get the <a href="https://github.com/Senither/Hypixel-Skyblock-Leaderboard">source code</a> on
+            <a href="https://github.com/Senither/Hypixel-Skyblock-Leaderboard">GitHub</a>.
           </p>
         </div>
       </footer>
@@ -88,9 +76,7 @@ export default {
         let guildRank = 1
         let guilds = response.data.data
           .sort((v1, v2) => {
-            return v2.average_skill_progress > v1.average_skill_progress
-              ? 1
-              : -1
+            return v2.average_skill_progress > v1.average_skill_progress ? 1 : -1
           })
           .map((guild, index) => {
             if (guild.meta.hasOwnProperty('hidden')) {

@@ -50,15 +50,7 @@ async function paginateResponse(request, query) {
 module.exports = async (request, response) => {
   let query = app.database
     .getClient()
-    .select([
-      'history.id',
-      'history.uuid',
-      'history.username',
-      'guilds.uuid as guild_id',
-      'guilds.name as guild_name',
-      'history.type',
-      'history.created_at',
-    ])
+    .select(['history.id', 'history.uuid', 'history.username', 'guilds.uuid as guild_id', 'guilds.name as guild_name', 'history.type', 'history.created_at'])
     .from('history')
     .leftJoin('guilds', function () {
       return this.on('history.guild_id', '=', 'guilds.id')

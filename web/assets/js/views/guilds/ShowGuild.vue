@@ -92,8 +92,7 @@
           <div class="columns" v-if="guild.meta.hasOwnProperty('hidden')">
             <div class="column">
               <div class="notification is-danger" style="max-width: 50vw; margin: auto">
-                This guild has been hidden from the guild leaderboard, however players in the guild will still show up
-                on the player leaderboard.
+                This guild has been hidden from the guild leaderboard, however players in the guild will still show up on the player leaderboard.
               </div>
             </div>
           </div>
@@ -238,7 +237,7 @@ export default {
       let multiplier = this.guild.weight.multiplier
       let parts = this.formatNumber(multiplier * 100, 2)
         .split(',')[0]
-        .split('\.')
+        .split('.')
 
       if (parts[1] == '00') {
         return parts[0] + '%'

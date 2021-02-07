@@ -74,12 +74,7 @@
 
           <hr v-if="paginate != null" />
 
-          <pagination
-            class="box"
-            v-if="paginate != null"
-            :pagination="paginate"
-            @go-to-page="handlePaginationNavigation"
-          />
+          <pagination class="box" v-if="paginate != null" :pagination="paginate" @go-to-page="handlePaginationNavigation" />
         </div>
       </div>
     </section>

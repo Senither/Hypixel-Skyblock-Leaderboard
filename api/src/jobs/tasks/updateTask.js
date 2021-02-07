@@ -51,12 +51,7 @@ class UpdateTask extends Task {
     let time = new Date()
     time.setDate(time.getDate() - 1)
 
-    this.guild = await app.database
-      .getClient()
-      .table('guilds')
-      .where('last_updated_at', '<', time)
-      .orderBy('last_updated_at')
-      .first()
+    this.guild = await app.database.getClient().table('guilds').where('last_updated_at', '<', time).orderBy('last_updated_at').first()
 
     if (this.guild == null && this.guild == undefined) {
       Logger.info(' - No guilds that are ready to be updated were found!')
@@ -176,10 +171,7 @@ class UpdateTask extends Task {
         } else if (error.message.includes('timeout of')) {
           Logger.error(`The request timed out for ${member.uuid}, ${retrying}!`)
         } else {
-          Logger.error(
-            `An unknown error occurred while trying to update player data for ${member.uuid}, ${retrying}, error:`,
-            error.message
-          )
+          Logger.error(`An unknown error occurred while trying to update player data for ${member.uuid}, ${retrying}, error:`, error.message)
         }
 
         this.members.push(member)
@@ -190,11 +182,7 @@ class UpdateTask extends Task {
   }
 
   async updatePlayerForGuild(app, player) {
-    Logger.info(
-      `Looking up stats for ${player.uuid} (${this.profiles.length + 1} out of ${
-        this.members.length + this.profiles.length + 1
-      })`
-    )
+    Logger.info(`Looking up stats for ${player.uuid} (${this.profiles.length + 1} out of ${this.members.length + this.profiles.length + 1})`)
 
     let response = await app.http.get(`player/${player.uuid}`)
     if (response.status != 200) {

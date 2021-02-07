@@ -9,14 +9,11 @@
             <u>26th of February</u>!
           </h2>
           <p class="box">
-            All guilds applying to be on the leaderboard must meet the new
-            requirements from the 26th, and guilds already on the leaderboard
-            must meet the new stay requirements.
-            <br />This is done in response to the growing amount of guilds on
-            the leaderboard, and to try to make the leaderboard more of what it
-            was actually supposed to be originally, a leaderboard of some of the
-            "top guilds" in the game, this change should also help remove some
-            of the inactive guilds from the leaderboard.
+            All guilds applying to be on the leaderboard must meet the new requirements from the 26th, and guilds already on the leaderboard must meet the new
+            stay requirements.
+            <br />This is done in response to the growing amount of guilds on the leaderboard, and to try to make the leaderboard more of what it was actually
+            supposed to be originally, a leaderboard of some of the "top guilds" in the game, this change should also help remove some of the inactive guilds
+            from the leaderboard.
           </p>
 
           <br />

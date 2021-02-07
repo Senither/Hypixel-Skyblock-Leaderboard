@@ -15,51 +15,51 @@ export default [
   {
     path: '/',
     name: 'landing-page',
-    component: LandingPage,
+    component: LandingPage
   },
   {
     path: '/new-requirements',
     name: 'new-requirements',
-    component: Requirements,
+    component: Requirements
   },
   {
     path: '/guilds',
     name: 'guilds',
-    component: ListGuilds,
+    component: ListGuilds
   },
   {
     path: '/guilds/:id',
     name: 'guilds.show',
-    component: ShowGuild,
+    component: ShowGuild
   },
   {
     path: '/compare-guilds/:ids?',
     name: 'guilds.compare',
-    component: CompareGuilds,
+    component: CompareGuilds
   },
   {
     path: '/players',
     name: 'players',
-    component: ListPlayers,
+    component: ListPlayers
   },
   {
     path: '/players/:uuid',
     name: 'players.show',
-    component: ShowPlayer,
+    component: ShowPlayer
   },
   {
     path: '/history/player/:uuid',
     name: 'history.player',
-    component: ShowPlayerHistory,
+    component: ShowPlayerHistory
   },
   {
     path: '/history/guild/:id',
     name: 'history.guild',
-    component: ShowGuildHistory,
+    component: ShowGuildHistory
   },
   {
     path: '/*',
     name: 'not-found',
-    redirect: '/',
-  },
+    redirect: '/'
+  }
 ]

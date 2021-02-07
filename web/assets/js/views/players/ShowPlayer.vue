@@ -15,15 +15,9 @@
             <router-link :to="{ name: 'history.player', params: { uuid: player.uuid } }" class="button is-small">
               <span>View Guild History</span>
             </router-link>
-            <a :href="`https://sky.shiiyu.moe/stats/${player.username}`" target="blank" class="button is-small"
-              >View on sky.shiiyu.moe</a
-            >
-            <a :href="`https://namemc.com/profile/${player.uuid}`" target="blank" class="button is-small"
-              >View on NameMC</a
-            >
-            <a :href="`https://plancke.io/hypixel/player/stats/${player.uuid}`" target="blank" class="button is-small"
-              >View on Plancke</a
-            >
+            <a :href="`https://sky.shiiyu.moe/stats/${player.username}`" target="blank" class="button is-small">View on sky.shiiyu.moe</a>
+            <a :href="`https://namemc.com/profile/${player.uuid}`" target="blank" class="button is-small">View on NameMC</a>
+            <a :href="`https://plancke.io/hypixel/player/stats/${player.uuid}`" target="blank" class="button is-small">View on Plancke</a>
           </p>
 
           <br />
@@ -43,8 +37,7 @@
             <div class="column has-text-centered">
               <h3 class="subtitle is-3">Skills & Averages</h3>
               <p>
-                {{ player.username }}'s average skill level is
-                <strong class="tag">{{ player.average_skill_progress }}</strong> or
+                {{ player.username }}'s average skill level is <strong class="tag">{{ player.average_skill_progress }}</strong> or
                 <strong class="tag">{{ player.average_skill }}</strong> without skill progress.
               </p>
             </div>
@@ -64,9 +57,7 @@
 
           <div class="columns" v-if="!showSkills">
             <div class="column has-text-centered">
-              <a @click="viewSkills" class="button is-primary" :class="{ 'is-loading': loadingSkills }">
-                Show Skill Metrics
-              </a>
+              <a @click="viewSkills" class="button is-primary" :class="{ 'is-loading': loadingSkills }"> Show Skill Metrics </a>
             </div>
           </div>
           <div v-else>
@@ -102,9 +93,7 @@
 
           <div class="columns" v-if="!showSlayers">
             <div class="column has-text-centered">
-              <a @click="viewSlayers" class="button is-primary" :class="{ 'is-loading': loadingSlayers }">
-                Show Slayer Metrics
-              </a>
+              <a @click="viewSlayers" class="button is-primary" :class="{ 'is-loading': loadingSlayers }"> Show Slayer Metrics </a>
             </div>
           </div>
           <div v-else>
@@ -134,21 +123,13 @@
           </div>
           <div class="columns">
             <div class="column" v-for="dungeon of dungeons">
-              <skill-progress
-                v-for="type of Object.keys(dungeon)"
-                :key="type"
-                :name="dungeon[type]"
-                :level="player[type]"
-                :xp="player[type + '_xp']"
-              />
+              <skill-progress v-for="type of Object.keys(dungeon)" :key="type" :name="dungeon[type]" :level="player[type]" :xp="player[type + '_xp']" />
             </div>
           </div>
 
           <div class="columns" v-if="!showDungeons">
             <div class="column has-text-centered">
-              <a @click="viewDungeons" class="button is-primary" :class="{ 'is-loading': loadingDungeons }">
-                Show Dungeon Metrics
-              </a>
+              <a @click="viewDungeons" class="button is-primary" :class="{ 'is-loading': loadingDungeons }"> Show Dungeon Metrics </a>
             </div>
           </div>
           <div v-else>

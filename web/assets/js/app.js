@@ -5,7 +5,7 @@ import Axios from 'axios'
 
 window.axios = Axios.create({
   baseURL: configApiUrl,
-  timeout: 10000,
+  timeout: 10000
 })
 
 Vue.use(Taginput)
@@ -22,8 +22,8 @@ Vue.mixin({
         return number.split('.')[0] + '.' + remaining
       }
       return number
-    },
-  },
+    }
+  }
 })
 
 import router from './router'
@@ -32,7 +32,7 @@ import App from './views/App'
 const app = new Vue({
   el: '#app',
   components: {
-    App,
+    App
   },
-  router,
+  router
 })

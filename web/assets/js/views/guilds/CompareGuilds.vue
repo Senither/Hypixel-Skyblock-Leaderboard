@@ -35,36 +35,16 @@
         <div class="columns" v-if="selectedGuilds.length > 0">
           <div class="column">
             <h4 class="subtitle has-text-centered is-4">Skill Metrics</h4>
-            <line-chart
-              :name="'Average Skills (Last 90 days)'"
-              :type="'Average Skills'"
-              :keys="this.metricDates"
-              :values="this.skillsMetrics"
-            />
+            <line-chart :name="'Average Skills (Last 90 days)'" :type="'Average Skills'" :keys="this.metricDates" :values="this.skillsMetrics" />
 
             <h4 class="subtitle has-text-centered is-4">Slayer Metrics</h4>
-            <line-chart
-              :name="'Average Slayers (Last 90 days)'"
-              :type="'Average Slayers'"
-              :keys="this.metricDates"
-              :values="this.slayersMetrics"
-            />
+            <line-chart :name="'Average Slayers (Last 90 days)'" :type="'Average Slayers'" :keys="this.metricDates" :values="this.slayersMetrics" />
 
             <h4 class="subtitle has-text-centered is-4">Member Metrics</h4>
-            <line-chart
-              :name="'Members (Last 90 days)'"
-              :type="'Members'"
-              :keys="this.metricDates"
-              :values="this.membersMetrics"
-            />
+            <line-chart :name="'Members (Last 90 days)'" :type="'Members'" :keys="this.metricDates" :values="this.membersMetrics" />
 
             <h4 class="subtitle has-text-centered is-4">Weight Metrics</h4>
-            <line-chart
-              :name="'Weight (Last 90 days)'"
-              :type="'Weight'"
-              :keys="this.metricDates"
-              :values="this.weightMetrics"
-            />
+            <line-chart :name="'Weight (Last 90 days)'" :type="'Weight'" :keys="this.metricDates" :values="this.weightMetrics" />
           </div>
         </div>
         <div class="columns" v-else>

@@ -4,10 +4,7 @@
       <div class="hero-body">
         <div class="container">
           <h1 class="title">Hypixel SkyBlock Player Leaderboard</h1>
-          <h2 class="subtitle">
-            Currently tracking {{ formatNumber(stats.players) }} players with
-            {{ formatNumber(stats.players_metrics) }} metrics!
-          </h2>
+          <h2 class="subtitle">Currently tracking {{ formatNumber(stats.players) }} players with {{ formatNumber(stats.players_metrics) }} metrics!</h2>
 
           <router-link :to="{ name: 'landing-page' }" class="button">
             <span class="icon is-small">
@@ -21,12 +18,7 @@
 
     <div class="columns">
       <div class="column">
-        <input
-          type="text"
-          class="input is-large"
-          placeholder="Enter the username of a player here to find their stats"
-          v-model="username"
-        />
+        <input type="text" class="input is-large" placeholder="Enter the username of a player here to find their stats" v-model="username" />
       </div>
     </div>
 
@@ -51,12 +43,7 @@
                 <th class="is-clickable">
                   <div class="select is-small">
                     <select @change="selectCustomSort">
-                      <option
-                        v-for="name of Object.keys(sortableColumns)"
-                        :key="name"
-                        :value="name"
-                        :selected="customValue == name"
-                      >
+                      <option v-for="name of Object.keys(sortableColumns)" :key="name" :value="name" :selected="customValue == name">
                         {{ name }}
                       </option>
                     </select>
@@ -72,9 +59,7 @@
                 <td>{{ player.username }}</td>
                 <td>{{ player.guild_name }}</td>
                 <td>
-                  <span class="tag is-purple">{{
-                    player.weight.total == null ? 0 : formatNumber(player.weight.total.toFixed(2))
-                  }}</span>
+                  <span class="tag is-purple">{{ player.weight.total == null ? 0 : formatNumber(player.weight.total.toFixed(2)) }}</span>
                 </td>
                 <td>
                   <div class="tags has-addons">
@@ -221,8 +206,7 @@ export default {
           player.custom_value = value == -1 ? -1 : this.formatNumber(value)
 
           player.rank = rankCounter++
-          player.last_updated_at_humanized =
-            moment(player.last_updated_at).toNow().split(' ').splice(1).join(' ') + ' ago'
+          player.last_updated_at_humanized = moment(player.last_updated_at).toNow().split(' ').splice(1).join(' ') + ' ago'
 
           return player
         })

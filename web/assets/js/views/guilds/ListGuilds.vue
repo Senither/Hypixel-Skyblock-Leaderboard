@@ -4,9 +4,7 @@
       <div class="hero-body">
         <div class="container">
           <h1 class="title">Hypixel SkyBlock Guild Leaderboard</h1>
-          <h2 class="subtitle">
-            Currently tracking {{ formatNumber(stats.guilds) }} guilds with {{ formatNumber(stats.players) }} members!
-          </h2>
+          <h2 class="subtitle">Currently tracking {{ formatNumber(stats.guilds) }} guilds with {{ formatNumber(stats.players) }} members!</h2>
 
           <router-link :to="{ name: 'landing-page' }" class="button">
             <span class="icon is-small">
@@ -53,11 +51,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr
-                v-for="(guild, index) of guilds"
-                @click="clickGuild(guild)"
-                :class="{ 'was-skipped': guild.last_skipped_at !== null }"
-              >
+              <tr v-for="(guild, index) of guilds" @click="clickGuild(guild)" :class="{ 'was-skipped': guild.last_skipped_at !== null }">
                 <th>{{ index + 1 }}</th>
                 <td>{{ guild.name }}</td>
                 <td
@@ -142,17 +136,10 @@ export default {
         .sort((v1, v2) => {
           let getProperty = this.sorter == 'weight' ? type => type.weight.total : type => type[this.sorter]
 
-          return this.reverseSort
-            ? getProperty(v1) > getProperty(v2)
-              ? 1
-              : -1
-            : getProperty(v2) > getProperty(v1)
-            ? 1
-            : -1
+          return this.reverseSort ? (getProperty(v1) > getProperty(v2) ? 1 : -1) : getProperty(v2) > getProperty(v1) ? 1 : -1
         })
         .map(guild => {
-          guild.last_updated_at_humanized =
-            moment(guild.last_updated_at).toNow().split(' ').splice(1).join(' ') + ' ago'
+          guild.last_updated_at_humanized = moment(guild.last_updated_at).toNow().split(' ').splice(1).join(' ') + ' ago'
 
           return guild
         })

@@ -102,9 +102,8 @@
             <div class="column">
               <h3 class="subtitle is-3 has-text-centered">Leaderboard Requirements</h3>
               <p>
-                Guilds on the leaderboard must meet the requirements below to be added to the leaderboard. <br />If you
-                think a guild meets the requirements that aren't already on the leaderboard, you can contact
-                <a>Senither#0001</a> on Discord, or join the
+                Guilds on the leaderboard must meet the requirements below to be added to the leaderboard. <br />If you think a guild meets the requirements
+                that aren't already on the leaderboard, you can contact <a>Senither#0001</a> on Discord, or join the
                 <a target="blank" href="http://discord.gg/UY7XJs9">Trouble Brewing</a> Discord server.
               </p>
 
@@ -188,8 +187,7 @@
               <br />
 
               <p>
-                If a guild falls below the <strong>Stay requirements</strong>, they will have a grace period of
-                <strong>5 days</strong> before being removed.
+                If a guild falls below the <strong>Stay requirements</strong>, they will have a grace period of <strong>5 days</strong> before being removed.
               </p>
             </div>
           </div>

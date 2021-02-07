@@ -1,9 +1,7 @@
 <template>
   <nav class="pagination is-centered" role="navigation" aria-label="pagination" v-if="hasMoreThanOnePage">
     <a v-on:click="navigateTo(currentPage - 1)" :disabled="currentPage <= 1" class="pagination-previous">Previous</a>
-    <a v-on:click="navigateTo(currentPage + 1)" :disabled="currentPage >= lastPage" class="pagination-next"
-      >Next page</a
-    >
+    <a v-on:click="navigateTo(currentPage + 1)" :disabled="currentPage >= lastPage" class="pagination-next">Next page</a>
     <ul class="pagination-list">
       <li v-for="link of generateLinks()">
         <a
