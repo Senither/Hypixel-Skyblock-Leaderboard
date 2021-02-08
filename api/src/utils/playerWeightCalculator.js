@@ -210,20 +210,26 @@ function calculatePlayerSlayerWeight(player) {
 const level50DungeonExp = 569809640
 
 /**
- * The dungeon weight breakpoints, these values are used to
- * calculate a dungeon class weight by limiting points at
- * level 50 to the breakpoints, all XP past level 50
- * will be given at 1/4 the rate.
+ * The dungeon weight percentage, these values are used to help
+ * calculate a dungeon weight by specifying how much of the
+ * total weight calculated that should be counted, all
+ * XP past level 50 will be given at 1/4 the rate.
  *
  * @type {Object}
  */
 const dungeonWeights = {
-  catacomb: 6500,
-  healer: 200,
-  mage: 200,
-  berserk: 200,
-  archer: 200,
-  tank: 200,
+  // Maxes cata weight at 9,500 at level 50
+  catacomb: 0.0002149604615,
+  // Maxes healer weight at 200 at level 50
+  healer: 0.0000045254834,
+  // Maxes mage weight at 200 at level 50
+  mage: 0.0000045254834,
+  // Maxes berserker weight at 200 at level 50
+  berserk: 0.0000045254834,
+  // Maxes archer weight at 200 at level 50
+  archer: 0.0000045254834,
+  // Maxes tank weight at 200 at level 50
+  tank: 0.0000045254834,
 }
 
 /**
@@ -235,16 +241,16 @@ const dungeonWeights = {
  */
 function calculatePlayerDungeonWeight(player) {
   return buildWeightObject(dungeonWeights, type => {
-    // Gets the max amount of points that can be rewarded
-    // at level 50 for the given dungeon type.
-    let maxPoints = dungeonWeights[type]
+    // Gets the level percentage modifier, this is used to figure
+    // out how much of the total weight is actually counted.
+    let percentageModifier = dungeonWeights[type]
 
     // Gets the current dungeon XP and level from the given player object.
     let experience = player[type + '_xp']
     let level = player[type]
 
     // Calculates the base weight using the players level
-    let base = (Math.pow(level * 10, 3) * (maxPoints / 100000)) / 1250
+    let base = Math.pow(level, 4.5) * percentageModifier
 
     // If the dungeon XP is below the requirements for a level 50 dungeon we'll
     // just return our weight to the weight object builder right away.
@@ -258,11 +264,11 @@ function calculatePlayerDungeonWeight(player) {
     // Calculates the XP above the level 50 requirement, and the splitter
     // value, weight given past level 50 is given at 1/4 the rate.
     let remaining = experience - level50DungeonExp
-    let splitter = (4 * level50DungeonExp) / maxPoints
+    let splitter = (4 * level50DungeonExp) / base
 
     // Calculates the dungeon overflow weight and returns it to the weight object builder.
     return {
-      weight: base,
+      weight: Math.floor(base),
       overflow: Math.pow(remaining / splitter, 0.968),
     }
   })
