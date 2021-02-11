@@ -22,7 +22,7 @@ module.exports = async (request, response) => {
       delete player.created_at
       delete player.updated_at
 
-      player.weight = weightCalculator(player)
+      player.raw_weight = weightCalculator(player)
 
       return player
     }),
