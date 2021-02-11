@@ -1,7 +1,16 @@
 const app = require('../application')
 const weightCalculator = require('../utils/guildWeightCalculator')
 
-const metricTypes = ['average_skill', 'average_skill_progress', 'average_slayer', 'average_catacomb']
+const metricTypes = [
+  'weight',
+  'skill_weight',
+  'slayer_weight',
+  'dungeon_weight',
+  'average_skill',
+  'average_skill_progress',
+  'average_slayer',
+  'average_catacomb',
+]
 
 module.exports = async (request, response) => {
   let guild = await app.database.getClient().select('id', 'name').from('guilds').where('uuid', request.params.id)

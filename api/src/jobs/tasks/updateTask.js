@@ -212,28 +212,44 @@ class UpdateTask extends Task {
     Logger.info('The guild scan has finished, calculating averages and updating DB records')
 
     let summedSlayer = 0,
+      summedSlayerWeight = 0,
       slayerPlayers = 0
+
     let summedCatacombs = 0,
+      summedCatacombsWeight = 0,
       catacombsPlayers = 0
+
     let summedSkills = 0,
       summedSkillsProgress = 0,
+      summedSkillsWeight = 0,
       skillsPlayers = 0
+
+    let summedTotalWeight = 0,
+      totalWeightPlayers = 0
 
     for (let entry of this.profiles) {
       if (entry.total_slayer > 1000) {
         summedSlayer += entry.total_slayer
+        summedSlayerWeight += entry.slayer_weight
         slayerPlayers++
       }
 
       if (entry.catacomb > 0) {
         summedCatacombs += entry.catacomb
+        summedCatacombsWeight += entry.dungeon_weight
         catacombsPlayers++
       }
 
       if (entry.average_skill > 5) {
         summedSkills += entry.average_skill
         summedSkillsProgress += entry.average_skill_progress
+        summedSkillsWeight += entry.skill_weight
         skillsPlayers++
+      }
+
+      if (entry.weight > 50) {
+        summedTotalWeight += entry.weight
+        totalWeightPlayers++
       }
 
       delete entry.guild_id
@@ -264,6 +280,10 @@ class UpdateTask extends Task {
     app.database.update(
       'guilds',
       {
+        weight: isNaN(summedTotalWeight / totalWeightPlayers) ? 0 : summedTotalWeight / totalWeightPlayers,
+        skill_weight: isNaN(summedSkillsWeight / skillsPlayers) ? 0 : summedSkillsWeight / skillsPlayers,
+        slayer_weight: isNaN(summedSlayerWeight / slayerPlayers) ? 0 : summedSlayerWeight / slayerPlayers,
+        dungeon_weight: isNaN(summedCatacombsWeight / catacombsPlayers) ? 0 : summedCatacombsWeight / catacombsPlayers,
         average_skill: isNaN(summedSkills / skillsPlayers) ? 0 : summedSkills / skillsPlayers,
         average_skill_progress: isNaN(summedSkillsProgress / skillsPlayers) ? 0 : summedSkillsProgress / skillsPlayers,
         average_slayer: isNaN(summedSlayer / slayerPlayers) ? 0 : summedSlayer / slayerPlayers,
@@ -277,6 +297,10 @@ class UpdateTask extends Task {
 
     app.database.insert('metrics', {
       guild_id: this.guild.id,
+      weight: isNaN(summedTotalWeight / totalWeightPlayers) ? 0 : summedTotalWeight / totalWeightPlayers,
+      skill_weight: isNaN(summedSkillsWeight / skillsPlayers) ? 0 : summedSkillsWeight / skillsPlayers,
+      slayer_weight: isNaN(summedSlayerWeight / slayerPlayers) ? 0 : summedSlayerWeight / slayerPlayers,
+      dungeon_weight: isNaN(summedCatacombsWeight / catacombsPlayers) ? 0 : summedCatacombsWeight / catacombsPlayers,
       average_skill: isNaN(summedSkills / skillsPlayers) ? 0 : summedSkills / skillsPlayers,
       average_skill_progress: isNaN(summedSkillsProgress / skillsPlayers) ? 0 : summedSkillsProgress / skillsPlayers,
       average_slayer: isNaN(summedSlayer / slayerPlayers) ? 0 : summedSlayer / slayerPlayers,

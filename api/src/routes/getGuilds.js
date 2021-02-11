@@ -8,6 +8,10 @@ module.exports = async (request, response) => {
     .select(
       'uuid as id',
       'name',
+      'weight',
+      'skill_weight',
+      'slayer_weight',
+      'dungeon_weight',
       'average_skill',
       'average_skill_progress',
       'average_slayer',
