@@ -31,7 +31,10 @@
                 <th>#</th>
                 <th>Name</th>
                 <th>Guild</th>
-                <th>Weight</th>
+                <th class="is-clickable" @click="clickSort('weight')">
+                  Weight
+                  <sort-button v-show="sorter == 'weight'" :sort="false" />
+                </th>
                 <th class="is-clickable" @click="clickSort('average_skill_progress')">
                   Average Skills
                   <sort-button v-show="sorter == 'average_skill_progress'" :sort="false" />
