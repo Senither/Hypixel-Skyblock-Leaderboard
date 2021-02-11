@@ -12,7 +12,7 @@
               <div class="tags has-addons">
                 <span class="tag is-dark">Weight</span>
                 <span class="tag is-purple">
-                  {{ formatNumber(player.weight.total.toFixed(2), 2) }}
+                  {{ formatNumber(player.raw_weight.total.toFixed(2), 2) }}
                 </span>
               </div>
             </div>
@@ -76,7 +76,7 @@
                     <div class="tags has-addons">
                       <span class="tag" style="background-color: #242a2a">Skill Weight</span>
                       <span class="tag is-purple">
-                        {{ formatNumber((parseFloat(player.weight.skills.total.weight) + parseFloat(player.weight.skills.total.overflow)).toFixed(2), 2) }}
+                        {{ formatNumber((parseFloat(player.raw_weight.skills.total.weight) + parseFloat(player.raw_weight.skills.total.overflow)).toFixed(2), 2) }}
                       </span>
                     </div>
                   </div>
@@ -107,7 +107,7 @@
                     <div class="tags has-addons">
                       <span class="tag" style="background-color: #242a2a">Slayers Weight</span>
                       <span class="tag is-purple">
-                        {{ formatNumber((parseFloat(player.weight.slayers.total.weight) + parseFloat(player.weight.slayers.total.overflow)).toFixed(2), 2) }}
+                        {{ formatNumber((parseFloat(player.raw_weight.slayers.total.weight) + parseFloat(player.raw_weight.slayers.total.overflow)).toFixed(2), 2) }}
                       </span>
                     </div>
                   </div>
@@ -131,7 +131,7 @@
                     <div class="tags has-addons">
                       <span class="tag" style="background-color: #242a2a">Dungeon Weight</span>
                       <span class="tag is-purple">
-                        {{ formatNumber((parseFloat(player.weight.dungeons.total.weight) + parseFloat(player.weight.dungeons.total.overflow)).toFixed(2), 2) }}
+                        {{ formatNumber((parseFloat(player.raw_weight.dungeons.total.weight) + parseFloat(player.raw_weight.dungeons.total.overflow)).toFixed(2), 2) }}
                       </span>
                     </div>
                   </div>

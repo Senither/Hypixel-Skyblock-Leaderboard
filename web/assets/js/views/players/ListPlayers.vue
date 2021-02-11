@@ -59,7 +59,7 @@
                 <td>{{ player.username }}</td>
                 <td>{{ player.guild_name }}</td>
                 <td>
-                  <span class="tag is-purple">{{ player.weight.total == null ? 0 : formatNumber(player.weight.total.toFixed(2)) }}</span>
+                  <span class="tag is-purple">{{ player.raw_weight.total == null ? 0 : formatNumber(player.raw_weight.total.toFixed(2)) }}</span>
                 </td>
                 <td>
                   <div class="tags has-addons">
