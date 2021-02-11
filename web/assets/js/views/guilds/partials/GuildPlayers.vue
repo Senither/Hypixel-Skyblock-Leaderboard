@@ -70,7 +70,7 @@ export default {
     sortedPlayers() {
       return this.players.sort((v1, v2) => {
         if (this.sortMethod == 'weight') {
-          return v2.weight.total > v1.weight.total ? 1 : -1
+          return v2.raw_weight.total > v1.raw_weight.total ? 1 : -1
         }
         return v2[this.sortMethod] > v1[this.sortMethod] ? 1 : -1
       })
