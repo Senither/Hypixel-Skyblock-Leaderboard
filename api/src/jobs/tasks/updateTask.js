@@ -1,5 +1,6 @@
 const Task = require('../task')
 const Logger = require('../../logger/winston')
+const weightCalculator = require('../../utils/playerWeightCalculator')
 
 class UpdateTask extends Task {
   constructor() {
@@ -318,7 +319,7 @@ class UpdateTask extends Task {
   createUpdateableContentFromResult(result) {
     const { classes, types, secrets_found } = result.stats.dungeons
 
-    return {
+    const playerStats = {
       guild_id: this.guild.id,
       uuid: result.uuid,
       username: result.username,
@@ -362,6 +363,16 @@ class UpdateTask extends Task {
       runecrafting: result.stats.skills.skills.runecrafting.level,
       runecrafting_xp: result.stats.skills.skills.runecrafting.experience,
       last_updated_at: new Date(),
+    }
+
+    const weight = weightCalculator(playerStats, true)
+
+    return {
+      ...playerStats,
+      weight: weight.total,
+      skill_weight: weight.skills.total.weight + weight.skills.total.overflow,
+      slayer_weight: weight.slayers.total.weight + weight.slayers.total.overflow,
+      dungeon_weight: weight.dungeons.total.weight + weight.dungeons.total.overflow,
     }
   }
 }

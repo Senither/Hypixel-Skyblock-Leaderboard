@@ -10,11 +10,11 @@
  * @package https://github.com/Senither/Hypixel-Skyblock-Assistant/tree/master/app/src/main/java/com/senither/hypixel/statistics/weight
  */
 
-module.exports = function (player) {
+module.exports = function (player, ignoreCache = false) {
   // Checks if the players weight data has already been calculated,
   // and if that data is still valid, if it is we'll just return
   // it directly instead of re-calculating it again.
-  if (isCacheValid(player)) {
+  if (!ignoreCache && isCacheValid(player)) {
     return cache[player.uuid]
   }
 
