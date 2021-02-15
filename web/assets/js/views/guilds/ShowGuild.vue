@@ -11,14 +11,14 @@
                 <div class="tags has-addons">
                   <span class="tag is-dark">Average Skill Progress</span>
                   <span class="tag is-info">
-                    {{ guild.average_skill_progress }}
+                    {{ formatNumber(guild.average_skill_progress) }}
                   </span>
                 </div>
               </div>
               <div class="control">
                 <div class="tags has-addons">
                   <span class="tag is-dark">Average Skill</span>
-                  <span class="tag is-primary">{{ guild.average_skill }}</span>
+                  <span class="tag is-primary">{{ formatNumber(guild.average_skill) }}</span>
                 </div>
               </div>
               <div class="control">
@@ -48,7 +48,7 @@
                 <div class="tags has-addons">
                   <span class="tag is-dark">Total Weight</span>
                   <span class="tag is-purple">
-                    {{ guild.weight.total }}
+                    {{ formatNumber(guild.weight.total) }}
                   </span>
                 </div>
               </div>
@@ -56,7 +56,7 @@
                 <div class="tags has-addons">
                   <span class="tag is-dark">Skill Weight</span>
                   <span class="tag is-purple">
-                    {{ guild.weight.skill }}
+                    {{ formatNumber(guild.weight.skill) }}
                   </span>
                 </div>
               </div>
@@ -64,7 +64,7 @@
                 <div class="tags has-addons">
                   <span class="tag is-dark">Slayer Weight</span>
                   <span class="tag is-purple">
-                    {{ guild.weight.slayer }}
+                    {{ formatNumber(guild.weight.slayer) }}
                   </span>
                 </div>
               </div>
@@ -72,7 +72,7 @@
                 <div class="tags has-addons">
                   <span class="tag is-dark">Catacomb Weight</span>
                   <span class="tag is-purple">
-                    {{ guild.weight.catacomb }}
+                    {{ formatNumber(guild.weight.catacomb) }}
                   </span>
                 </div>
               </div>
