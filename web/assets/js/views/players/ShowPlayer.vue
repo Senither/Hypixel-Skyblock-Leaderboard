@@ -35,7 +35,17 @@
 
           <div class="columns">
             <div class="column has-text-centered">
-              <h3 class="subtitle is-3">Skills & Averages</h3>
+              <h3 class="subtitle is-3">
+                Skills & Averages
+                <div class="control" style="display: flex; justify-content: center; margin-top: 8px">
+                  <div class="tags has-addons">
+                    <span class="tag is-dark">Weight</span>
+                    <span class="tag is-purple">
+                      {{ formatNumber(player.skill_weight.toFixed(2), 2) }}
+                    </span>
+                  </div>
+                </div>
+              </h3>
               <p>
                 {{ player.username }}'s average skill level is <strong class="tag">{{ player.average_skill_progress }}</strong> or
                 <strong class="tag">{{ player.average_skill }}</strong> without skill progress.
@@ -82,7 +92,17 @@
 
           <div class="columns">
             <div class="column has-text-centered">
-              <h3 class="subtitle is-3">Slayers</h3>
+              <h3 class="subtitle is-3">
+                Slayers
+                <div class="control" style="display: flex; justify-content: center; margin-top: 8px">
+                  <div class="tags has-addons">
+                    <span class="tag is-dark">Weight</span>
+                    <span class="tag is-purple">
+                      {{ formatNumber(player.slayer_weight.toFixed(2), 2) }}
+                    </span>
+                  </div>
+                </div>
+              </h3>
             </div>
           </div>
           <div class="columns">
@@ -118,7 +138,17 @@
 
           <div class="columns">
             <div class="column has-text-centered">
-              <h3 class="subtitle is-3">Dungeons</h3>
+              <h3 class="subtitle is-3">
+                Dungeons
+                <div class="control" style="display: flex; justify-content: center; margin-top: 8px">
+                  <div class="tags has-addons">
+                    <span class="tag is-dark">Weight</span>
+                    <span class="tag is-purple">
+                      {{ formatNumber(player.dungeon_weight.toFixed(2), 2) }}
+                    </span>
+                  </div>
+                </div>
+              </h3>
             </div>
           </div>
           <div class="columns">
