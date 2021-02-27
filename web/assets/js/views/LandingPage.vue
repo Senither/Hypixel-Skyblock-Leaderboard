@@ -128,6 +128,42 @@
                       <div class="level-item has-text-centered">
                         <div>
                           <p class="heading">Average Skills</p>
+                          <p class="title">35</p>
+                        </div>
+                      </div>
+                      <div class="level-item has-text-centered">
+                        <div>
+                          <p class="heading">Average Slayer</p>
+                          <p class="title">500K</p>
+                        </div>
+                      </div>
+                      <div class="level-item has-text-centered">
+                        <div>
+                          <p class="heading">Catacombs</p>
+                          <p class="title">20</p>
+                        </div>
+                      </div>
+                      <div class="level-item has-text-centered">
+                        <div>
+                          <p class="heading">Members</p>
+                          <p class="title">50</p>
+                        </div>
+                      </div>
+                    </nav>
+                  </div>
+                </div>
+                <div class="column">
+                  <h4 class="subtitle is-4 has-text-centered">Stay Requirements</h4>
+
+                  <div class="box">
+                    <p>A guild must meet these requirements to stay on the leaderboard.</p>
+
+                    <br />
+
+                    <nav class="level">
+                      <div class="level-item has-text-centered">
+                        <div>
+                          <p class="heading">Average Skills</p>
                           <p class="title">30</p>
                         </div>
                       </div>
@@ -147,42 +183,6 @@
                         <div>
                           <p class="heading">Members</p>
                           <p class="title">35</p>
-                        </div>
-                      </div>
-                    </nav>
-                  </div>
-                </div>
-                <div class="column">
-                  <h4 class="subtitle is-4 has-text-centered">Stay Requirements</h4>
-
-                  <div class="box">
-                    <p>A guild must meet these requirements to stay on the leaderboard.</p>
-
-                    <br />
-
-                    <nav class="level">
-                      <div class="level-item has-text-centered">
-                        <div>
-                          <p class="heading">Average Skills</p>
-                          <p class="title">25</p>
-                        </div>
-                      </div>
-                      <div class="level-item has-text-centered">
-                        <div>
-                          <p class="heading">Average Slayer</p>
-                          <p class="title">150K</p>
-                        </div>
-                      </div>
-                      <div class="level-item has-text-centered">
-                        <div>
-                          <p class="heading">Catacombs</p>
-                          <p class="title">12.5</p>
-                        </div>
-                      </div>
-                      <div class="level-item has-text-centered">
-                        <div>
-                          <p class="heading">Members</p>
-                          <p class="title">25</p>
                         </div>
                       </div>
                     </nav>

@@ -1,24 +1,6 @@
 <template>
   <div>
     <div class="container">
-      <transition-page v-if="this.$route.name != 'new-requirements'">
-        <div class="notification is-primary" style="margin-top: 28px">
-          <div class="columns is-vcentered">
-            <div class="column is-four-fifths">
-              <p><strong>Requirement update!</strong></p>
-              <p>
-                The requirements to join the leaderboard will be raised on the
-                <u>26th of February</u>, all guilds applying to be on the leaderboard must meet the new requirements from then on, and guilds already on the
-                leaderboard must meet the new stay requirements.
-              </p>
-            </div>
-            <div class="column has-text-right">
-              <router-link :to="{ name: 'new-requirements' }" class="button is-info is-right"> View new Requirements </router-link>
-            </div>
-          </div>
-        </div>
-      </transition-page>
-
       <transition-page>
         <loading v-if="isLoading" :message="message" />
 
