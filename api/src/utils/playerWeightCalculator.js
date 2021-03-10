@@ -86,11 +86,11 @@ const skillWeights = {
     divr: 220689,
     lvlCap: 60,
   },
-  // Maxes out combat at 800 points at level 50.
+  // Maxes out combat at 1,500 points at level 60.
   combat: {
-    expo: 1.22307,
+    expo: 1.15797687265,
     divr: 275862,
-    lvlCap: 50,
+    lvlCap: 60,
   },
   // Maxes out fishing at 2,500 points at level 50.
   fishing: {
