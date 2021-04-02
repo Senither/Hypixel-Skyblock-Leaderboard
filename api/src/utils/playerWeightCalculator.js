@@ -164,9 +164,18 @@ function calculatePlayerSkillWeight(player) {
  * @type {Object}
  */
 const slayerWeights = {
-  revenant: 2208,
-  tarantula: 2118,
-  sven: 1962,
+  revenant: {
+    divider: 2208,
+    modifier: 0.15,
+  },
+  tarantula: {
+    divider: 2118,
+    modifier: 0.08,
+  },
+  sven: {
+    divider: 1962,
+    modifier: 0.015,
+  },
 }
 
 /**
@@ -179,21 +188,31 @@ const slayerWeights = {
 function calculatePlayerSlayerWeight(player) {
   return buildWeightObject(slayerWeights, type => {
     // Prepares the divider and slayer XP for the current slayer type.
-    let divider = slayerWeights[type]
+    let slayerWeight = slayerWeights[type]
     let experience = player[type + '_xp']
 
     if (experience <= 1000000) {
       return {
-        weight: experience == 0 ? 0 : experience / divider,
+        weight: experience == 0 ? 0 : experience / slayerWeight.divider,
         overflow: 0,
       }
     }
 
     // Calculates the slayer and overflow weight and
     // returns it to the weight object builder.
-    let base = 1000000 / divider
+    let base = 1000000 / slayerWeight.divider
     let remaining = experience - 1000000
-    let overflow = Math.pow(remaining / (divider * 1.5), 0.942)
+
+    let modifier = slayerWeight.modifier
+    let overflow = 0
+
+    while (remaining > 0) {
+      let left = Math.min(remaining, 1000000)
+
+      overflow += Math.pow(left / (slayerWeight.divider * (1.5 + modifier)), 0.942)
+      modifier += slayerWeight.modifier
+      remaining -= left
+    }
 
     return {
       weight: base + overflow,
