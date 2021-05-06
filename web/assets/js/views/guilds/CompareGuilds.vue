@@ -40,6 +40,9 @@
             <h4 class="subtitle has-text-centered is-4">Slayer Metrics</h4>
             <line-chart :name="'Average Slayers (Last 90 days)'" :type="'Average Slayers'" :keys="this.metricDates" :values="this.slayersMetrics" />
 
+            <h4 class="subtitle has-text-centered is-4">Catacombs Metrics</h4>
+            <line-chart :name="'Average Catacombs (Last 90 days)'" :type="'Catacombs'" :keys="this.metricDates" :values="this.catacombMetrics" />
+
             <h4 class="subtitle has-text-centered is-4">Member Metrics</h4>
             <line-chart :name="'Members (Last 90 days)'" :type="'Members'" :keys="this.metricDates" :values="this.membersMetrics" />
 
@@ -134,6 +137,7 @@ export default {
           return {
             average_skill_progress: metric.average_skill_progress,
             average_slayer: metric.average_slayer,
+            average_catacomb: metric.average_catacomb,
             members: metric.members,
             weight: metric.weight.total,
             created_at: metric.created_at,
@@ -179,6 +183,10 @@ export default {
 
     slayersMetrics() {
       return this.generateMetricsFromType('average_slayer')
+    },
+
+    catacombMetrics() {
+      return this.generateMetricsFromType('average_catacomb')
     },
 
     membersMetrics() {
