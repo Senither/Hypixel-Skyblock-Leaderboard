@@ -105,7 +105,7 @@
                 Guilds on the leaderboard must meet the requirements below to be added to the leaderboard.
                 <br />If you want a guild added to the leaderboard, run a scan of the guild using the
                 <a target="blank" href="https://guild-scanner.senither.com/">Guild Scanner</a> app, if the guild is above the join requirements <br />you can
-                contact <a>Senither#0001</a> on Discord, or join the <a target="blank" href="http://discord.gg/UY7XJs9">Trouble Brewing</a> Discord server.
+                contact <a>Senither#0001</a> on Discord, or join the <a target="blank" href="http://discord.gg/UY7XJs9">Absolute Unit</a> Discord server.
                 <br />
               </p>
               <p style="padding: 1rem">
