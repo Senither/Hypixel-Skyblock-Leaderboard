@@ -36,6 +36,27 @@
           <div class="columns">
             <div class="column has-text-centered">
               <h3 class="subtitle is-3">
+                Weight Metrics
+                <div class="control" style="display: flex; justify-content: center; margin-top: 8px">
+                  <div class="tags has-addons">
+                    <span class="tag is-dark">Total Weight</span>
+                    <span class="tag is-purple">
+                      {{ formatNumber(player.weight.toFixed(2), 2) }}
+                    </span>
+                  </div>
+                </div>
+              </h3>
+              <p>
+                Drops in the weight chart can be caused by changes made to the weight formula, or if the player has toggled their APIs on or off during some
+                <br>period, causing the leaderboard to not be able to fetch their accurate information.
+              </p>
+              <line-chart key="weight" name="" type="Weight Over Time" :keys="dates" :values="metrics.map(metric => metric['weight'])" />
+            </div>
+          </div>
+
+          <div class="columns">
+            <div class="column has-text-centered">
+              <h3 class="subtitle is-3">
                 Skills & Averages
                 <div class="control" style="display: flex; justify-content: center; margin-top: 8px">
                   <div class="tags has-addons">
