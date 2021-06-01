@@ -143,6 +143,57 @@
                     <i class="fas fa-chart-pie"></i>
                   </span>
                 </router-link>
+
+                &nbsp;&nbsp;&nbsp;
+
+                <div class="dropdown is-right" :class="{ 'is-active': showDownload }">
+                  <div class="dropdown-trigger" @click="showDownload = !showDownload">
+                    <button class="button" aria-haspopup="true" aria-controls="dropdown-menu6">
+                      <span class="icon is-small" v-if="isDownloading">
+                        <i class="fas fa-spinner fa-pulse" aria-hidden="true"></i>
+                      </span>
+                      <span>Download Stats</span>
+                      <span class="icon is-small">
+                        <i class="fas fa-angle-down" aria-hidden="true"></i>
+                      </span>
+                    </button>
+                  </div>
+                  <div class="dropdown-menu" id="dropdown-menu6" role="menu">
+                    <div class="dropdown-content">
+                      <div class="dropdown-item">
+                        <p>Select the values you wanna download.</p>
+                      </div>
+                      <hr class="dropdown-divider" />
+
+                      <div class="dropdown-item">
+                        <label class="checkbox">
+                          <input type="checkbox" v-model="downloadOptions.weight" />
+                          Weight
+                        </label>
+
+                        <label class="checkbox" style="margin-left: 4px">
+                          <input type="checkbox" v-model="downloadOptions.skills" />
+                          Skills
+                        </label>
+                      </div>
+
+                      <div class="dropdown-item">
+                        <label class="checkbox">
+                          <input type="checkbox" v-model="downloadOptions.slayers" />
+                          Slayers
+                        </label>
+
+                        <label class="checkbox" style="margin-left: 4px">
+                          <input type="checkbox" v-model="downloadOptions.catacombs" />
+                          Catacombs
+                        </label>
+                      </div>
+
+                      <hr class="dropdown-divider" />
+                      <a @click="download" class="dropdown-item"> Download as CSV </a>
+                    </div>
+                  </div>
+                </div>
               </h2>
             </div>
           </div>
@@ -195,10 +246,18 @@ export default {
   data() {
     return {
       isLoading: true,
+      isDownloading: false,
+      showDownload: false,
       selectedView: 0,
       views: {
         PLAYERS: 0,
         METRICS: 1,
+      },
+      downloadOptions: {
+        weight: true,
+        skills: false,
+        slayers: false,
+        catacombs: false,
       },
     }
   },
@@ -206,6 +265,104 @@ export default {
   methods: {
     selectView(view) {
       this.selectedView = view
+    },
+
+    download() {
+      if (this.isDownloading) {
+        return
+      }
+
+      this.isDownloading = true
+      let csvHeaders = ['Username']
+
+      for (let option of Object.keys(this.downloadOptions)) {
+        if (this.downloadOptions[option]) {
+          if (this.downloadOptions[option]) {
+            switch (option) {
+              case 'weight':
+                csvHeaders.push('Weight')
+                break
+
+              case 'skills':
+                csvHeaders.push('Average Skill')
+                csvHeaders.push('Average Skill Progress')
+                break
+
+              case 'slayers':
+                csvHeaders.push('Total Slayer')
+                csvHeaders.push('Revenant XP')
+                csvHeaders.push('Tarantula XP')
+                csvHeaders.push('Sven XP')
+                break
+
+              case 'catacombs':
+                csvHeaders.push('Catacombs Level')
+                csvHeaders.push('Catacombs XP')
+                break
+            }
+          }
+        }
+      }
+
+      if (csvHeaders.length == 1) {
+        this.isDownloading = false
+
+        return alert('No options is selected! You must select at least one option to download the data')
+      }
+
+      axios
+        .get(`/players/${this.guild.id}`)
+        .then(response => {
+          const players = response.data.data
+          let csvData = [csvHeaders]
+
+          for (let player of players) {
+            let csvPlayer = [player.username]
+
+            for (let option of Object.keys(this.downloadOptions)) {
+              if (this.downloadOptions[option]) {
+                switch (option) {
+                  case 'weight':
+                    csvPlayer.push(player.weight)
+                    break
+
+                  case 'skills':
+                    csvPlayer.push(player.average_skill)
+                    csvPlayer.push(player.average_skill_progress)
+                    break
+
+                  case 'slayers':
+                    csvPlayer.push(player.total_slayer)
+                    csvPlayer.push(player.revenant_xp)
+                    csvPlayer.push(player.tarantula_xp)
+                    csvPlayer.push(player.sven_xp)
+                    break
+
+                  case 'catacombs':
+                    csvPlayer.push(player.catacomb)
+                    csvPlayer.push(player.catacomb_xp)
+                    break
+                }
+              }
+            }
+
+            csvData.push(csvPlayer)
+          }
+
+          let csv = ''
+          for (let line of csvData) {
+            csv += line.join(',') + '\n'
+          }
+
+          const hiddenElement = document.createElement('a')
+          hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv)
+          hiddenElement.target = '_blank'
+          hiddenElement.download = this.guild.name + '-' + this.guild.last_updated_at.split('T')[0] + '.csv'
+          hiddenElement.click()
+
+          this.isDownloading = false
+        })
+        .catch(() => (this.isDownloading = false))
     },
   },
 
