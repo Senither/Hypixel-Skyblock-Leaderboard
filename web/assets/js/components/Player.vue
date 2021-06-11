@@ -116,9 +116,9 @@
             </div>
           </div>
         </div>
-        <div class="columns">
-          <div class="column" v-for="type of Object.keys(slayers)">
-            <slayer-progress :name="slayers[type]" :xp="player[type]" />
+        <div class="columns" v-for="slayerGroup of slayers">
+          <div class="column" v-for="type of Object.keys(slayerGroup)">
+            <slayer-progress :name="slayerGroup[type]" :xp="player[type]" />
           </div>
         </div>
         <div class="columns">
@@ -223,11 +223,16 @@ export default {
           },
         },
       ],
-      slayers: {
-        revenant_xp: 'Revenant',
-        tarantula_xp: 'Tarantula',
-        sven_xp: 'Sven',
-      },
+      slayers: [
+        {
+          revenant_xp: 'Revenant',
+          tarantula_xp: 'Tarantula',
+        },
+        {
+          sven_xp: 'Sven',
+          enderman_xp: 'Enderman',
+        }
+      ],
       dungeons: [
         {
           catacomb: 'Catacombs',

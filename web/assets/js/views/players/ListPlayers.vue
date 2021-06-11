@@ -144,6 +144,7 @@ export default {
         Revenant: 'revenant_xp',
         Tarantula: 'tarantula_xp',
         Sven: 'sven_xp',
+        Enderman: 'enderman_xp',
         Catacombs: 'catacomb',
         'Catacombs XP': 'catacomb_xp',
         Healer: 'healer',

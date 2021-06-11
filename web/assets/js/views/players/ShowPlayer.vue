@@ -48,7 +48,7 @@
               </h3>
               <p>
                 Drops in the weight chart can be caused by changes made to the weight formula, or if the player has toggled their APIs on or off during some
-                <br>period, causing the leaderboard to not be able to fetch their accurate information.
+                <br />period, causing the leaderboard to not be able to fetch their accurate information.
               </p>
               <line-chart key="weight" name="" type="Weight Over Time" :keys="dates" :values="metrics.map(metric => metric['weight'])" />
             </div>
@@ -126,9 +126,9 @@
               </h3>
             </div>
           </div>
-          <div class="columns">
-            <div class="column" v-for="type of Object.keys(slayers)">
-              <slayer-progress :name="slayers[type]" :xp="player[type]" />
+          <div class="columns" v-for="slayerGroup of slayers">
+            <div class="column" v-for="type of Object.keys(slayerGroup)">
+              <slayer-progress :name="slayerGroup[type]" :xp="player[type]" />
             </div>
           </div>
 
@@ -143,13 +143,11 @@
                 <h4 class="subtitle is-4">Slayer Metrics</h4>
               </div>
             </div>
-            <div class="columns">
-              <div class="column">
+            <div class="columns" v-for="slayerGroup of slayers">
+              <div class="column" :key="type" v-for="type of Object.keys(slayerGroup)">
                 <line-chart
-                  v-for="type of Object.keys(slayers)"
-                  :key="type"
-                  :name="slayers[type] + ' Slayer'"
-                  :type="slayers[type] + ' Slayer'"
+                  :name="slayerGroup[type] + ' Slayer'"
+                  :type="slayerGroup[type] + ' Slayer'"
                   :keys="dates"
                   :values="metrics.map(metric => metric[type])"
                 />
@@ -339,13 +337,16 @@ export default {
           alchemy_xp: 'Alchemy XP',
         },
       ],
-
-      slayers: {
-        revenant_xp: 'Revenant',
-        tarantula_xp: 'Tarantula',
-        sven_xp: 'Sven',
-      },
-
+      slayers: [
+        {
+          revenant_xp: 'Revenant',
+          tarantula_xp: 'Tarantula',
+        },
+        {
+          sven_xp: 'Sven',
+          enderman_xp: 'Enderman',
+        },
+      ],
       dungeons: [
         {
           catacomb: 'Catacombs',
