@@ -22,6 +22,7 @@ const sortableColumns = [
   'revenant_xp',
   'tarantula_xp',
   'sven_xp',
+  'enderman_xp',
   'mining',
   'mining_xp',
   'foraging',

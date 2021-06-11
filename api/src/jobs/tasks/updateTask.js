@@ -366,6 +366,7 @@ class UpdateTask extends Task {
       revenant_xp: result.stats.slayer.bosses.revenant.experience,
       tarantula_xp: result.stats.slayer.bosses.tarantula.experience,
       sven_xp: result.stats.slayer.bosses.sven.experience,
+      enderman_xp: result.stats.slayer.bosses.enderman.experience,
       mining: result.stats.skills.skills.mining.level,
       mining_xp: result.stats.skills.skills.mining.experience,
       foraging: result.stats.skills.skills.foraging.level,
