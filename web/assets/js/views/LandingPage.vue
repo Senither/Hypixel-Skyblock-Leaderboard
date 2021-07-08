@@ -111,6 +111,8 @@
               <p style="padding: 1rem">
                 Proof of the guild meeting the requirements must be provided in form of a screenshot of the end result of the
                 <a target="blank" href="https://guild-scanner.senither.com/">guild scan</a>.
+                <br />When applying for the leaderboard you can also include a link to your guilds Discord server if you'd like the Discord to be linked
+                <br />to the guild on the leaderboard, just keep in mind that the Discord link should be permanent so the invite continues to be valid into the future.
               </p>
 
               <br />
