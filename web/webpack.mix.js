@@ -5,6 +5,11 @@ require('laravel-mix-definitions')
 
 mix.definition({
   configApiUrl: `'${config.apiUrl}'`,
+  announcement: `{
+    enabled: ${config.announcement.enabled},
+    title: '${config.announcement.title}',
+    message: '${config.announcement.message}'
+  }`,
 })
 
 mix.webpackConfig({

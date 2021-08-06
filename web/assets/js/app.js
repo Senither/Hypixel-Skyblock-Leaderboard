@@ -8,6 +8,8 @@ window.axios = Axios.create({
   timeout: 10000
 })
 
+window.announcement = announcement
+
 Vue.use(Taginput)
 
 Vue.mixin({
@@ -34,5 +36,5 @@ const app = new Vue({
   components: {
     App
   },
-  router
+  router,
 })
