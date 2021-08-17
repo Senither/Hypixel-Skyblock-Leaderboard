@@ -51,7 +51,15 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="(guild, index) of guilds" @click="clickGuild(guild)" :class="{ 'was-skipped': guild.last_skipped_at !== null }">
+              <tr
+                v-for="(guild, index) of guilds"
+                @click="clickGuild(guild)"
+                :key="index"
+                :class="{
+                  'was-skipped': guild.last_skipped_at !== null,
+                  'below-requirements': !meetsRequirements(guild),
+                }"
+              >
                 <th>{{ index + 1 }}</th>
                 <td>{{ guild.name }}</td>
                 <td
@@ -121,6 +129,10 @@ export default {
         params: { id: guild.id },
       })
     },
+
+    meetsRequirements(guild) {
+      return guild.average_skill_progress >= 30 && guild.average_slayer >= 250000 && guild.average_catacomb >= 15 && guild.members >= 35
+    },
   },
 
   computed: {
@@ -157,6 +169,14 @@ tbody > tr {
 
     &:hover {
       background-color: rgba(#ff3860, 0.15) !important;
+    }
+  }
+
+  &.below-requirements {
+    background-color: rgba(#fffc38, 0.3) !important;
+
+    &:hover {
+      background-color: rgba(#fffc38, 0.15) !important;
     }
   }
 }
