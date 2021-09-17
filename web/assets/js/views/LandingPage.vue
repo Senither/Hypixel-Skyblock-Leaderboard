@@ -104,22 +104,22 @@
               <p>
                 Guilds on the leaderboard must meet the requirements below to be added to the leaderboard.
                 <br />If you want a guild added to the leaderboard, run a scan of the guild using the
-                <a target="blank" href="https://guild-scanner.senither.com/">Guild Scanner</a> app, if the guild is above the join requirements <br />you can
-                contact <a>Senither#0001</a> on Discord, or join the <a target="blank" href="http://discord.gg/UY7XJs9">Absolute Unit</a> Discord server.
+                <a target="blank" href="https://guild-scanner.senither.com/">Guild Scanner</a> app, if the guild is above the requirements <br />you can contact
+                <a>Senither#0001</a> on Discord, or join the <a target="blank" href="http://discord.gg/UY7XJs9">Trouble Brewing</a> Discord server.
                 <br />
               </p>
               <p style="padding: 1rem">
                 Proof of the guild meeting the requirements must be provided in form of a screenshot of the end result of the
-                <a target="blank" href="https://guild-scanner.senither.com/">guild scan</a>.
-                <br />When applying for the leaderboard you can also include a link to your guilds Discord server if you'd like the Discord to be linked
-                <br />to the guild on the leaderboard, just keep in mind that the Discord link should be permanent so the invite continues to be valid into the future.
+                <a target="blank" href="https://guild-scanner.senither.com/">guild scan</a>. <br />When applying for the leaderboard you can also include a link
+                to your guilds Discord server if you'd like the Discord to be linked <br />to the guild on the leaderboard, just keep in mind that the Discord
+                link should be permanent so the invite continues to be valid into the future.
               </p>
 
               <br />
 
               <div class="columns">
                 <div class="column">
-                  <h4 class="subtitle is-4 has-text-centered">Join Requirements</h4>
+                  <h4 class="subtitle is-4 has-text-centered">Leaderboard Requirements</h4>
 
                   <div class="box">
                     <p>A guild must meet these requirements to be added to the leaderboard.</p>
@@ -148,43 +148,7 @@
                       <div class="level-item has-text-centered">
                         <div>
                           <p class="heading">Members</p>
-                          <p class="title">50</p>
-                        </div>
-                      </div>
-                    </nav>
-                  </div>
-                </div>
-                <div class="column">
-                  <h4 class="subtitle is-4 has-text-centered">Stay Requirements</h4>
-
-                  <div class="box">
-                    <p>A guild must meet these requirements to stay on the leaderboard.</p>
-
-                    <br />
-
-                    <nav class="level">
-                      <div class="level-item has-text-centered">
-                        <div>
-                          <p class="heading">Average Skills</p>
-                          <p class="title">30</p>
-                        </div>
-                      </div>
-                      <div class="level-item has-text-centered">
-                        <div>
-                          <p class="heading">Average Slayer</p>
-                          <p class="title">250K</p>
-                        </div>
-                      </div>
-                      <div class="level-item has-text-centered">
-                        <div>
-                          <p class="heading">Catacombs</p>
-                          <p class="title">15</p>
-                        </div>
-                      </div>
-                      <div class="level-item has-text-centered">
-                        <div>
-                          <p class="heading">Members</p>
-                          <p class="title">35</p>
+                          <p class="title">40</p>
                         </div>
                       </div>
                     </nav>
@@ -194,9 +158,7 @@
 
               <br />
 
-              <p>
-                If a guild falls below the <strong>Stay requirements</strong>, they will have a grace period of <strong>5 days</strong> before being removed.
-              </p>
+              <p>If a guild falls below the requirements, they will have a grace period of <strong>5 days</strong> before being removed.</p>
             </div>
           </div>
         </div>

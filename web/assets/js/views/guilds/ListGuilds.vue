@@ -131,7 +131,7 @@ export default {
     },
 
     meetsRequirements(guild) {
-      return guild.average_skill_progress >= 30 && guild.average_slayer >= 250000 && guild.average_catacomb >= 15 && guild.members >= 35
+      return guild.average_skill_progress >= 35 && guild.average_slayer >= 500000 && guild.average_catacomb >= 20 && guild.members >= 40
     },
   },
 
